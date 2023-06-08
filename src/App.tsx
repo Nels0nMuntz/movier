@@ -1,6 +1,8 @@
+import { AuthWelcome } from "pages/auth/AuthWelcome";
+
 function App() {
   return (
-    <div className="App">React App</div>
+    <AuthWelcome/>
   );
 }
 
