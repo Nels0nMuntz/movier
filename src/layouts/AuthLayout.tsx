@@ -27,7 +27,8 @@ const Wrapper = styled("div")({
 
 const Paper = styled("div")(({ theme }) => ({
   position: "relative",
-  height: "600px",
+  display: "flex",
+  minHeight: "550px",
   width: "100%",
   maxWidth: "500px",
   marginTop: theme.spacing(4),

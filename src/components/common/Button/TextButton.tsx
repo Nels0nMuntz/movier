@@ -13,13 +13,15 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 interface Props extends React.PropsWithChildren {
   size?: "small" | "medium" | "large",
+  onClick?: React.MouseEventHandler<HTMLButtonElement>,
 }
 
-export const TextButton: React.FC<Props> = ({ size, children }) => {
+export const TextButton: React.FC<Props> = ({ size, children, onClick }) => {
   return (
     <StyledButton
       variant="text"
       size={size}
+      onClick={onClick}
     >
       {children}
     </StyledButton>

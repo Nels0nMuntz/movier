@@ -2,10 +2,11 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import { TextButton, Typography } from "common/components"
-import { APP_URLS } from "urls";
+import { TextButton, Typography } from "components"
+import { APP_URLS } from "routes/urls";
 import { AuthLayout } from "layouts";
 import logo from "../../assets/img/logo.svg";
+import { rootStore } from "store";
 
 
 const PrimaryButton = styled(Button)({
@@ -13,13 +14,18 @@ const PrimaryButton = styled(Button)({
   maxWidth: "335px"
 });
 
+const LogoImg = styled("img")({
+  width: "128px",
+})
+
 export const AuthWelcome = () => {
+  const handleClickGeust = () => rootStore.authStore.createGuestSession();
   return (
     <AuthLayout>
       <Stack
-        height="100%"
         direction="column"
         alignItems="center"
+        flexGrow={1}
         color={(theme) => theme.palette.common.white}
       >
         <Stack
@@ -27,9 +33,10 @@ export const AuthWelcome = () => {
           alignItems="center"
           justifyContent="center"
           flexGrow={1}
+          gap={2}
         >
           <Link to="/">
-            <img src={logo} width="128" alt="logo" />
+            <LogoImg src={logo} width="128" alt="logo" />
           </Link>
           <Typography type="h1" element="h1" color="inherit">Welcome to Movier</Typography>
         </Stack>
@@ -42,6 +49,7 @@ export const AuthWelcome = () => {
         >
           <TextButton
             size="small"
+            onClick={handleClickGeust}
           >
             Continue as a guest
           </TextButton>

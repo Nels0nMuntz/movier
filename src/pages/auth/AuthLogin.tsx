@@ -1,104 +1,67 @@
-import { useForm, Controller } from "react-hook-form";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { observer } from "mobx-react-lite" 
+
 import { AuthLayout } from "layouts";
-import { TextButton } from "common/components";
+import { LoginForm } from "components";
+import { LoginData } from "models";
+
+import tmdb from "../../assets/img/tmdb.svg";
+import { rootStore } from "store";
 
 
-interface LoginData {
-  username: string;
-  password: string;
-}
-
-const Input = styled(TextField)(({ theme }) => ({
-  width: "100%",
-  "& .MuiFormLabel-root": {
-    color: theme.palette.primary.main,
-  },
-  "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main
-  },
-  "& .MuiInputBase-root": {
-    color: theme.palette.common.white,
-
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: theme.palette.primary.dark
-    }
-  }
+const Devider = styled("span")(({ theme }) => ({
+  textAlign: "center",
+  color: theme.palette.common.white
 }));
 
-const Form = styled("form")({
-  height: "100%",
+const TmdbImg = styled("img")({
+  position: "relative",
+  top: "-1px",
+  width: "76px",
 });
 
-export const AuthLogin = () => {
-  const { control, handleSubmit } = useForm<LoginData>({
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
 
-  const onSubmit = (values: LoginData) => {
-    console.log({ values });
+export const AuthLogin = observer(() => {
+
+  const authenticateExternally = rootStore.authStore.createExternallyAuthenticatedSession;
+  const createAuthenticatedWithCredentialsSession = rootStore.authStore.createAuthenticatedWithCredentialsSession;
+
+  const authenticateExternallyHandler = async () => {
+    const response = await authenticateExternally();
+    console.log({response});    
   }
+
+  const authenticateWithCredentials = async (values: LoginData) => {
+    const response = await createAuthenticatedWithCredentialsSession({
+      username: values.username,
+      password: values.password,
+    });
+    console.log({response}); 
+  }
+
   return (
     <AuthLayout>
-      <Form onSubmit={handleSubmit(onSubmit)} >
-        <Stack
-          width="100%"
-          maxWidth="335px"
-          height="100%"
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          gap={4}
-          mx="auto"
+      <Stack 
+        direction="column" 
+        gap={3} 
+        width="100%"
+        maxWidth="335px"
+        flexGrow={1}
+        justifyContent="center"
+        mx="auto"
+      >
+        <Button
+          variant="outlined"
+          endIcon={<TmdbImg src={tmdb} alt="tmdb" />}
+          onClick={authenticateExternallyHandler}
         >
-          <Controller
-            name="username"
-            control={control}
-            rules={{ required: { value: true, message: "Field is required" } }}
-            render={({ field, fieldState }) => (
-              <Input
-                id="username"
-                label="Username"
-                variant="outlined"
-                helperText={fieldState.error?.message}
-                error={fieldState.invalid}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name="password"
-            control={control}
-            rules={{ 
-              required: { 
-                value: true, message: "Field is required" 
-              },
-              minLength: {
-                value: 6,
-                message: "Password is too short"
-              },
-            }}
-            render={({ field, fieldState }) => (
-              <Input 
-                id="password" 
-                label="Password" 
-                variant="outlined" 
-                helperText={fieldState.error?.message}
-                error={fieldState.invalid}
-                {...field} 
-              />
-            )}
-          />
-          <Button type="submit" variant="contained" fullWidth>Log In</Button>
-          <TextButton size="small">Forgot password ?</TextButton>
-        </Stack>
-      </Form>
+          Continue with
+        </Button>
+        <Devider>or</Devider>
+        <LoginForm  onSubmit={authenticateWithCredentials}/>
+      </Stack>
     </AuthLayout>
   )
-};
+});
