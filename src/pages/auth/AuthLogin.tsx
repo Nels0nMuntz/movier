@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite"
 
 import { AuthLayout } from "layouts";
 import { LoginForm } from "components";
-import { LoginData } from "models";
+import { LoginData } from "types";
 
 import tmdb from "../../assets/img/tmdb.svg";
 import { rootStore } from "store";

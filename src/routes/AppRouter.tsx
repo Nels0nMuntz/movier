@@ -1,4 +1,3 @@
-import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Browse, AuthLogin, AuthWelcome, Search } from "pages";
 import { APP_URLS } from "./urls";

@@ -38,7 +38,7 @@ export const AuthWelcome = () => {
           <Link to="/">
             <LogoImg src={logo} width="128" alt="logo" />
           </Link>
-          <Typography type="h1" element="h1" color="inherit">Welcome to Movier</Typography>
+          <Typography type="heading_3" element="h1">Welcome to Movier</Typography>
         </Stack>
         <Stack
           width="100%"

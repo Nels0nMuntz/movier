@@ -8,7 +8,7 @@ import {
   AuthError,
   AuthValidateUserCredentialsError,
 } from "api";
-import { LoginData } from "models";
+import { LoginData } from "types";
 
 
 export class AuthStore {

@@ -12,15 +12,24 @@ const LinkBehavior = React.forwardRef(renderFunction);
 export const theme: Theme = createTheme({
   palette: {
     primary: {
-      main: "#00d474",
-      dark: "#00af60",
+      main: "#202020",
+    },
+    secondary: {
+      main: "#ff0000",
+    },
+    text: {
+      primary: "#ffffff",
+      secondary: "#a3a3a3",      
+    },
+    warning: {
+      main: "#ffc107",
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         contained: {
-          color: "#fff",
+          color: "#ffffff",
           backgroundColor: "#00d474",
         },
         outlined: {
@@ -34,5 +43,12 @@ export const theme: Theme = createTheme({
         LinkComponent: LinkBehavior,
       },
     },
+    MuiAppBar: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: "#272829"
+        }
+      }
+    }
   },
 })

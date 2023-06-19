@@ -1,7 +1,12 @@
 import React from "react"
+import { Header, MainSlider } from "components";
+
 
 export const Browse = () => {
   return (
-    <div>browse page</div>
+    <React.Fragment>
+      <Header />
+      <MainSlider/>
+    </React.Fragment>
   )
 };

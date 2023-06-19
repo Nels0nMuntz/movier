@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Controller, useForm } from "react-hook-form";
 
-import { LoginData } from "models";
+import { LoginData } from "types";
 import { TextButton } from "components";
 
 

@@ -1,4 +1,9 @@
-import { CustomError } from "models";
+class CustomError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
 
 export class AuthError extends CustomError {
   constructor(message: string) {
