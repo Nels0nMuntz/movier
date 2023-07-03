@@ -30,7 +30,8 @@
         // "camelcase": "error",
         "spaced-comment": "error",
         "quotes": ["error", "double"],
-        "no-duplicate-imports": "error"
+        "no-duplicate-imports": "error",
+        "react/prop-types": "off"
     },
     "settings": {
         "import/resolver": {

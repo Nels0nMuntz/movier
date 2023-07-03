@@ -1,6 +1,6 @@
 import { UniqueId } from "types";
 
-export interface MovieApiResponse {
+export interface MovieResponse {
   id: UniqueId;
   poster_path: string;
   adult: boolean;
@@ -16,9 +16,26 @@ export interface MovieApiResponse {
   vote_average: number;
 }
 
-export interface GetPopularMovieListResponse {
+export interface MoviesGenreResponse {
+  id: number;
+  name: string;
+}
+
+export interface GetMoviesResponse {
   page: number;
-  results: MovieApiResponse[];
+  results: MovieResponse[];
   total_pages: number;
   total_results: number;
+}
+
+export interface GetMoviesRequest {
+  page: number;
+}
+
+export interface GetTrendingMoviesRequest extends GetMoviesRequest {
+  timeWindow: "day" | "week";
+}
+
+export interface GetGenersMovieListResponse {
+  genres: MoviesGenreResponse[];
 }

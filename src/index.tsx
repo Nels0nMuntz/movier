@@ -3,13 +3,16 @@ import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@mui/material/styles";
 import "./index.css";
 import { theme } from "./styles/theme";
-import { AppRouter } from "routes/AppRouter";
+import { RouterProvider } from "react-router-dom";
+import { router } from "routes/router";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <AppRouter/>
+      <CssBaseline />
+      <RouterProvider router={router} fallbackElement />
     </ThemeProvider>
   </React.StrictMode>
 );

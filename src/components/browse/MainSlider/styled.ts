@@ -15,6 +15,7 @@ export const SlideBackdrop = styled("div")(() => ({
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    objectPosition: "center top",
   },
   "&:before": {
     content: "\"\"",
@@ -23,7 +24,7 @@ export const SlideBackdrop = styled("div")(() => ({
     left: 0,
     width: "100%",
     height: "100%",
-    background: "linear-gradient(90deg, rgb(39 40 41) 0%, rgb(39 40 41) 35%, rgba(83, 100, 141, 0) 100%)",
+    background: "linear-gradient(90deg, rgb(39 40 41) 0%, rgb(39 40 41) 32%, rgba(83, 100, 141, 0) 100%)",
     zIndex: 1,
   }
 }));
@@ -56,7 +57,7 @@ export const SlideContent = styled("div")(({ theme }) => ({
     transition: "transform 0.75s ease-out 0.5s, opacity 0.75s ease-out 0.5s",
   },
   "&.hide": {
-    transform: "translateY(10%)",
+    transform: "translateY(5%)",
     opacity: 0,
   }
 }));
@@ -71,15 +72,6 @@ export const Ganre = styled(Typography)(({ theme }) => ({
 
 export const GanreOutlined = styled(Ganre)(({ theme }) => ({
   outline: `1px solid ${theme.palette.secondary.main}`,
-}));
-
-export const NavButton = styled("button")<{ prev?: boolean, next?: boolean }>(({ prev, next }) => ({
-  position: "absolute",
-  top: "50%",
-  left: `${prev ? "24px" : "auto"}`,
-  right: `${next ? "24px" : "auto"}`,
-  transform: "translateY(-50%)",
-  zIndex: 1,
 }));
 
 export const Badge = styled(Typography)(({ theme }) => ({

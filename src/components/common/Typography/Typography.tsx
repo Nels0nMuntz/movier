@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from "react";
-import { styled } from "@mui/material/styles";
+import { styled, Theme } from "@mui/material/styles";
+import { theme } from "styles/theme";
 
 
 export const TYPOGRAPHY_TYPES = {
@@ -15,8 +16,9 @@ export const TYPOGRAPHY_TYPES = {
 interface Props {
   type: keyof typeof TYPOGRAPHY_TYPES,
   element: keyof JSX.IntrinsicElements;
-  color?: string;
-  textAlign?: "left" | "right" | "center",
+  color?: "primary" | "secondary";
+  textAlign?: "left" | "right" | "center";
+  styles?: React.CSSProperties | ((theme: Theme) => React.CSSProperties)
 }
 
 const TypographyComponent: React.FC<Props & PropsWithChildren & React.HTMLAttributes<HTMLOrSVGElement>> = (props) => {
@@ -25,13 +27,16 @@ const TypographyComponent: React.FC<Props & PropsWithChildren & React.HTMLAttrib
     element, 
     children, 
     textAlign,
+    styles,
     ...attributes
   } = props;
   const Component = element || "div";
+  const style = !styles ? {} : typeof styles === "function" ? styles(theme) : styles;
   return (
     <Component 
       data-typography-type={type}      
       {...attributes}
+      style={style}
     >
       {children}
     </Component>
@@ -39,7 +44,7 @@ const TypographyComponent: React.FC<Props & PropsWithChildren & React.HTMLAttrib
 };
 
 export const Typography = styled(TypographyComponent)(({ theme, color, textAlign }) => ({
-  color: color || theme.palette.text.primary,
+  color: color ? theme.palette.text[color] : theme.palette.text.primary,
   textAlign: textAlign || "left",
   "&[data-typography-type='heading_1']": {
     fontSize: "70px",

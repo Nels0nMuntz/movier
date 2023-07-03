@@ -19,11 +19,14 @@ export const theme: Theme = createTheme({
     },
     text: {
       primary: "#ffffff",
-      secondary: "#a3a3a3",      
+      secondary: "#a3a3a3",            
     },
     warning: {
       main: "#ffc107",
     },
+    background: {
+      default: "#202020"
+    }
   },
   components: {
     MuiButton: {
@@ -49,6 +52,6 @@ export const theme: Theme = createTheme({
           backgroundColor: "#272829"
         }
       }
-    }
+    },
   },
 })

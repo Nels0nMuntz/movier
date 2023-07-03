@@ -59,6 +59,7 @@ export const AuthWelcome = () => {
           <PrimaryButton variant="outlined" fullWidth>
             Sign Up
           </PrimaryButton>
+          <Link to="/browse">Browse</Link>
         </Stack>
       </Stack>
     </AuthLayout>

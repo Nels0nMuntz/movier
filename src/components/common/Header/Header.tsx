@@ -26,7 +26,7 @@ import logo from "../../../assets/img/logo.svg";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);

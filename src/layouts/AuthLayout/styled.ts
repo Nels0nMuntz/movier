@@ -1,10 +1,9 @@
-import React, { PropsWithChildren } from "react";
 import { styled } from "@mui/material/styles";
 
-import bg from "../assets/img/welcome.jpeg";
+import bg from "../../assets/img/welcome.jpeg";
 
 
-const Wrapper = styled("div")({
+export const Wrapper = styled("div")({
   position: "relative",
   minHeight: "100vh",
   display: "flex",
@@ -25,7 +24,7 @@ const Wrapper = styled("div")({
   }
 });
 
-const Paper = styled("div")(({ theme }) => ({
+export const Paper = styled("div")(({ theme }) => ({
   position: "relative",
   display: "flex",
   minHeight: "550px",
@@ -40,13 +39,3 @@ const Paper = styled("div")(({ theme }) => ({
   backgroundColor: "#101010",
   boxShadow: "0 0 30px 6px rgba(0,0,0,0.75)",
 }));
-
-export const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <Wrapper>
-      <Paper>
-        {children}
-      </Paper>
-    </Wrapper>
-  );
-};

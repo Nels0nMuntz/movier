@@ -14,11 +14,10 @@ const requestInterceptor = (config: RequestConfig) => {
   let url = `${BASE_URL}${config.url}?`;
   if (queryParams && Object.keys(queryParams).length) {
     url = addQueryParams(url, queryParams);
-    url = addApiKey(url);
-  };
+  }
   url = addApiKey(url);
   return {
-    url: `${BASE_URL}${url}`,
+    url,
     init: {
       ...config.init || {},
       headers: {
@@ -29,15 +28,15 @@ const requestInterceptor = (config: RequestConfig) => {
   };
 };
 
-const responseInterceptor = (response: Response) => {
-  return response;
+const responseInterceptor = async (response: Response) => {
+  return response
 }
 
 const customFetch = async (config: RequestConfig) => {
   const args = requestInterceptor(config);
-  let response = await fetch(args.url, args.init);
-  response = responseInterceptor(response);
-  return response;
+  const response = await fetch(args.url, args.init);
+  const intercepted = await responseInterceptor(response);
+  return intercepted;
 }
 
 export const api = {
@@ -64,11 +63,12 @@ export const api = {
 };
 
 const addQueryParams = (url: string, params: QueryParams) => {
-  return [...Object.entries(params)]
+  const queryParamsString = [...Object.entries(params)]
     .reduce((prev, curr) => {
       const pair = curr.join("=");
       return prev += (pair + "&")
     }, "");
+  return url + queryParamsString;
 }
 
 const addApiKey = (url: string) => `${url}api_key=${API_KEY}`;
