@@ -7,7 +7,7 @@ import { MainLayout } from "layouts";
 
 export const Browse = observer(() => {
 
-  const {moviesStore, browseStore} = rootStore;
+  const { moviesStore, browseStore } = rootStore;
 
   const isInitialized = browseStore.isInitialized;
   const popularMovies = moviesStore.lists.popular.data;
@@ -16,7 +16,7 @@ export const Browse = observer(() => {
   // const topRatedMovies = moviesStore.lists.topRated.data;
   // const upcomingMovies = moviesStore.lists.upcoming.data;
   // const loadPopularMovies = moviesStore.getPopular;
-  const loadTrendingDaly = moviesStore.getTrendingDaly;
+  const loadTrendingDaly = moviesStore.getTrendingDaily;
   const loadTrendingWeekly = moviesStore.getTrendingWeekly;
   // const loadTopRated = moviesStore.getTopRated;
   // const loadUpcoming = moviesStore.getUpcoming;

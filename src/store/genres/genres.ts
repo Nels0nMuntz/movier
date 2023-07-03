@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI, tvShowsAPI } from "api";
 import { Genres, Status } from "types";
@@ -14,24 +14,28 @@ export class GenresStore {
     makeAutoObservable(this);
   }
 
-  async getMovieGenres() {
+  getMovieGenres = async () => {
     try {
       const { genres } = await moviesAPI.getGenersList();
-      this.movieGenres = genres.reduce((prev, curr) => {
-        return { ...prev, [curr.id]: curr.name };
-      }, {} as Genres);
+      runInAction(() => {
+        this.movieGenres = genres.reduce((prev, curr) => {
+          return { ...prev, [curr.id]: curr.name };
+        }, {} as Genres);
+      })
       return { status: Status.Success }
     } catch (error) {
       return { status: Status.Error }
     }
   }
 
-  async getTVShowsGenres() {
+  getTVShowsGenres = async () => {
     try {
       const { genres } = await tvShowsAPI.getGenersList();
-      this.movieGenres = genres.reduce((prev, curr) => {
-        return { ...prev, [curr.id]: curr.name };
-      }, {} as Genres);
+      runInAction(() => {
+        this.movieGenres = genres.reduce((prev, curr) => {
+          return { ...prev, [curr.id]: curr.name };
+        }, {} as Genres);
+      });
       return { status: Status.Success }
     } catch (error) {
       return { status: Status.Error }

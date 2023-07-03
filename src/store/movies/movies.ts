@@ -1,20 +1,18 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI } from "api";
-import { Genres, Status } from "types";
+import { Status } from "types";
 import { isLastMoviePage, normalizeMoviesResponse } from "utils";
 import { SectionParams, SectionKey } from "./types";
+import { RootStore } from "store";
 
 
 export class MoviesStore {
   lists: Record<SectionKey, SectionParams>;
-  genres: {
-    status: Status;
-    data: Genres;
-  }
+  // genres: Genres;
+  rootStore: RootStore;
 
-  constructor() {
-    makeAutoObservable(this);
+  constructor(rootStore: RootStore) {
     const initSectionParams: SectionParams = {
       status: Status.Initial,
       data: [],
@@ -27,11 +25,15 @@ export class MoviesStore {
       trendingWeekly: initSectionParams,
       topRated: initSectionParams,
       upcoming: initSectionParams,
-    }
-    this.genres = {
-      status: Status.Initial,
-      data: {} as Genres,
     };
+    this.rootStore = rootStore;
+    makeAutoObservable(this, {
+      rootStore: false,
+    });
+  }
+
+  get genres() {
+    return this.rootStore.genresStore.movieGenres;
   }
 
   getPopular = async () => {
@@ -40,7 +42,7 @@ export class MoviesStore {
       const response = await moviesAPI.getPopularMovies({
         page: this.lists.popular.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres.data);
+      const movies = normalizeMoviesResponse(response.results, this.genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.popular.data.push(...movies);
@@ -58,14 +60,14 @@ export class MoviesStore {
     }
   }
 
-  getTrendingDaly = async () => {
+  getTrendingDaily = async () => {
     try {
       this.lists.trendingDaily.status = Status.Loading;
       const response = await moviesAPI.getTrendingMovies({
         page: this.lists.trendingDaily.page,
         timeWindow: "day",
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres.data);
+      const movies = normalizeMoviesResponse(response.results, this.genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.trendingDaily.data.push(...movies);
@@ -90,7 +92,7 @@ export class MoviesStore {
         page: this.lists.trendingWeekly.page,
         timeWindow: "week",
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres.data);
+      const movies = normalizeMoviesResponse(response.results, this.genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.trendingWeekly.data.push(...movies);
@@ -114,7 +116,7 @@ export class MoviesStore {
       const response = await moviesAPI.getTopRatedMovies({
         page: this.lists.topRated.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres.data);
+      const movies = normalizeMoviesResponse(response.results, this.genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.topRated.data.push(...movies);
@@ -136,7 +138,7 @@ export class MoviesStore {
       const response = await moviesAPI.getUpcomingMovies({
         page: this.lists.upcoming.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres.data);
+      const movies = normalizeMoviesResponse(response.results, this.genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.upcoming.data.push(...movies);

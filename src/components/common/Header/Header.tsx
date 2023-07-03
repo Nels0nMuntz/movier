@@ -50,17 +50,12 @@ export const Header: React.FC = () => {
               </li>
               <li>
                 <Link to="/">
-                  <Typography element="span" type="heading_6">Trending</Typography>
+                  <Typography element="span" type="heading_6">Movies</Typography>
                 </Link>
               </li>
               <li>
                 <Link to="/">
-                  <Typography element="span" type="heading_6">Discover</Typography>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <Typography element="span" type="heading_6">TV Shows</Typography>
+                  <Typography element="span" type="heading_6">Shows</Typography>
                 </Link>
               </li>
               <li>
