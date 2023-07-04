@@ -20,7 +20,7 @@ export class RootStore {
   constructor() {
     this.authStore = new AuthStore();
     this.moviesStore = new MoviesStore(this);
-    this.tvShowsStore = new TVShowsStore();
+    this.tvShowsStore = new TVShowsStore(this);
     this.genresStore = new GenresStore();
     this.browseStore = new BrowseStore(this);
   }

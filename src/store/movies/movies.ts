@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI } from "api";
-import { Status } from "types";
+import { Genres, Result, Status } from "types";
 import { isLastMoviePage, normalizeMoviesResponse } from "utils";
 import { SectionParams, SectionKey } from "./types";
 import { RootStore } from "store";
@@ -9,7 +9,6 @@ import { RootStore } from "store";
 
 export class MoviesStore {
   lists: Record<SectionKey, SectionParams>;
-  // genres: Genres;
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
@@ -27,22 +26,29 @@ export class MoviesStore {
       upcoming: initSectionParams,
     };
     this.rootStore = rootStore;
-    makeAutoObservable(this, {
-      rootStore: false,
-    });
+    makeAutoObservable(
+      this, 
+      { rootStore: false },
+      { autoBind: true },
+    );
   }
 
-  get genres() {
-    return this.rootStore.genresStore.movieGenres;
+  private async getGenres() {
+    const { status, data: genres } = await this.rootStore.genresStore.getMovieGenres();
+    if(status === Status.Error) {
+      throw new Error("Something went wront, try later");
+    }
+    return genres as Genres;
   }
 
-  getPopular = async () => {
+  getPopular = async (): Promise<Result> => {
     try {
       this.lists.popular.status = Status.Loading;
       const response = await moviesAPI.getPopularMovies({
         page: this.lists.popular.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres);
+      const genres = await this.getGenres();
+      const movies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.popular.data.push(...movies);
@@ -60,14 +66,15 @@ export class MoviesStore {
     }
   }
 
-  getTrendingDaily = async () => {
+  getTrendingDaily = async (): Promise<Result> => {
     try {
       this.lists.trendingDaily.status = Status.Loading;
       const response = await moviesAPI.getTrendingMovies({
         page: this.lists.trendingDaily.page,
         timeWindow: "day",
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres);
+      const genres = await this.getGenres();
+      const movies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.trendingDaily.data.push(...movies);
@@ -85,14 +92,15 @@ export class MoviesStore {
     }
   }
 
-  getTrendingWeekly = async () => {
+  getTrendingWeekly = async (): Promise<Result> => {
     try {
       this.lists.trendingWeekly.status = Status.Loading;
       const response = await moviesAPI.getTrendingMovies({
         page: this.lists.trendingWeekly.page,
         timeWindow: "week",
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres);
+      const genres = await this.getGenres();
+      const movies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.trendingWeekly.data.push(...movies);
@@ -110,13 +118,14 @@ export class MoviesStore {
     }
   }
 
-  getTopRated = async () => {
+  getTopRated = async (): Promise<Result> => {
     try {
       this.lists.topRated.status = Status.Loading;
       const response = await moviesAPI.getTopRatedMovies({
         page: this.lists.topRated.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres);
+      const genres = await this.getGenres();
+      const movies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.topRated.data.push(...movies);
@@ -124,21 +133,24 @@ export class MoviesStore {
         this.lists.topRated.isLastPage = isLastPage;
         this.lists.topRated.status = Status.Success;
       });
+      return { status: Status.Success };
     } catch (error) {
+      console.log(error);
       runInAction(() => {
         this.lists.topRated.status = Status.Error;
       });
-      console.log(error);
+      return { status: Status.Error };
     }
   }
 
-  getUpcoming = async () => {
+  getUpcoming = async (): Promise<Result> => {
     try {
       this.lists.upcoming.status = Status.Loading;
       const response = await moviesAPI.getUpcomingMovies({
         page: this.lists.upcoming.page,
       });
-      const movies = normalizeMoviesResponse(response.results, this.genres);
+      const genres = await this.getGenres();
+      const movies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
         this.lists.upcoming.data.push(...movies);
@@ -146,32 +158,13 @@ export class MoviesStore {
         this.lists.upcoming.isLastPage = isLastPage;
         this.lists.upcoming.status = Status.Success;
       });
+      return { status: Status.Success };
     } catch (error) {
+      console.log(error);
       runInAction(() => {
         this.lists.upcoming.status = Status.Error;
       });
-      console.log(error);
+      return { status: Status.Error };
     }
   }
-
-  // getGeners = async () => {
-
-  //   try {
-  //     this.genres.status = Status.Loading;
-  //     const response = await moviesAPI.getGenersList();
-  //     const genresObject = {} as Record<number, string>
-  //     response.genres.forEach(({ id, name }) => {
-  //       genresObject[id] = name;
-  //     });
-  //     runInAction(() => {
-  //       this.genres.data = genresObject;
-  //       this.genres.status = Status.Success;
-  //     });
-  //   } catch (error) {
-  //     runInAction(() => {
-  //       this.genres.status = Status.Error;
-  //     });
-  //     console.log(error);
-  //   }
-  // }
 }

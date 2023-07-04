@@ -7,7 +7,7 @@ export const APP_URLS = {
   browse: {
     path: "/browse",
     loader: async () => {
-      // rootStore.moviesStore.initialize();
+      rootStore.browseStore.initialize();
       return null;
     }
   },

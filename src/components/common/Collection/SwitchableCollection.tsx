@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Tabs from "@mui/material/Tabs";
 
 import { Section, StyledTab, TabPanel, TabPanelsWrap } from "./styled";
-import { Movie } from "types";
+import { Movie, TVShow } from "types";
 import { Slider } from "../Slider";
 import { SectionTitle } from "../SectionTitle/SectionTitle";
 
@@ -12,12 +12,12 @@ interface SwitchableCollectionProps {
   title: string;
   collections: {
     title: string;
-    items: Movie[];
+    items: Movie[] | TVShow[];
     loadItems?: () => void;
   }[]
 }
 
-export const SwitchableCollection: React.FC<SwitchableCollectionProps> = ({ collections, title }) => {
+export const SwitchableCollection = ({ collections, title }: SwitchableCollectionProps) => {
   const [activeTabIndex, setActiveTabIndex] = React.useState(0);
   const handleChangeActiveTabIndex = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTabIndex(newValue);
@@ -50,7 +50,6 @@ export const SwitchableCollection: React.FC<SwitchableCollectionProps> = ({ coll
                 id={`collection-tabpanel-${index}`}
                 className={`${isActiveTab ? "visible" : "hidden"}`}
                 role="tabpanel"
-                // hidden={!isActiveTab}
                 aria-labelledby={`collection-tab-${index}`}
                 key={title}
               >

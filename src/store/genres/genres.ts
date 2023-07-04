@@ -1,44 +1,89 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI, tvShowsAPI } from "api";
-import { Genres, Status } from "types";
+import { Genres, Result, Status } from "types";
 
 
 export class GenresStore {
-  movieGenres: Genres;
-  tvShowsGenres: Genres;
+  private movieGenres: {
+    status: Status;
+    data: Genres;
+  };
+  private tvShowsGenres: {
+    status: Status;
+    data: Genres;
+  };
 
   constructor() {
-    this.movieGenres = {};
-    this.tvShowsGenres = {};
+    this.movieGenres = {
+      status: Status.Initial,
+      data: {},
+    };
+    this.tvShowsGenres = {
+      status: Status.Initial,
+      data: {},
+    };
     makeAutoObservable(this);
   }
 
-  getMovieGenres = async () => {
+  getMovieGenres = async (): Promise<Result<Genres>> => {
+    if(this.movieGenres.status === Status.Success) {
+      return {
+        status: Status.Success,
+        data: this.movieGenres.data,
+      }
+    }
+
     try {
+      runInAction(() => {
+        this.movieGenres.status = Status.Loading;
+      });
       const { genres } = await moviesAPI.getGenersList();
       runInAction(() => {
-        this.movieGenres = genres.reduce((prev, curr) => {
+        this.movieGenres.data = genres.reduce((prev, curr) => {
           return { ...prev, [curr.id]: curr.name };
         }, {} as Genres);
+        this.movieGenres.status = Status.Success;
       })
-      return { status: Status.Success }
+      return {
+        status: Status.Success,
+        data: this.tvShowsGenres.data,
+      };
     } catch (error) {
-      return { status: Status.Error }
+      runInAction(() => {
+        this.tvShowsGenres.status = Status.Error;
+      });
+      return { status: Status.Error };
     }
   }
 
   getTVShowsGenres = async () => {
+    if(this.tvShowsGenres.status === Status.Success) {
+      return {
+        status: Status.Success,
+        data: this.tvShowsGenres.data,
+      }
+    }
     try {
+      runInAction(() => {
+        this.tvShowsGenres.status = Status.Loading;
+      });
       const { genres } = await tvShowsAPI.getGenersList();
       runInAction(() => {
-        this.movieGenres = genres.reduce((prev, curr) => {
+        this.tvShowsGenres.data = genres.reduce((prev, curr) => {
           return { ...prev, [curr.id]: curr.name };
         }, {} as Genres);
-      });
-      return { status: Status.Success }
+        this.tvShowsGenres.status = Status.Success;
+      })
+      return {
+        status: Status.Success,
+        data: this.tvShowsGenres.data,
+      };
     } catch (error) {
-      return { status: Status.Error }
+      runInAction(() => {
+        this.tvShowsGenres.status = Status.Error;
+      });
+      return { status: Status.Error };
     }
   }
 }

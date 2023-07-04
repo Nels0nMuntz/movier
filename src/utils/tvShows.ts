@@ -4,6 +4,7 @@ import { Genres, TVShow } from "types";
 const normalizeTVShow = (tvShow: TVShowResponse, geners: Genres): TVShow => {
   return {
     ...tvShow,
+    kind: "tvShow",
     genres: tvShow.genre_ids.map(genre_id => geners[genre_id] as string),
   }
 };

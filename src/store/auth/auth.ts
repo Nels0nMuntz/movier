@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import {  } from "react-router-dom";
 import { 
   authAPI, 
@@ -17,14 +17,7 @@ export class AuthStore {
   sessionId: string;
 
   constructor() {
-    makeObservable(this, {
-      loading: observable,
-      sessionId: observable,
-      isGuest: observable,
-      createGuestSession: action,
-      createExternallyAuthenticatedSession: action,
-      createAuthenticatedWithCredentialsSession: action,
-    })
+    makeAutoObservable(this)
     this.loading = false;
     this.isGuest = false;
     this.sessionId = ""
@@ -32,7 +25,9 @@ export class AuthStore {
 
   createExternallyAuthenticatedSession = async () => {
     try {
-      this.loading = true;
+      runInAction(() => {
+        this.loading = true;
+      });
 
       const createRequestTokenResponse = await authAPI.createRequestToken();
 
@@ -49,8 +44,10 @@ export class AuthStore {
       if(!createAuthenticatedSessionResponse.success) {
         throw new AuthCreateSessionError();
       }
-      this.sessionId = createAuthenticatedSessionResponse.session_id;
-      this.loading = false;
+      runInAction(() => {
+        this.sessionId = createAuthenticatedSessionResponse.session_id;
+        this.loading = false;
+      });
       window.localStorage.setItem("session_id", createAuthenticatedSessionResponse.session_id);
       window.localStorage.setItem("is_guest", "false");
 
@@ -58,13 +55,17 @@ export class AuthStore {
       if (error instanceof AuthError) {
         console.log(error.message);
       }
-      this.loading = false;
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   }
 
   createAuthenticatedWithCredentialsSession = async (data: LoginData) => {
     try {
-      this.loading = true;
+      runInAction(() => {
+        this.loading = true;
+      });
 
       const createRequestTokenResponse = await authAPI.createRequestToken();
 
@@ -85,8 +86,10 @@ export class AuthStore {
       if(!createAuthenticatedSessionResponse.success) {
         throw new AuthCreateSessionError();
       }
-      this.sessionId = createAuthenticatedSessionResponse.session_id;
-      this.loading = false;
+      runInAction(() => {
+        this.sessionId = createAuthenticatedSessionResponse.session_id;
+        this.loading = false;
+      });
       window.localStorage.setItem("session_id", createAuthenticatedSessionResponse.session_id);
       window.localStorage.setItem("is_guest", "false");
 
@@ -94,20 +97,26 @@ export class AuthStore {
       if (error instanceof AuthError) {
         console.log(error.message);
       }
-      this.loading = false;
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   }
   
   createGuestSession = async () => {
     try {
-      this.loading = true;
+      runInAction(() => {
+        this.loading = true;
+      });
 
       const { success, guest_session_id } = await authAPI.createGuestSession();
       if(!success) {
         throw new AuthCreateSessionError();
       }
-      this.sessionId = guest_session_id;
-      this.isGuest = true;
+      runInAction(() => {
+        this.sessionId = guest_session_id;
+        this.isGuest = true;
+      });
       window.localStorage.setItem("session_id", guest_session_id);
       window.localStorage.setItem("is_guest", "true");
 
@@ -115,7 +124,9 @@ export class AuthStore {
       if (error instanceof AuthError) {
         console.log(error.message);
       }
-      this.loading = false;
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   }
 }
