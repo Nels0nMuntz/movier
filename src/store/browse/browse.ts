@@ -6,7 +6,7 @@ import { addNotification } from "utils";
 
 
 
-export class BrowseStore {
+export class BrowsePageStore {
   isInitialized: boolean;
   rootStore: RootStore;
 
@@ -17,7 +17,11 @@ export class BrowseStore {
     })
   }
 
-  async initialize() {
+  initialize = async () => {
+    if(this.isInitialized) {
+      return;
+    }
+
     const { getMovieGenres, getTVShowsGenres } = this.rootStore.genresStore
     const genres = await Promise.all([
       getMovieGenres(),
@@ -31,15 +35,16 @@ export class BrowseStore {
       });
       return;
     }
+    
     const { 
       getTrendingDaily: getTrendingDailyMovies,
       getTrendingWeekly: getTrendingWeeklyMovies, 
       getPopular: getPopularMovies 
-    } = this.rootStore.moviesStore;
+    } = this.rootStore.moviesCollectionStore;
     const { 
       getTrendingDaily: getTrendingDailyShows,
       getTrendingWeekly: getTrendingWeeklyShows,
-    } = this.rootStore.tvShowsStore;
+    } = this.rootStore.tvShowsCollectionStore;
     const result = await Promise.all([
       getTrendingDailyMovies(),
       getTrendingWeeklyMovies(),

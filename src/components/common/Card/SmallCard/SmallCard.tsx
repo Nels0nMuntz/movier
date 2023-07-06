@@ -6,9 +6,9 @@ import { observer } from "mobx-react-lite";
 
 import { Action, Poster, StyledLink, Wrapper } from "./styled";
 import { getW300ImageUrl } from "api";
-import { Typography } from "../Typography/Typography";
-import { SkeletonProvider, Skeleton } from "../Skeleton";
-import { FAIcon } from "../FAIcon/FAIcon";
+import { Typography } from "../../Typography/Typography";
+import { SkeletonProvider, Skeleton } from "../../Skeleton";
+import { FAIcon } from "../../FAIcon/FAIcon";
 
 
 interface Props {

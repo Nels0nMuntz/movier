@@ -1,8 +1,9 @@
 import { PropsWithChildren } from "react";
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Search, Browse } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Search, Browse, Movies } from "pages";
 import { APP_URLS } from "./urls";
+import { Shows } from "pages/Shows";
 
 
 // eslint-disable-next-line react/prop-types
@@ -26,10 +27,20 @@ export const router = createBrowserRouter(
         }
       />
       <Route
-        path="/search"
+        path={APP_URLS.movies.path}
+        loader={APP_URLS.movies.loader}
         element={
           <PrivateRoute>
-            <Search />
+            <Movies />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path={APP_URLS.tvShows.path}
+        loader={APP_URLS.tvShows.loader}
+        element={
+          <PrivateRoute>
+            <Shows />
           </PrivateRoute>
         }
       />

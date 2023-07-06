@@ -8,13 +8,13 @@ import { observer } from "mobx-react-lite";
 import { PrimaryButton, PrimaryLink, Typography, FAIcon } from "components";
 import { Badge, Ganre, GanreOutlined, Slide, SlideBackdrop, SlideContent, SlideContentWrap } from "./styled";
 import { APP_URLS } from "routes/urls";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
+import { MovieResponse } from "api";
+import { SliderNavigation } from "../../common/Slider";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { MovieResponse } from "api";
-import { SliderNavigation } from "../../common/Slider";
 
 
 interface Props {

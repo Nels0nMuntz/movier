@@ -4,13 +4,13 @@ import { Section } from "./styled";
 import Container from "@mui/material/Container";
 
 import { SectionTitle } from "../SectionTitle/SectionTitle";
-import { Movie } from "types";
-import { Slider } from "../Slider";
+import { Movie, TVShow } from "types";
+import { SimpleSlider } from "../Slider";
 
 
 interface Props {
   title: string;
-  items: Movie[];
+  items: Movie[] | TVShow[];
   loadItems?: () => void;
 }
 
@@ -19,7 +19,7 @@ export const ScrollableCollection: React.FC<Props> = observer(({ title, items, l
     <Section>
       <Container maxWidth="xl">
         <SectionTitle>{title}</SectionTitle>
-        <Slider
+        <SimpleSlider
           items={items}
           sliderName={title}
           loadItems={loadItems}

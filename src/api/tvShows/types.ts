@@ -8,6 +8,10 @@ export interface GetTrendingTVShowsRequest extends GetTVShowsRequest {
   timeWindow: "day" | "week";
 }
 
+export interface GetOnTheAirTVShowsRequest extends GetTVShowsRequest {
+  timezone?: string;
+}
+
 export interface TVShowResponse {
   id: UniqueId;
   adult: boolean;

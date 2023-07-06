@@ -7,18 +7,18 @@ import { MainLayout } from "layouts";
 
 export const Browse = observer(() => {
 
-  const { moviesStore, tvShowsStore, browseStore } = rootStore;
+  const { moviesCollectionStore, tvShowsCollectionStore, browsePageStore } = rootStore;
 
-  const isInitialized = browseStore.isInitialized;
-  const popularMovies = moviesStore.lists.popular.data;
-  const trendingDailyMovies = moviesStore.lists.trendingDaily.data;
-  const trendingWeeklyMovies = moviesStore.lists.trendingWeekly.data;
-  const loadTrendingDailyMovies = moviesStore.getTrendingDaily;
-  const loadTrendingWeeklyMovies = moviesStore.getTrendingWeekly;
-  const trendingDailyShows = tvShowsStore.lists.trendingDaily.data;
-  const trendingWeeklyShows = tvShowsStore.lists.trendingWeekly.data;
-  const loadTrendingDailyTvShows = tvShowsStore.getTrendingDaily;
-  const loadTrendingWeeklyTvShows = tvShowsStore.getTrendingWeekly;
+  const isInitialized = browsePageStore.isInitialized;
+  const popularMovies = moviesCollectionStore.lists.popular.data;
+  const trendingDailyMovies = moviesCollectionStore.lists.trendingDaily.data;
+  const trendingWeeklyMovies = moviesCollectionStore.lists.trendingWeekly.data;
+  const loadTrendingDailyMovies = moviesCollectionStore.loadTrendingDaily;
+  const loadTrendingWeeklyMovies = moviesCollectionStore.loadTrendingWeekly;
+  const trendingDailyShows = tvShowsCollectionStore.lists.trendingDaily.data;
+  const trendingWeeklyShows = tvShowsCollectionStore.lists.trendingWeekly.data;
+  const loadTrendingDailyTvShows = tvShowsCollectionStore.loadTrendingDaily;
+  const loadTrendingWeeklyTvShows = tvShowsCollectionStore.loadTrendingWeekly;
 
   return (
     <MainLayout isLoading={!isInitialized}>

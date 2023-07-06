@@ -7,7 +7,21 @@ export const APP_URLS = {
   browse: {
     path: "/browse",
     loader: async () => {
-      rootStore.browseStore.initialize();
+      rootStore.browsePageStore.initialize();
+      return null;
+    }
+  },
+  movies: {
+    path: "/movies",
+    loader: async () => {
+      rootStore.moviesPageStore.initialize();
+      return null;
+    }
+  },
+  tvShows: {
+    path: "/shows",
+    loader: async () => {
+      rootStore.tvShowsPageStore.initialize();
       return null;
     }
   },

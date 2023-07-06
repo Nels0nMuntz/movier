@@ -9,6 +9,7 @@ export { ScrollableCollection, SwitchableCollection } from "./common/Collection"
 export { LoadingScreen } from "./common/LoadingScreen/LoadingScreen";
 export { FailScreen } from "./common/FailScreen/FailScreen";
 export { Skeleton, SkeletonProvider } from "./common/Skeleton";
+export { CoverflowSlider } from "./common/Slider";
 
 export { MainSlider } from "./browse/MainSlider/MainSlider";
 

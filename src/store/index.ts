@@ -1,9 +1,11 @@
 import { configure } from "mobx";
 import { AuthStore } from "./auth/auth";
-import { BrowseStore } from "./browse/browse";
+import { BrowsePageStore } from "./browse/browse";
 import { GenresStore } from "./genres/genres";
-import { MoviesStore } from "./movies/movies";
-import { TVShowsStore } from "./tvShows/tvShows";
+import { MoviesCollectionStore } from "./collections/movies/movies";
+import { TVShowsCollectionStore } from "./collections/tvShows/tvShows";
+import { MoviesPageStore } from "./movies/movies";
+import { TvShowsPageStore } from "./tvShows/tvShows";
 
 configure({
   enforceActions: "always",
@@ -12,17 +14,21 @@ configure({
 export class RootStore {
 
   authStore: AuthStore;
-  moviesStore: MoviesStore;
-  tvShowsStore: TVShowsStore;
+  moviesCollectionStore: MoviesCollectionStore;
+  tvShowsCollectionStore: TVShowsCollectionStore;
   genresStore: GenresStore;
-  browseStore: BrowseStore;
+  browsePageStore: BrowsePageStore;
+  moviesPageStore: MoviesPageStore;
+  tvShowsPageStore: TvShowsPageStore;
 
   constructor() {
     this.authStore = new AuthStore();
-    this.moviesStore = new MoviesStore(this);
-    this.tvShowsStore = new TVShowsStore(this);
+    this.moviesCollectionStore = new MoviesCollectionStore(this);
+    this.tvShowsCollectionStore = new TVShowsCollectionStore(this);
     this.genresStore = new GenresStore();
-    this.browseStore = new BrowseStore(this);
+    this.browsePageStore = new BrowsePageStore(this);
+    this.moviesPageStore = new MoviesPageStore(this);
+    this.tvShowsPageStore = new TvShowsPageStore(this);
   }
 };
 

@@ -1,10 +1,11 @@
 import React from "react";
 import { Navigation } from "swiper";
 import { Swiper } from "swiper/react";
+import { observer } from "mobx-react-lite";
 
 import { SliderNavigation } from "../SliderNavigation/SliderNavigation";
 import { NavigationWrapper, Slide } from "./styled";
-import { SmallCard } from "../../Card/SmallCard";
+import { SmallCard } from "../../Card/SmallCard/SmallCard";
 import type { Movie, TVShow } from "types";
 
 import "swiper/css";
@@ -24,7 +25,7 @@ interface Props {
   loadItems?: () => void;
 }
 
-export const Slider: React.FC<Props> = ({ items, sliderName, loadItems }) => {
+export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, loadItems }) => {
   const [showNavigation, setShowNavigation] = React.useState(false);
   const onMouseEnter = () => setShowNavigation(true);
   const onMouseLeave = () => setShowNavigation(false);
@@ -95,4 +96,4 @@ export const Slider: React.FC<Props> = ({ items, sliderName, loadItems }) => {
       </Swiper>
     </div>
   )
-};
+});

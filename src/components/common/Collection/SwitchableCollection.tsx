@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 
 import { Section, StyledTab, TabPanel, TabPanelsWrap } from "./styled";
 import { Movie, TVShow } from "types";
-import { Slider } from "../Slider";
+import { SimpleSlider } from "../Slider";
 import { SectionTitle } from "../SectionTitle/SectionTitle";
 
 
@@ -53,7 +53,7 @@ export const SwitchableCollection = ({ collections, title }: SwitchableCollectio
                 aria-labelledby={`collection-tab-${index}`}
                 key={title}
               >
-                <Slider
+                <SimpleSlider
                   items={items}
                   sliderName={title}
                   loadItems={loadItems}

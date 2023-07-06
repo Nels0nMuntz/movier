@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 
+import { APP_URLS } from "routes";
 import { Typography } from "components";
 import {
   LogoImg,
@@ -44,17 +45,17 @@ export const Header: React.FC = () => {
           <Nav>
             <ul>
               <li>
-                <Link to="/">
+                <Link to={APP_URLS.browse.path}>
                   <Typography element="span" type="heading_6">Home</Typography>
                 </Link>
               </li>
               <li>
-                <Link to="/">
+                <Link to={APP_URLS.movies.path}>
                   <Typography element="span" type="heading_6">Movies</Typography>
                 </Link>
               </li>
               <li>
-                <Link to="/">
+                <Link to={APP_URLS.tvShows.path}>
                   <Typography element="span" type="heading_6">Shows</Typography>
                 </Link>
               </li>
