@@ -4,6 +4,7 @@ export { PrimaryButton } from "./common/Button/PrimaryButton";
 export { PrimaryLink } from "./common/Button/PrimaryLink";
 export { PrivateRoute } from "./common/PrivateRoute/PrivateRoute";
 export { Header } from "./common/Header/Header";
+export { Footer } from "./common/Footer/Footer";
 export { FAIcon } from "./common/FAIcon/FAIcon";
 export { ScrollableCollection, SwitchableCollection } from "./common/Collection";
 export { LoadingScreen } from "./common/LoadingScreen/LoadingScreen";

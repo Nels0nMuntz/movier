@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react"
 import { observer } from "mobx-react-lite";
 
-import { LoadingScreen, FailScreen, Header } from "components";
+import { LoadingScreen, FailScreen, Header, Footer } from "components";
 
 
 interface Props extends PropsWithChildren {
@@ -15,6 +15,7 @@ export const MainLayout: React.FC<Props> = observer(({ isLoading = false, isFail
       <FailScreen visible={isFaild}>
         <Header />
         <>{children}</>
+        <Footer/>
       </FailScreen>
     </LoadingScreen>
   )
