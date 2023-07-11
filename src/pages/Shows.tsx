@@ -15,11 +15,11 @@ export const Shows = observer(() => {
   const { airingToday, onTheAir, popular, topRated } = tvShowsCollectionStore.lists
   const { loadAiringToday, loadOnTheAir, loadPopular } = tvShowsCollectionStore;
 
-  const topRatedItems = topRated.data.map<CoverflowSliderItem>(({ id, overview, name, poster_path }) => ({
+  const topRatedItems = topRated.data.map<CoverflowSliderItem>(({ id, overview, name, backdrop_path }) => ({
     id,
     title: name,
     overview,
-    posterPath: poster_path,
+    imagePath: backdrop_path,
     kind: "series",
   }))
 

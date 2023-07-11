@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 
 export const SliderWrapper = styled("div")(() => ({
   width: "100%",
-  marginTop: "100px",
+  marginTop: "80px",
 }));
 
 export const NavigationWrapper = styled("div")(() => ({

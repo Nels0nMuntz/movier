@@ -16,16 +16,16 @@ export const Movies = observer(() => {
   const upcomingMovies = moviesCollectionStore.lists.upcoming.data;
   const loadUpcomingMovies = moviesCollectionStore.loadUpcoming;
 
-  const topRatedItems = topRatedMovies.map<CoverflowSliderItem>(({ id, title, overview, poster_path }) => ({
+  const topRatedItems = topRatedMovies.map<CoverflowSliderItem>(({ id, title, overview, backdrop_path }) => ({
     id,
     title,
     overview,
-    posterPath: poster_path,
+    imagePath: backdrop_path,
     kind: "movie",
   }))
 
   return (
-    <MainLayout isLoading={isLoading}>
+    <MainLayout isLoading={isLoading} isFaild>
       <Box sx={{ mb: 6 }}>
         <CoverflowSlider
           items={topRatedItems}

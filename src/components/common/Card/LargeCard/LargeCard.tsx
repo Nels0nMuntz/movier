@@ -5,7 +5,7 @@ import { faPlay, faPlus } from "@fortawesome/free-solid-svg-icons"
 import { PrimaryLink, Typography, FAIcon, PrimaryButton, SkeletonProvider, Skeleton } from "components";
 import { APP_URLS } from "routes";
 import { Badge, Content, Poster, Wrapper } from "./styled";
-import { getW780ImageUrl } from "api";
+import { getW1280ImageUrl } from "api";
 
 import topMoviesImg from "../../../../assets/img/top-movies.png";
 import topSeriesImg from "../../../../assets/img/top-series.png";
@@ -14,13 +14,13 @@ import topSeriesImg from "../../../../assets/img/top-series.png";
 interface Props {
   title: string;
   overview: string;
-  posterPath: string;
+  imagePath: string;
   kind: "movie" | "series";
 }
 
-export const LargeCard: React.FC<Props> = ({ title, overview, posterPath, kind }) => {
+export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind }) => {
   const [ready, setReady] = React.useState(true);
-  const src = getW780ImageUrl(posterPath);
+  const src = getW1280ImageUrl(imagePath);
 
   React.useEffect(() => {
     const buffer = new Image();

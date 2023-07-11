@@ -16,7 +16,7 @@ export interface CoverflowSliderItem {
   id: UniqueId;
   title: string;
   overview: string;
-  posterPath: string;
+  imagePath: string;
   kind: "movie" | "series",
 }
 
@@ -32,12 +32,12 @@ export const CoverflowSlider: React.FC<Props> = observer(({ items }) => {
   const nextButtonClassName = "coverflow_slider-nav-next";
   const prevButtonClassName = "coverflow_slider-nav-prev";
 
-  const slides = items.map(({ id, title, overview, posterPath, kind }) => (
+  const slides = items.map(({ id, title, overview, imagePath, kind }) => (
     <SwiperSlide key={id}>
       <LargeCard
         title={title}
         overview={overview}
-        posterPath={posterPath}
+        imagePath={imagePath}
         kind={kind}
       />
     </SwiperSlide>

@@ -3,15 +3,15 @@ import { styled } from "@mui/material/styles";
 
 export const Wrapper = styled("div")(({ theme }) => ({
   position: "relative",
-  height: "400px",
+  height: "440px",
   [theme.breakpoints.up("sm")]: {
     height: "55vw",
   },
   [theme.breakpoints.up("md")]: {
-    height: "35vw",
+    height: "48vw",
   },
   [theme.breakpoints.up("lg")]: {
-    height: "30vw",
+    height: "40vw",
   },
   "&:before": {
     content: "\"\"",
