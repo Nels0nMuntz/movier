@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI } from "api";
-import { Genres, Result, Status } from "types";
+import { GenresCollection, Result, Status } from "types";
 import { isLastMoviePage, normalizeMoviesResponse } from "utils";
 import { CollectionParams, MoviesLists } from "./types";
 import { RootStore } from "store";
@@ -38,7 +38,7 @@ export class MoviesCollectionStore {
     if(status === Status.Error) {
       throw new Error("Something went wront, try later");
     }
-    return genres as Genres;
+    return genres as GenresCollection;
   }
 
   getPopular = async (): Promise<Result> => {

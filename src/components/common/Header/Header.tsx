@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "react-router-dom";
-import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -20,6 +19,7 @@ import {
   SearchIconWrapper,
   StyledInputBase,
   Nav,
+  AppHeader,
 } from "./styled"
 
 import logo from "../../../assets/img/logo.svg";
@@ -27,7 +27,14 @@ import logo from "../../../assets/img/logo.svg";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-export const Header: React.FC = () => {
+
+export type HeaderMode = "normal" | "transparent"
+
+interface Props {
+  mode?: HeaderMode;
+}
+
+export const Header: React.FC<Props> = ({ mode }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -35,8 +42,14 @@ export const Header: React.FC = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const isModeTransparent = mode === "transparent";
   return (
-    <AppBar position="static">
+    <AppHeader 
+      position="relative" 
+      className={[
+        isModeTransparent ? "transparent" : "",
+      ].join(" ")}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <IconButton aria-label="Go to home page" size="medium">
@@ -132,6 +145,6 @@ export const Header: React.FC = () => {
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+    </AppHeader>
   )
 };

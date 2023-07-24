@@ -1,5 +1,14 @@
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import AppBar from "@mui/material/AppBar";
+
+export const AppHeader = styled(AppBar)(() => ({
+  zIndex: 1,
+  "&.transparent": {
+    backgroundColor: "#14141480",
+    backdropFilter: "blur(10px)",
+  }
+}))
 
 export const LogoImg = styled("img")({
   width: "36px",

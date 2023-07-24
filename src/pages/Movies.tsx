@@ -25,7 +25,7 @@ export const Movies = observer(() => {
   }))
 
   return (
-    <MainLayout isLoading={isLoading} isFaild>
+    <MainLayout isLoading={isLoading}>
       <Box sx={{ mb: 6 }}>
         <CoverflowSlider
           items={topRatedItems}

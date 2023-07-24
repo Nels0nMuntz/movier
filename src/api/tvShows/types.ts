@@ -1,4 +1,4 @@
-import { UniqueId } from "types";
+import { PaginatableCollection, UniqueId } from "types";
 
 export interface GetTVShowsRequest {
   page: number;
@@ -39,9 +39,4 @@ export interface GetTVShowsGenresResponse {
   genres: TVShowsGenreResponse[]
 }
 
-export interface GetTVShowsResponse {
-  page: number;
-  results: TVShowResponse[];
-  total_pages: number;
-  total_results: number;
-}
+export type GetTVShowsResponse = PaginatableCollection<TVShowResponse>;

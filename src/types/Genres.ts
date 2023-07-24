@@ -1,1 +1,6 @@
-export type Genres = Record<number, string>;
+export type GenresCollection = Record<number, string>;
+
+export interface Genre {
+  id: number;
+  name: string;
+}

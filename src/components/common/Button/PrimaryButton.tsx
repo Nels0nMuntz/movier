@@ -4,10 +4,11 @@ import { Typography } from "../Typography/Typography";
 
 
 interface Props extends PropsWithChildren {
+  fluid?: boolean;
   icon?: React.ReactNode;
 }
 
-export const StyledButton = styled("button")(({ theme }) => ({
+const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) => ({
   position: "relative",
   display: "flex",
   alignItems: "center",
@@ -38,12 +39,16 @@ export const StyledButton = styled("button")(({ theme }) => ({
     "&:before": {
       transform: "scaleX(1)",
     }
-  }
+  },
+  ...fluid && {
+    width: "100%",
+    justifyContent: "center",
+  },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, children }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children }) => {
   return (
-    <StyledButton>
+    <StyledButton fluid={fluid}>
       {icon}
       {children && (
         <Typography element="span" type="body_1">

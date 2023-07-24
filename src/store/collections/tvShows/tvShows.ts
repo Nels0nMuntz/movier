@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { tvShowsAPI } from "api";
-import { Genres, Result, Status } from "types";
+import { GenresCollection, Result, Status } from "types";
 import { CollectionParams, TVShowsLists } from "./types";
 import { isLastTVShowPage, normalizeTVShowsResponse } from "utils";
 import { RootStore } from "store";
@@ -39,7 +39,7 @@ export class TVShowsCollectionStore {
     if(status === Status.Error) {
       throw new Error("Something went wront, try later");
     }
-    return genres as Genres;
+    return genres as GenresCollection;
   }
 
   getAiringToday = async (): Promise<Result> => {
@@ -119,7 +119,7 @@ export class TVShowsCollectionStore {
         page: this.lists.airingToday.page,
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.airingToday.data.push(...normalizedData);
         this.lists.airingToday.isLastPage = isLastTVShowPage(response);
@@ -148,7 +148,7 @@ export class TVShowsCollectionStore {
         page: this.lists.onTheAir.page,
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.onTheAir.data.push(...normalizedData);
         this.lists.onTheAir.isLastPage = isLastTVShowPage(response);
@@ -177,7 +177,7 @@ export class TVShowsCollectionStore {
         page: this.lists.popular.page,
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.popular.data.push(...normalizedData);
         this.lists.popular.isLastPage = isLastTVShowPage(response);
@@ -206,7 +206,7 @@ export class TVShowsCollectionStore {
         page: this.lists.topRated.page,
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.topRated.data.push(...normalizedData);
         this.lists.topRated.isLastPage = isLastTVShowPage(response);
@@ -236,7 +236,7 @@ export class TVShowsCollectionStore {
         timeWindow: "day",
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.trendingDaily.data.push(...normalizedData);
         this.lists.trendingDaily.isLastPage = isLastTVShowPage(response);
@@ -266,7 +266,7 @@ export class TVShowsCollectionStore {
         timeWindow: "week",
       });
       const genres = await this.getGenres();
-      const normalizedData = normalizeTVShowsResponse(response.results, genres as Genres);
+      const normalizedData = normalizeTVShowsResponse(response.results, genres as GenresCollection);
       runInAction(() => {
         this.lists.trendingWeekly.data.push(...normalizedData);
         this.lists.trendingWeekly.isLastPage = isLastTVShowPage(response);

@@ -2,6 +2,7 @@ import React from "react";
 import { Navigation } from "swiper";
 import { Swiper } from "swiper/react";
 import { observer } from "mobx-react-lite";
+import { generatePath } from "react-router-dom";
 
 import { SliderNavigation } from "../SliderNavigation/SliderNavigation";
 import { NavigationWrapper, Slide } from "./styled";
@@ -10,6 +11,7 @@ import type { Movie, TVShow } from "types";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import { APP_URLS } from "routes";
 
 
 const isMovie = (item: Movie | TVShow) => {
@@ -32,6 +34,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
 
   const nextButtonClassName = `${sliderName.replace(/\s/g, "")}_slider-nav-next`;
   const prevButtonClassName = `${sliderName.replace(/\s/g, "")}_slider-nav-prev`;
+
   let slides = [] as React.ReactNode[];
   if(isMovie(items[0] as Movie | TVShow)) {
     const list = items as Movie[]
@@ -44,6 +47,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
             release_date={release_date}
             title={title}
             genres={genres}
+            sourcePath={generatePath(APP_URLS.movieDetails.path, { id })}
           />
         </Slide>
       )
@@ -60,6 +64,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
             release_date={first_air_date}
             title={name}
             genres={genres}
+            sourcePath="/movies"
           />
         </Slide>
       )

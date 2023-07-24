@@ -11,6 +11,7 @@ export const TYPOGRAPHY_TYPES = {
   heading_5: "heading_5",
   heading_6: "heading_6",
   body_1: "body_1",
+  body_2: "body_2",
 }
 
 interface Props {
@@ -34,7 +35,7 @@ const TypographyComponent: React.FC<Props & PropsWithChildren & React.HTMLAttrib
   const style = !styles ? {} : typeof styles === "function" ? styles(theme) : styles;
   return (
     <Component 
-      data-typography-type={type}      
+      data-typography-type={type}    
       {...attributes}
       style={style}
     >
@@ -79,6 +80,11 @@ export const Typography = styled(TypographyComponent)(({ theme, color, textAlign
   },
   "&[data-typography-type='body_1']": {
     fontSize: "14px",
+    fontWeight: 400,
+    lineHeight: "24px",
+  },
+  "&[data-typography-type='body_2']": {
+    fontSize: "16px",
     fontWeight: 400,
     lineHeight: "24px",
   },

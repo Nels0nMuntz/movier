@@ -17,11 +17,12 @@ interface Props {
   release_date: string;
   adult: boolean;
   genres: string[];
+  sourcePath: string;
 }
 
-export const SmallCard: React.FC<Props> = observer((props) => {
+export const SmallCard: React.FC<Props> = observer((props) => {  
 
-  const { title, adult, poster_path, release_date, genres } = props;
+  const { title, adult, poster_path, release_date, genres, sourcePath } = props;
 
   const [ready, setReady] = React.useState(true);
 
@@ -52,7 +53,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" aria-label="Read more" title="Read more">
+                  <Link to={sourcePath} aria-label="Read more" title="Read more">
                     <Action>
                       <FAIcon icon={faInfo} />
                     </Action>
@@ -62,7 +63,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
             )}
           </Poster>
           <Skeleton variant="text">
-            <StyledLink to="/">
+            <StyledLink to={sourcePath}>
               <Typography element="span" type="heading_6">{title}</Typography>
             </StyledLink>
           </Skeleton>

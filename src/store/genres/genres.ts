@@ -1,17 +1,17 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI, tvShowsAPI } from "api";
-import { Genres, Result, Status } from "types";
+import { GenresCollection, Result, Status } from "types";
 
 
 export class GenresStore {
   private movieGenres: {
     status: Status;
-    data: Genres;
+    data: GenresCollection;
   };
   private tvShowsGenres: {
     status: Status;
-    data: Genres;
+    data: GenresCollection;
   };
 
   constructor() {
@@ -26,8 +26,9 @@ export class GenresStore {
     makeAutoObservable(this);
   }
 
-  getMovieGenres = async (): Promise<Result<Genres>> => {
+  getMovieGenres = async (): Promise<Result<GenresCollection>> => {
     if(this.movieGenres.status === Status.Success) {
+      console.log("1");      
       return {
         status: Status.Success,
         data: this.movieGenres.data,
@@ -42,16 +43,16 @@ export class GenresStore {
       runInAction(() => {
         this.movieGenres.data = genres.reduce((prev, curr) => {
           return { ...prev, [curr.id]: curr.name };
-        }, {} as Genres);
+        }, {} as GenresCollection);
         this.movieGenres.status = Status.Success;
-      })
+      })           
       return {
         status: Status.Success,
-        data: this.tvShowsGenres.data,
+        data: this.movieGenres.data,
       };
     } catch (error) {
       runInAction(() => {
-        this.tvShowsGenres.status = Status.Error;
+        this.movieGenres.status = Status.Error;
       });
       return { status: Status.Error };
     }
@@ -72,7 +73,7 @@ export class GenresStore {
       runInAction(() => {
         this.tvShowsGenres.data = genres.reduce((prev, curr) => {
           return { ...prev, [curr.id]: curr.name };
-        }, {} as Genres);
+        }, {} as GenresCollection);
         this.tvShowsGenres.status = Status.Success;
       })
       return {

@@ -36,8 +36,12 @@ export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind })
         </Skeleton>
         <Content>
           <Stack direction="column" gap={2}>
-            <Typography element="h3" type="heading_3">{title}</Typography>
-            <Typography element="p" type="body_1" className="overview">{overview}</Typography>
+            <Skeleton variant="text">
+              <Typography element="h3" type="heading_3">{title}</Typography>
+            </Skeleton>
+            <Skeleton variant="text">
+              <Typography element="p" type="body_1" className="overview">{overview}</Typography>
+            </Skeleton>
             <Stack direction="row" gap={1}>
               <PrimaryLink href={APP_URLS.browse.path} icon={<FAIcon icon={faPlay} />}>Play Now</PrimaryLink>
               <PrimaryButton icon={<FAIcon icon={faPlus} />}>My List</PrimaryButton>
@@ -45,7 +49,7 @@ export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind })
           </Stack>
         </Content>
         <Badge>
-          <img src={kind === "movie" ? topMoviesImg : topSeriesImg} alt="top 10"/>
+          <img src={kind === "movie" ? topMoviesImg : topSeriesImg} alt="top 10" />
         </Badge>
       </Wrapper>
     </SkeletonProvider>

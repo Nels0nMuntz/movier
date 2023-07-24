@@ -9,7 +9,7 @@ interface Props extends PropsWithChildren {
   icon?: React.ReactNode;
 }
 
-export const StyledLink = styled(Link)(({ theme }) => ({
+const StyledLink = styled(Link)(({ theme }) => ({
   position: "relative",
   display: "flex",
   alignItems: "center",

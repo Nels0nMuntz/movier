@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Browse, AuthLogin, AuthWelcome, Search, NotFound } from "pages";
+import { Browse, AuthLogin, AuthWelcome, NotFound } from "pages";
 import { APP_URLS } from "./urls";
 import { PrivateRoute } from "components";
 
@@ -15,14 +15,6 @@ export const AppRouter = () => {
             </PrivateRoute>
           }
         /> */}
-        <Route
-          path="/search"
-          element={
-            <PrivateRoute>
-              <Search />
-            </PrivateRoute>
-          }
-        />
         <Route path={APP_URLS.authWelcome} element={<AuthWelcome />} />
         <Route path={APP_URLS.authLogin} element={<AuthLogin />} />
         {/* <Route

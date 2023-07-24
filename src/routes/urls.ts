@@ -25,4 +25,8 @@ export const APP_URLS = {
       return null;
     }
   },
+  movieDetails: {
+    path: "/movie/:id",
+    loader: (id: number) => rootStore.moviesPageStore.getMovie(id),
+  }
 };

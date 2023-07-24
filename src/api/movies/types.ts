@@ -1,19 +1,7 @@
-import { UniqueId } from "types";
+import { MovieBase, MovieDetails, PaginatableCollection } from "types";
 
-export interface MovieResponse {
-  id: UniqueId;
-  poster_path: string;
-  adult: boolean;
-  overview: string;
-  release_date: string;
-  genre_ids: UniqueId[];
-  original_title: string;
-  original_language: string;
-  title: string;
-  backdrop_path: string;
-  popularity: number;
-  vote_count: number;
-  vote_average: number;
+export interface MovieResponse extends MovieBase {
+  genre_ids: number[];
 }
 
 export interface MoviesGenreResponse {
@@ -21,12 +9,7 @@ export interface MoviesGenreResponse {
   name: string;
 }
 
-export interface GetMoviesResponse {
-  page: number;
-  results: MovieResponse[];
-  total_pages: number;
-  total_results: number;
-}
+export type GetMoviesResponse = PaginatableCollection<MovieResponse>;
 
 export interface GetMoviesRequest {
   page: number;
@@ -39,3 +22,16 @@ export interface GetTrendingMoviesRequest extends GetMoviesRequest {
 export interface GetGenersMovieListResponse {
   genres: MoviesGenreResponse[];
 }
+
+export interface GetMovieByIdRequest {
+  id: number;
+}
+
+export type GetMovieByIdResponse = MovieDetails<MovieResponse>;
+
+export interface GetSimilarMoviesRequest {
+  movie_id: number;
+  page: number;
+}
+
+export type GetSimilarMovieResponse = PaginatableCollection<MovieResponse>
