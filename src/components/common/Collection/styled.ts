@@ -16,7 +16,7 @@ export const StyledTab = styled(Tab)(({ theme }) => ({
 
 export const TabPanelsWrap = styled("div")(({ theme }) => ({
   position: "relative",
-  height: "500px",
+  height: "560px",
   marginTop: theme.spacing(2),
 }))
 

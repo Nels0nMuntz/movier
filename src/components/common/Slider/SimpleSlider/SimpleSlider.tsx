@@ -55,11 +55,11 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
   };
   if(isTvShow(items[0] as Movie | TVShow)) {
     const list = items as TVShow[]
-    slides = list.map(({ id, adult, poster_path, first_air_date, genres, name }) => {
+    slides = list.map(({ id, poster_path, first_air_date, genres, name }) => {
       return (
         <Slide key={`${sliderName}_${id}`}>
           <SmallCard
-            adult={adult}
+            adult={false}
             poster_path={poster_path}
             release_date={first_air_date}
             title={name}

@@ -70,7 +70,7 @@ export const moviesAPI = {
       url: `/movie/${params.id}`,
       queryParams: {
         language: "en-US",
-        append_to_response: "videos,credits,images,external_ids,release_dates,combined_credits,similar"
+        append_to_response: "credits,external_ids,release_dates,combined_credits,similar,reviews"
       },
     });
     return await response.json();

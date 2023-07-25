@@ -1,4 +1,5 @@
-import { PaginatableCollection, UniqueId } from "types";
+import { PaginatableCollection } from "types";
+import { TVShowBase } from "types/TVShow";
 
 export interface GetTVShowsRequest {
   page: number;
@@ -12,24 +13,6 @@ export interface GetOnTheAirTVShowsRequest extends GetTVShowsRequest {
   timezone?: string;
 }
 
-export interface TVShowResponse {
-  id: UniqueId;
-  adult: boolean;
-  backdrop_path: string;
-  name: string;
-  original_language: string;
-  original_name: string;
-  overview: string;
-  poster_path: string;
-  media_type: string;
-  genre_ids: UniqueId[];
-  popularity: number;
-  first_air_date: string;
-  vote_average: number;
-  vote_count: number;
-  origin_country: string;
-}
-
 export interface TVShowsGenreResponse {
   id: number;
   name: string;
@@ -39,4 +22,4 @@ export interface GetTVShowsGenresResponse {
   genres: TVShowsGenreResponse[]
 }
 
-export type GetTVShowsResponse = PaginatableCollection<TVShowResponse>;
+export type GetTVShowsResponse = PaginatableCollection<TVShowBase>;

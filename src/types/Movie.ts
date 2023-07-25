@@ -1,5 +1,6 @@
 import { Genre } from "./Genres";
 import { PaginatableCollection } from "./PaginatableCollection";
+import { Review } from "./Review";
 
 
 export interface MovieBase {
@@ -41,6 +42,7 @@ export interface MovieDetails<S> extends MovieBase {
     name: string,
   }[];
   revenue: number;
+  reviews: PaginatableCollection<Review>
   runtime: number;
   similar: PaginatableCollection<S>
   spoken_languages: {

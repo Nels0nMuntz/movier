@@ -33,3 +33,8 @@ export const formatRuntime = (runtime: number) => {
 export const formatMoney = (money: number) => {
   return usdFormatter.format(money);
 }
+
+export const formatRating = (rating: number) => {
+  const _rating = rating * 10 * 0.05;
+  return _rating.toFixed(1);
+};

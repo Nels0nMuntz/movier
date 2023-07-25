@@ -15,7 +15,7 @@ import { getW1280ImageUrl, getW500ImageUrl } from "api";
 import { faFilm, faPlus, faShare } from "@fortawesome/free-solid-svg-icons";
 import InfoItem from "./components/InfoItem";
 import { formatMoney, formatRuntime } from "utils";
-import { toJS } from "mobx";
+import { Reviews } from "../../common/Reviews/Reviews";
 
 
 interface Props {
@@ -36,15 +36,13 @@ export const MovieDetails: React.FC<Props> = observer(function MovieDetails({ mo
     production_countries,
     release_date,
     revenue,
+    reviews,
     runtime,
     similar,
     spoken_languages,
     title,
     vote_average,
   } = movie;
-
-  console.log(toJS(similar));
-  
 
   const backdropUrl = getW1280ImageUrl(backdrop_path);
   const posterUrl = getW500ImageUrl(poster_path);
@@ -133,6 +131,7 @@ export const MovieDetails: React.FC<Props> = observer(function MovieDetails({ mo
           </Grid>
         </Grid>
       </Container>
+      <Reviews reviews={reviews.results}/>
       <ScrollableCollection items={similar.results} title="Related movies" loadItems={loadSimilarMovies} />
     </Wrapper>
   )

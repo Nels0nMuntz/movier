@@ -18,10 +18,11 @@ export const Poster = styled("div")(({ theme }) => ({
   overflow: "hidden",
   "& img": {
     width: "100%",
-    height: "auto",
     maxHeight: "408px",
     transformOrigin: "50%",
-    transition: "transform 0.3s ease-out"
+    transition: "transform 0.3s ease-out",
+    objectFit: "cover",
+    objectPosition: "center",
   },
   "& .actions": {
     position: "absolute",

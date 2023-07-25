@@ -35,6 +35,7 @@ export const CoverflowSlider: React.FC<Props> = observer(({ items }) => {
   const slides = items.map(({ id, title, overview, imagePath, kind }) => (
     <SwiperSlide key={id}>
       <LargeCard
+        id={id}
         title={title}
         overview={overview}
         imagePath={imagePath}
