@@ -1,7 +1,7 @@
 import React from "react";
 import Stack from "@mui/material/Stack";
 import { faPlay, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link, generatePath } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { PrimaryLink, Typography, FAIcon, PrimaryButton, SkeletonProvider, Skeleton } from "components";
 import { APP_URLS } from "routes";
@@ -17,10 +17,11 @@ interface Props {
   title: string;
   overview: string;
   imagePath: string;
+  sourcePath: string;
   kind: "movie" | "series";
 }
 
-export const LargeCard: React.FC<Props> = ({ id, title, overview, imagePath, kind }) => {
+export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind, sourcePath }) => {
   const [ready, setReady] = React.useState(true);
   const src = getW1280ImageUrl(imagePath);
 
@@ -39,7 +40,7 @@ export const LargeCard: React.FC<Props> = ({ id, title, overview, imagePath, kin
         <Content>
           <Stack direction="column" gap={2}>
             <Skeleton variant="text">
-              <Link to={generatePath(APP_URLS.movieDetails.path, { id })}>
+              <Link to={sourcePath}>
                 <Typography element="h3" type="heading_3">{title}</Typography>
               </Link>
             </Skeleton>

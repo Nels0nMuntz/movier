@@ -28,5 +28,9 @@ export const APP_URLS = {
   movieDetails: {
     path: "/movie/:id",
     loader: (id: number) => rootStore.moviesPageStore.getMovie(id),
-  }
+  },
+  tvShowDetails: {
+    path: "/tv/:id",
+    loader: (id: number) => rootStore.tvShowsPageStore.getTVShow(id),
+  },
 };

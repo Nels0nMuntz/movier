@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import { Typography } from "components";
-import { Link } from "../styled";
+import { Link } from "../../../movie/MovieDetails/styled";
 
 
 interface ItemValue {
@@ -14,7 +14,7 @@ interface Props {
   value: ItemValue | ItemValue[];
 }
 
-const InfoItem: React.FC<Props> = ({ title, value }) => {
+export const InfoItem: React.FC<Props> = ({ title, value }) => {
   const isValueArray = Array.isArray(value);
   return (
     <Grid container spacing={2} mb={1} alignItems="center">
@@ -48,6 +48,4 @@ const InfoItem: React.FC<Props> = ({ title, value }) => {
       </Grid>
     </Grid>
   )
-}
-
-export default InfoItem
+};

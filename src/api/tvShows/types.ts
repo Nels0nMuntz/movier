@@ -1,5 +1,5 @@
 import { PaginatableCollection } from "types";
-import { TVShowBase } from "types/TVShow";
+import { TVShowBase, TVShowDetails } from "types/TVShow";
 
 export interface GetTVShowsRequest {
   page: number;
@@ -23,3 +23,16 @@ export interface GetTVShowsGenresResponse {
 }
 
 export type GetTVShowsResponse = PaginatableCollection<TVShowBase>;
+
+export interface GetTVShowByIdRequest {
+  series_id: number;
+}
+
+export type GetTVShowByIdResponse = TVShowDetails<TVShowBase>;
+
+export interface GetSimilarTVShowsRequest {
+  series_id: number;
+  page: number;
+}
+
+export type GetSimilarTVShowsResponse = PaginatableCollection<TVShowBase>;

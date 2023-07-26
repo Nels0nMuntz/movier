@@ -1,7 +1,11 @@
 import { api } from "api/api"
 import { 
   GetOnTheAirTVShowsRequest,
+  GetSimilarTVShowsRequest,
+  GetSimilarTVShowsResponse,
   GetTrendingTVShowsRequest,
+  GetTVShowByIdRequest,
+  GetTVShowByIdResponse,
   GetTVShowsGenresResponse,
   GetTVShowsRequest,
   GetTVShowsResponse,
@@ -70,4 +74,23 @@ export const tvShowsAPI = {
     })
     return await response.json();
   },
+  getById: async (params: GetTVShowByIdRequest): Promise<GetTVShowByIdResponse> => {
+    const response = await api.get({
+      url: `/tv/${params.series_id}`,
+      queryParams: {
+        language: "en-US",
+        append_to_response: "credits,release_dates,combined_credits,similar,reviews"
+      },
+    });
+    return await response.json();
+  },
+  getSimilar: async (params: GetSimilarTVShowsRequest): Promise<GetSimilarTVShowsResponse> => {
+    const response = await api.get({
+      url: `/tv/${params.series_id}/similar`,
+      queryParams: {
+        page: params.page.toString(),
+      }
+    });
+    return response.json()
+  }
 }

@@ -1,5 +1,5 @@
 import { MovieResponse } from "api";
-import { GenresCollection, Movie, MovieBase, PaginatableCollection } from "types";
+import { GenresCollection, Movie, MovieBase, PaginatableCollection, TVShow } from "types";
 
 
 const usdFormatter = new Intl.NumberFormat("en-US", {
@@ -38,3 +38,7 @@ export const formatRating = (rating: number) => {
   const _rating = rating * 10 * 0.05;
   return _rating.toFixed(1);
 };
+
+export const isMovie = (item: Movie | TVShow) => {
+  return item.kind === "movie";
+}

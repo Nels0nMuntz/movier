@@ -1,4 +1,7 @@
+import { Credits } from "./Credits";
 import { Genre } from "./Genres";
+import { PaginatableCollection } from "./PaginatableCollection";
+import { Review } from "./Review";
 
 export interface TVShowBase {
   backdrop_path: string;
@@ -6,7 +9,7 @@ export interface TVShowBase {
   genre_ids: number[];
   id: number;
   name: string;
-  origin_country: string;
+  origin_country: string[];
   original_language: string;
   original_name: string;
   overview: string;
@@ -17,11 +20,11 @@ export interface TVShowBase {
 }
 
 export interface TVShow extends TVShowBase {
-  kind: "tvShow";
+  kind: "series";
   genres: string[];
 }
 
-export interface TVShowDetails {
+export interface TVShowDetails<S> extends TVShowBase {
   adult: boolean;
   created_by: {
     id: number;
@@ -30,6 +33,7 @@ export interface TVShowDetails {
     gender: number;
     profile_path: string;
   };
+  credits: Credits;
   episode_run_time: number[];
   genres: Genre[];
   homepage: string;
@@ -67,4 +71,21 @@ export interface TVShowDetails {
   overview: string;
   popularity: number;
   poster_path: string;
+  production_companies: {
+    id: number,
+    logo_path: string,
+    name: string,
+    origin_country: string,
+  }[];
+  production_countries: {
+    iso_3166_1: string,
+    name: string,
+  }[];
+  reviews: PaginatableCollection<Review>
+  similar: PaginatableCollection<S>
+  spoken_languages: {
+    english_name: string;
+    iso_639_1: string;
+    name: string;
+  }[];
 }

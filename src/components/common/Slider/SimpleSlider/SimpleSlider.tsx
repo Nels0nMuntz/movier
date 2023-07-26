@@ -8,18 +8,12 @@ import { SliderNavigation } from "../SliderNavigation/SliderNavigation";
 import { NavigationWrapper, Slide } from "./styled";
 import { SmallCard } from "../../Card/SmallCard/SmallCard";
 import type { Movie, TVShow } from "types";
+import { isMovie, isTvShow } from "utils";
+import { APP_URLS } from "routes";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import { APP_URLS } from "routes";
 
-
-const isMovie = (item: Movie | TVShow) => {
-  return item.kind === "movie";
-}
-const isTvShow = (item: Movie | TVShow) => {
-  return item.kind === "tvShow";
-}
 
 interface Props {
   items: Movie[] | TVShow[];
@@ -38,9 +32,9 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
   let slides = [] as React.ReactNode[];
   if(isMovie(items[0] as Movie | TVShow)) {
     const list = items as Movie[]
-    slides = list.map(({ id, adult, poster_path, release_date, title, genres }) => {
+    slides = list.map(({ id, adult, poster_path, release_date, title, genres }, index) => {
       return (
-        <Slide key={`${sliderName}_${id}`}>
+        <Slide key={`${sliderName}_${id}_${index}`}>
           <SmallCard
             adult={adult}
             poster_path={poster_path}
@@ -55,16 +49,16 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
   };
   if(isTvShow(items[0] as Movie | TVShow)) {
     const list = items as TVShow[]
-    slides = list.map(({ id, poster_path, first_air_date, genres, name }) => {
+    slides = list.map(({ id, poster_path, first_air_date, genres, name }, index) => {
       return (
-        <Slide key={`${sliderName}_${id}`}>
+        <Slide key={`${sliderName}_${id}_${index}`}>
           <SmallCard
             adult={false}
             poster_path={poster_path}
             release_date={first_air_date}
             title={name}
             genres={genres}
-            sourcePath="/movies"
+            sourcePath={generatePath(APP_URLS.tvShowDetails.path, { id })}
           />
         </Slide>
       )
@@ -78,7 +72,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
       onMouseLeave={onMouseLeave}
     >
       <Swiper
-        slidesPerView={5}
+        slidesPerView={1.2}
         spaceBetween="32px"
         onReachEnd={(swiper) => {
           if (swiper.slides.length && loadItems) {
@@ -90,6 +84,20 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
           prevEl: "." + prevButtonClassName,
         }}
         modules={[Navigation]}
+        breakpoints={{
+          1440: {
+            slidesPerView: 5
+          },
+          1100: {
+            slidesPerView: 4
+          },
+          768: {
+            slidesPerView: 3
+          },
+          450: {
+            slidesPerView: 1.5
+          },
+        }}
       >
         <NavigationWrapper className={`${showNavigation ? "show" : ""}`}>
           <SliderNavigation

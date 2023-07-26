@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
-import { createBrowserRouter, createRoutesFromElements, matchPath, Navigate, Outlet, PathMatch, Route } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails } from "pages";
 import { APP_URLS } from "./urls";
 import { Shows } from "pages/Shows";
 
@@ -53,6 +53,18 @@ export const router = createBrowserRouter(
         }
         loader={(route) => {          
           APP_URLS.movieDetails.loader(Number(route.params.id))
+          return null
+        }}
+      />
+      <Route
+        path={APP_URLS.tvShowDetails.path}
+        element={
+          <PrivateRoute>
+            <TVShowDetails/>
+          </PrivateRoute>
+        }
+        loader={(route) => {          
+          APP_URLS.tvShowDetails.loader(Number(route.params.id))
           return null
         }}
       />

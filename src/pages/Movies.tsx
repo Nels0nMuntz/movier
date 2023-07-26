@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import { MainLayout } from "layouts";
 import { rootStore } from "store";
 import { CoverflowSlider, ScrollableCollection } from "components";
-import { CoverflowSliderItem } from "components/common/Slider/CoverflowSlider/CoverflowSlider";
 
 
 export const Movies = observer(() => {
@@ -16,19 +15,11 @@ export const Movies = observer(() => {
   const upcomingMovies = moviesCollectionStore.lists.upcoming.data;
   const loadUpcomingMovies = moviesCollectionStore.loadUpcoming;
 
-  const topRatedItems = topRatedMovies.map<CoverflowSliderItem>(({ id, title, overview, backdrop_path }) => ({
-    id,
-    title,
-    overview,
-    imagePath: backdrop_path,
-    kind: "movie",
-  }))
-
   return (
     <MainLayout isLoading={isLoading}>
       <Box sx={{ mb: 6 }}>
         <CoverflowSlider
-          items={topRatedItems}
+          items={topRatedMovies}
         />
       </Box>
       <ScrollableCollection

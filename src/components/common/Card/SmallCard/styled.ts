@@ -22,7 +22,7 @@ export const Poster = styled("div")(({ theme }) => ({
     transformOrigin: "50%",
     transition: "transform 0.3s ease-out",
     objectFit: "cover",
-    objectPosition: "center",
+    objectPosition: "center top",
   },
   "& .actions": {
     position: "absolute",
@@ -43,7 +43,7 @@ export const StyledLink = styled(Link)(({ theme }) => ({
   }
 }));
 
-export const Action = styled("span")(({ theme }) => ({
+export const Action = styled("span")(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",

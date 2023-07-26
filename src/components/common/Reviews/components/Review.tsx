@@ -6,6 +6,7 @@ import Rating from "@mui/material/Rating";
 import { Typography } from "../../Typography/Typography";
 import { formatRating } from "utils";
 import { Content, MoreTextButton, ReviewWrapper } from "../styled";
+import { getW45ImageUrl } from "api";
 
 
 interface Props {
@@ -20,6 +21,7 @@ export const Review: React.FC<Props> = ({ username, avatar, content, rating }) =
   const [visibleButton, setVisibleButton] = React.useState(false);
   const textRef = React.useRef<HTMLParagraphElement>(null)
   const toggleVisibility = () => setVisibleText(prev => !prev);
+  const avatarPath = avatar && getW45ImageUrl(avatar);
 
   React.useEffect(() => {
     if (textRef.current) {
@@ -32,7 +34,7 @@ export const Review: React.FC<Props> = ({ username, avatar, content, rating }) =
   return (
     <ReviewWrapper>
       <Stack direction="row" gap={2} alignItems="flex-start">
-        <Avatar src={avatar} alt={username} />
+        <Avatar src={avatarPath} />
         <Stack direction="column" gap={1}>
           <Typography element="h3" type="heading_5">{username}</Typography>
           {rating && <Rating value={+formatRating(rating)} readOnly />}

@@ -1,6 +1,5 @@
 import { styled } from "@mui/material/styles";
 import { keyframes } from "@mui/system";
-import Rating from "@mui/material/Rating";
 import { Link as RRDLink } from "react-router-dom";
 
 
@@ -47,9 +46,6 @@ export const Banner = styled("div")({
   },
   "& .slide-4": {
     animation: `${slide} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0.9s both`
-  },
-  "& .slide-5": {
-    animation: `${slide} 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) 1s both`
   },  
 });
 
@@ -73,17 +69,6 @@ export const Backdrop = styled("div")<{ imageUrl: string }>(({ imageUrl }) => ({
     zIndex: 0,
   }
 }));
-
-export const ImdbRating = styled(Rating)(({ theme }) => ({
-  "& .MuiRating-iconFilled": {
-    color: theme.palette.secondary.main,
-  },
-}))
-
-export const ImdbLogo = styled("img")({
-  width: "50px",
-  height: "50px",
-});
 
 export const Poster = styled("img")({
   maxWidth: "500px",

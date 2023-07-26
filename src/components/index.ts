@@ -18,3 +18,5 @@ export { MainSlider } from "./browse/MainSlider/MainSlider";
 export { LoginForm } from "./auth/LoginForm";
 
 export { MovieDetails } from "./movie/MovieDetails/MovieDetails";
+
+export { TVShowDetails } from "./tvShows/TVShowDetails/TVShowDetails";
