@@ -6,7 +6,7 @@ import { TextButton, Typography } from "components"
 import { APP_URLS } from "routes/urls";
 import { AuthLayout } from "layouts";
 import logo from "../../assets/img/logo.svg";
-import { rootStore } from "store";
+import { useStore } from "store";
 
 
 const PrimaryButton = styled(Button)({
@@ -19,9 +19,10 @@ const LogoImg = styled("img")({
 })
 
 export const AuthWelcome = () => {
+  const { authStore } = useStore();
   const navigate = useNavigate();
   const navigateToBrowsePage = () => navigate(APP_URLS.browse.path);
-  const handleClickGeust = () => rootStore.authStore.createGuestSession({
+  const handleClickGeust = () => authStore.createGuestSession({
     onSuccess: navigateToBrowsePage, 
   });
   return (

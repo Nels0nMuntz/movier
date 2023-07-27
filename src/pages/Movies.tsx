@@ -2,12 +2,12 @@ import { observer } from "mobx-react-lite";
 import Box from "@mui/material/Box";
 
 import { MainLayout } from "layouts";
-import { rootStore } from "store";
+import { useStore } from "store";
 import { CoverflowSlider, ScrollableCollection } from "components";
 
 
 export const Movies = observer(() => {
-  const { moviesPageStore, moviesCollectionStore } = rootStore;
+  const { moviesPageStore, moviesCollectionStore } = useStore();
   const isLoading = !moviesPageStore.isInitialized;
   const topRatedMovies = moviesCollectionStore.lists.topRated.data;
   const popularMovies = moviesCollectionStore.lists.popular.data;

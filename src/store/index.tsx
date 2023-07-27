@@ -1,3 +1,4 @@
+import React, { PropsWithChildren } from "react";
 import { configure } from "mobx";
 import { AuthStore } from "./auth/auth";
 import { BrowsePageStore } from "./browse/browse";
@@ -35,3 +36,22 @@ export class RootStore {
 };
 
 export const rootStore = new RootStore();
+
+const StoreContext = React.createContext<RootStore>(rootStore);
+
+
+export const StoreProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  return (
+    <StoreContext.Provider value={rootStore}>
+      {children}
+    </StoreContext.Provider>
+  )
+};
+
+export const useStore = () => {
+  const context = React.useContext(StoreContext);
+  if (context === undefined) {
+    throw new Error("useStore must be used within StoreProvider")
+  }
+  return context;
+};

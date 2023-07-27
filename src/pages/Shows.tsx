@@ -2,13 +2,13 @@ import { observer } from "mobx-react-lite";
 import Box from "@mui/material/Box";
 
 import { CoverflowSlider, ScrollableCollection } from "components";
-import { rootStore } from "store";
+import { useStore } from "store";
 import { MainLayout } from "layouts";
 
 
 export const Shows = observer(() => {
 
-  const { tvShowsPageStore, tvShowsCollectionStore } = rootStore;
+  const { tvShowsPageStore, tvShowsCollectionStore } = useStore();
 
   const isInitialized = tvShowsPageStore.isInitialized;
   const { airingToday, onTheAir, popular, topRated } = tvShowsCollectionStore.lists

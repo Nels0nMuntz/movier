@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite";
 
 import { MainSlider, SwitchableCollection } from "components";
-import { rootStore } from "store";
+import { useStore } from "store";
 import { MainLayout } from "layouts";
 
 
 export const Browse = observer(() => {
 
-  const { moviesCollectionStore, tvShowsCollectionStore, browsePageStore } = rootStore;
+  const { moviesCollectionStore, tvShowsCollectionStore, browsePageStore } = useStore();
 
   const isInitialized = browsePageStore.isInitialized;
   const popularMovies = moviesCollectionStore.lists.popular.data;

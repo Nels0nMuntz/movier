@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { AuthLayout } from "layouts";
 import { LoginForm } from "components";
 import { LoginData } from "types";
+import { useStore } from "store";
+import { APP_URLS } from "routes";
 
 import tmdb from "../../assets/img/tmdb.svg";
-import { rootStore } from "store";
-import { APP_URLS } from "routes";
 
 
 const Devider = styled("span")(({ theme }) => ({
@@ -30,8 +30,9 @@ export const AuthLogin = observer(() => {
   const navigate = useNavigate();
   const navigateToBrowsePage = () => navigate(APP_URLS.browse.path);
 
-  const authenticateExternally = rootStore.authStore.createExternallyAuthenticatedSession;
-  const createAuthenticatedWithCredentialsSession = rootStore.authStore.createAuthenticatedWithCredentialsSession;
+  const { authStore } = useStore()
+  const authenticateExternally = authStore.createExternallyAuthenticatedSession;
+  const createAuthenticatedWithCredentialsSession = authStore.createAuthenticatedWithCredentialsSession;
 
   const authenticateExternallyHandler = async () => {
     const response = await authenticateExternally({

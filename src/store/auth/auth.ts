@@ -140,11 +140,6 @@ export class AuthStore {
       if(!success) {
         throw new AuthCreateSessionError();
       }
-
-      // const { status } = await this.rootStore.accountStore.getAccount(guest_session_id);
-      // if(status !== Status.Success) {
-      //   throw new GetAccountDetailsError();
-      // }
       
       runInAction(() => {
         this.sessionId = guest_session_id;
