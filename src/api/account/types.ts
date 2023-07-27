@@ -1,3 +1,5 @@
+import { MediaType } from "types/MediaType";
+
 export interface GetAccountDetailsParams {
   sessionId: string;
 }
@@ -7,6 +9,9 @@ export interface GetAccountDetailsResponse {
     gravatar: {
       hash: string;
     };
+    tmdb: {
+      avatar_path: string;
+    };
   };
   id: number;
   iso_639_1: string;
@@ -14,4 +19,14 @@ export interface GetAccountDetailsResponse {
   name: string;
   include_adult: boolean;
   username: string;
+}
+
+export interface AddToWatchlistRequest {
+  account_id: number;
+  session_id: string;
+  body: {
+    media_type: MediaType;
+    media_id: number;
+    watchlist: true;
+  }
 }

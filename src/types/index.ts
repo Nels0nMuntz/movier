@@ -7,3 +7,6 @@ export type { TVShow, TVShowBase, TVShowDetails } from "./TVShow";
 export type { Result } from "./Result";
 export type { PaginatableCollection } from "./PaginatableCollection";
 export type { Review } from "./Review";
+export type { WithCallbacks } from "./WithCallbakcs";
+export type { AccountDetails } from "./account";
+export type { MediaType } from "./MediaType";

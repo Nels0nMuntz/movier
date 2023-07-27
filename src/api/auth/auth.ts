@@ -13,7 +13,6 @@ export const authAPI = {
     const response = await api.get({
       url: "/authentication/token/new",
     });
-    // const response = await api.get(withKey("/authentication/token/new"));
     return await response.json();
   },
 
@@ -21,7 +20,6 @@ export const authAPI = {
     const response = await api.get({
       url: `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/auth-login`,
     });
-    // const response = await api.get(`https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/auth-login`);
     return response;
   },
 
@@ -32,10 +30,6 @@ export const authAPI = {
         body: JSON.stringify(body)
       },
     });
-    // const response = await api.post(
-    //   withKey("/authentication/session/new"),
-    //   { body: JSON.stringify(body) },
-    // );
     return await response.json();
   },
 
@@ -46,10 +40,6 @@ export const authAPI = {
         body: JSON.stringify(body)
       },
     });
-    // const response = await api.post(
-    //   withKey("/authentication/token/validate_with_login"),
-    //   { body: JSON.stringify(body) },
-    // );
     return await response.json();
   },
 
@@ -57,7 +47,6 @@ export const authAPI = {
     const response = await api.get({
       url: "/authentication/guest_session/new",
     });
-    // const response = await api.get(withKey("/authentication/guest_session/new"))
     return await response.json();
   }
 }

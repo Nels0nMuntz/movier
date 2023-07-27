@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextButton, Typography } from "components"
 import { APP_URLS } from "routes/urls";
 import { AuthLayout } from "layouts";
@@ -19,7 +19,11 @@ const LogoImg = styled("img")({
 })
 
 export const AuthWelcome = () => {
-  const handleClickGeust = () => rootStore.authStore.createGuestSession();
+  const navigate = useNavigate();
+  const navigateToBrowsePage = () => navigate(APP_URLS.browse.path);
+  const handleClickGeust = () => rootStore.authStore.createGuestSession({
+    onSuccess: navigateToBrowsePage, 
+  });
   return (
     <AuthLayout>
       <Stack
@@ -59,7 +63,6 @@ export const AuthWelcome = () => {
           <PrimaryButton variant="outlined" fullWidth>
             Sign Up
           </PrimaryButton>
-          <Link to="/browse">Browse</Link>
         </Stack>
       </Stack>
     </AuthLayout>

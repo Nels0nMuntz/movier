@@ -1,5 +1,6 @@
 import { Credits } from "./Credits";
 import { Genre } from "./Genres";
+import { MediaType } from "./MediaType";
 import { PaginatableCollection } from "./PaginatableCollection";
 import { Review } from "./Review";
 
@@ -20,7 +21,7 @@ export interface TVShowBase {
 }
 
 export interface TVShow extends TVShowBase {
-  kind: "series";
+  kind: MediaType;
   genres: string[];
 }
 

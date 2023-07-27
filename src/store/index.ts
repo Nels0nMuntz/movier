@@ -6,13 +6,14 @@ import { MoviesCollectionStore } from "./collections/movies/movies";
 import { TVShowsCollectionStore } from "./collections/tvShows/tvShows";
 import { MoviesPageStore } from "./movies/movies";
 import { TvShowsPageStore } from "./tvShows/tvShows";
+import { AccountStore } from "./account/account";
 
 configure({
   enforceActions: "always",
 })
 
 export class RootStore {
-
+  accountStore: AccountStore;
   authStore: AuthStore;
   moviesCollectionStore: MoviesCollectionStore;
   tvShowsCollectionStore: TVShowsCollectionStore;
@@ -22,7 +23,8 @@ export class RootStore {
   tvShowsPageStore: TvShowsPageStore;
 
   constructor() {
-    this.authStore = new AuthStore();
+    this.accountStore = new AccountStore();
+    this.authStore = new AuthStore(this);
     this.moviesCollectionStore = new MoviesCollectionStore(this);
     this.tvShowsCollectionStore = new TVShowsCollectionStore(this);
     this.genresStore = new GenresStore();

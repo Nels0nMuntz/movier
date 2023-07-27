@@ -1,5 +1,6 @@
 import { Credits } from "./Credits";
 import { Genre } from "./Genres";
+import { MediaType } from "./MediaType";
 import { PaginatableCollection } from "./PaginatableCollection";
 import { Review } from "./Review";
 
@@ -21,7 +22,7 @@ export interface MovieBase {
 }
 
 export interface Movie extends MovieBase {
-  kind: "movie";
+  kind: MediaType;
   genres: string[];
 }
 

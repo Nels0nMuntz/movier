@@ -28,7 +28,6 @@ export class GenresStore {
 
   getMovieGenres = async (): Promise<Result<GenresCollection>> => {
     if(this.movieGenres.status === Status.Success) {
-      console.log("1");      
       return {
         status: Status.Success,
         data: this.movieGenres.data,
