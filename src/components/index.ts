@@ -1,7 +1,7 @@
 export { Typography } from "./common/Typography/Typography";
-export { TextButton } from "./common/Button/TextButton";
-export { PrimaryButton } from "./common/Button/PrimaryButton";
-export { PrimaryLink } from "./common/Button/PrimaryLink";
+export { TextButton } from "./common/Button/TextButton/TextButton";
+export { PrimaryButton } from "./common/Button/PrimaryButton/PrimaryButton";
+export { PrimaryLink } from "./common/Button/PrimaryLink/PrimaryLink";
 export { PrivateRoute } from "./common/PrivateRoute/PrivateRoute";
 export { Header } from "./common/Header/Header";
 export type { HeaderMode } from "./common/Header/Header";

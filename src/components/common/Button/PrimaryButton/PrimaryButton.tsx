@@ -1,11 +1,12 @@
 import { styled } from "@mui/material/styles";
 import { FC, PropsWithChildren } from "react";
-import { Typography } from "../Typography/Typography";
+import { Typography } from "../../Typography/Typography";
 
 
 interface Props extends PropsWithChildren {
   fluid?: boolean;
   icon?: React.ReactNode;
+  onClick?: () => void;
 }
 
 const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) => ({
@@ -46,9 +47,9 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
   },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, fluid, children }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children, onClick }) => {
   return (
-    <StyledButton fluid={fluid}>
+    <StyledButton fluid={fluid} onClick={onClick}>
       {icon}
       {children && (
         <Typography element="span" type="body_1">

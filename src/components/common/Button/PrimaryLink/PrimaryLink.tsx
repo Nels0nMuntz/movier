@@ -1,12 +1,13 @@
 import { styled } from "@mui/material/styles";
-import { FC, PropsWithChildren } from "react";
-import { Typography } from "../Typography/Typography";
+import React, { FC, PropsWithChildren } from "react";
+import { Typography } from "../../Typography/Typography";
 import { Link } from "react-router-dom";
 
 
-interface Props extends PropsWithChildren {
+export interface Props extends PropsWithChildren {
   href: string;
   icon?: React.ReactNode;
+  children?: string;
 }
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -48,7 +49,7 @@ export const PrimaryLink: FC<Props> = ({ href, icon, children }) => {
     <StyledLink to={href}>
       {icon}
       {children && (
-        <Typography element="span" type="body_1">
+        <Typography element="span" type="body_1" data-testid="primary-link-children">
           {children}
         </Typography>
       )}

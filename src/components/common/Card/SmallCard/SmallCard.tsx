@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack/Stack";
 import { Link } from "react-router-dom";
 import { faInfo, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -9,11 +9,12 @@ import { getW300ImageUrl } from "api";
 import { Typography } from "../../Typography/Typography";
 import { SkeletonProvider, Skeleton } from "../../Skeleton";
 import { FAIcon } from "../../FAIcon/FAIcon";
+import { formatReleaseDate, getGenresString } from "utils";
 
 import noImage from "../../../../assets/img/no-image.svg"
 
 
-interface Props {
+export interface Props {
   title: string;
   poster_path: string | null;
   release_date: string;
@@ -26,7 +27,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
 
   const { title, adult, poster_path, release_date, genres, sourcePath } = props;
 
-  const [ready, setReady] = React.useState(true);
+  const [ready, setReady] = useState(true);
 
   let Img;
 
@@ -37,9 +38,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
     Img = <img src={noImage} alt={title} width={272} height={408} />
   }
 
-  const genresString = genres.length ? genres.slice(0, 3).join(" / ") : "";
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (poster_path) {
       const src = getW300ImageUrl(poster_path);
       const buffer = new Image();
@@ -81,11 +80,11 @@ export const SmallCard: React.FC<Props> = observer((props) => {
             </StyledLink>
           </Skeleton>
           <Skeleton variant="text">
-            <Typography element="span" type="body_1" color="secondary">{genresString}</Typography>
+            <Typography element="span" type="body_1" color="secondary">{getGenresString(genres)}</Typography>
           </Skeleton>
           <Skeleton variant="text">
             <Stack direction="row" gap={2}>
-              <Typography element="span" type="body_1" color="secondary">{release_date.slice(0, 4)}</Typography>
+              <Typography element="span" type="body_1" color="secondary">{formatReleaseDate(release_date)}</Typography>
               {adult && <Typography element="span" type="body_1" color="secondary">18+</Typography>}
             </Stack>
           </Skeleton>

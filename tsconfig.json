@@ -32,6 +32,6 @@
 	"include": [
 		"**/*.ts",
 		"**/*.tsx"
-	],
+, "src/components/common/Button/PrimaryLink/__tests__/PrimaryLink.test.jsx"	],
 	"exclude": ["node_modules"]
 }

@@ -41,4 +41,10 @@ export const formatRating = (rating: number) => {
 
 export const isMovie = (item: Movie | TVShow) => {
   return item.kind === "movie";
-}
+};
+
+export const formatReleaseDate = (date: string) => {
+  return date.slice(0, 4);
+};
+
+export const getGenresString = (genres: string[]) => genres.length ? genres.slice(0, 3).join(" / ") : ""; 
