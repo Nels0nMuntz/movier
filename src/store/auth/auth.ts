@@ -41,6 +41,8 @@ export class AuthStore {
         throw new AuthCreateRequestTokenError();
       };
 
+      localStorageHelper.requestToken = createRequestTokenResponse.request_token;
+
       const response = await authAPI.approveRequestToken(createRequestTokenResponse.request_token);
       if(response.status !== 204) {
         throw new AuthApproveRequestTokenError();

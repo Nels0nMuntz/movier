@@ -3,6 +3,7 @@ export { TextButton } from "./common/Button/TextButton";
 export { PrimaryButton } from "./common/Button/PrimaryButton";
 export { PrimaryLink } from "./common/Button/PrimaryLink";
 export { PrivateRoute } from "./common/PrivateRoute/PrivateRoute";
+export { PublicRoute } from "./common/PublicRoute/PublicRoute";
 export { Header } from "./common/Header/Header";
 export type { HeaderMode } from "./common/Header/Header";
 export { Footer } from "./common/Footer/Footer";

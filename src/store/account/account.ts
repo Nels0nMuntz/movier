@@ -4,6 +4,7 @@ import { accountApi } from "api/account/account";
 import { AccountDetails, Result, Status, MediaType } from "types";
 import { addNotification, localStorageHelper } from "utils";
 import { CustomError } from "api";
+import { GetAccountDetailsResponse } from "api/account/types";
 
 
 export class AccountStore {
@@ -31,22 +32,33 @@ export class AccountStore {
     makeAutoObservable(this);
   }
 
+  get isAccountDetailsReceived() {
+    return this.account.status === Status.Success;
+  }
+
+  private setAccountDetails = (data: GetAccountDetailsResponse) => {
+    const { id, username, name, avatar } = data;
+    runInAction(() => {
+      this.account.data = {
+        id: id.toString(),
+        username,
+        name,
+        avatar: avatar.tmdb.avatar_path,
+      }
+    })
+  }
+
   getAccount = async (sessionId: string): Promise<Result> => {
     try {
       runInAction(() => {
         this.account.status = Status.Loading;
       });
-      const { id, username, name, avatar } = await accountApi.getAccountDetails({
+      const response = await accountApi.getAccountDetails({
         sessionId,
       });
+      this.setAccountDetails(response);
       runInAction(() => {
         this.account.status = Status.Success;
-        this.account.data = {
-          id: id.toString(),
-          username,
-          name,
-          avatar: avatar.tmdb.avatar_path,
-        }
       });
       return { status: Status.Success };
     } catch (error) {
@@ -56,10 +68,15 @@ export class AccountStore {
     }
   }
 
+  loadAccountDetails = async () => {
+    const sessionId = localStorageHelper.sessionId;
+    await this.getAccount(sessionId);
+  }
+
   addToWatchlist = async (mediaId: number, mediaType: MediaType) => {
     const { id } = this.account.data;
     const sessionId = localStorageHelper.sessionId;
-    if(!sessionId) {
+    if (!sessionId) {
       throw new CustomError("There is no 'session_id'")
     }
     try {
@@ -75,15 +92,15 @@ export class AccountStore {
           watchlist: true,
         }
       });
-      if(response.status_code === 1) {
+      if (response.status_code === 1) {
         this.watchlist.status = Status.Success;
         addNotification({ variant: "info", message: "Added to watchlist" });
       } else {
         addNotification({ variant: "error", message: "Can't add to watchlist" });
       }
     } catch (error) {
-      if(error instanceof CustomError) {
-        console.log(error);        
+      if (error instanceof CustomError) {
+        console.log(error);
       }
     }
   }

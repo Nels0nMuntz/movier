@@ -1,22 +1,29 @@
-import { PropsWithChildren } from "react";
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows } from "pages";
 import { APP_URLS } from "./urls";
-import { Shows } from "pages/Shows";
+import { PrivateRoute, PublicRoute } from "components";
 
-
-// eslint-disable-next-line react/prop-types
-const PrivateRoute: React.FC<PropsWithChildren> = ({ children }) => {
-  const isAuthorized = Boolean(window.localStorage.getItem("session_id"));
-  return isAuthorized ? <>{children}</> : <Navigate to={APP_URLS.authWelcome} state={{ from: window.location }} />;
-};
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Outlet />}>
-      <Route path={APP_URLS.authWelcome} element={<AuthWelcome />} />
-      <Route path={APP_URLS.authLogin} element={<AuthLogin />} />
+      <Route
+        path={APP_URLS.authWelcome}
+        element={
+          <PublicRoute>
+            <AuthWelcome />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path={APP_URLS.authLogin}
+        element={
+          <PublicRoute>
+            <AuthLogin />
+          </PublicRoute>
+        }
+      />
       <Route
         path={APP_URLS.browse.path}
         loader={APP_URLS.browse.loader}
@@ -48,10 +55,10 @@ export const router = createBrowserRouter(
         path={APP_URLS.movieDetails.path}
         element={
           <PrivateRoute>
-            <MovieDetails/>
+            <MovieDetails />
           </PrivateRoute>
         }
-        loader={(route) => {          
+        loader={(route) => {
           APP_URLS.movieDetails.loader(Number(route.params.id))
           return null
         }}
@@ -60,10 +67,10 @@ export const router = createBrowserRouter(
         path={APP_URLS.tvShowDetails.path}
         element={
           <PrivateRoute>
-            <TVShowDetails/>
+            <TVShowDetails />
           </PrivateRoute>
         }
-        loader={(route) => {          
+        loader={(route) => {
           APP_URLS.tvShowDetails.loader(Number(route.params.id))
           return null
         }}
