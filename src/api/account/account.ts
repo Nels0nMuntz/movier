@@ -1,6 +1,6 @@
 import { ResourceInteractionBaseResponse } from "api/types";
 import { api } from "../api"
-import { AddToWatchlistRequest, GetAccountDetailsParams, GetAccountDetailsResponse } from "./types";
+import { AddToFavoriteRequest, AddToWatchlistRequest, GetAccountDetailsParams, GetAccountDetailsResponse } from "./types";
 
 
 export const accountApi = {
@@ -24,5 +24,18 @@ export const accountApi = {
       }
     });
     return await response.json();
-  }
+  },
+  addToFavorite: async (params: AddToFavoriteRequest): Promise<ResourceInteractionBaseResponse> => {
+    const response = await api.post({
+      url: `/account/${params.account_id}/favorite`,
+      queryParams: {
+        session_id: params.session_id,
+      },
+      init: {
+        body: JSON.stringify(params.body),        
+      },
+      
+    });
+    return await response.json();
+  },
 }

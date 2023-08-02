@@ -26,7 +26,17 @@ export interface AddToWatchlistRequest {
   session_id: string;
   body: {
     media_type: MediaType;
-    media_id: number;
+    media_id: string;
     watchlist: true;
+  }
+}
+
+export interface AddToFavoriteRequest {
+  account_id: number;
+  session_id: string;
+  body: {
+    media_type: MediaType;
+    media_id: string;
+    favorite: boolean;
   }
 }

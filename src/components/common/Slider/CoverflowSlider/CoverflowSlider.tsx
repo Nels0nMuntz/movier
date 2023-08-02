@@ -7,7 +7,7 @@ import { generatePath } from "react-router-dom";
 import { NavigationWrapper, SliderWrapper } from "./styled";
 import { SliderNavigation } from "../SliderNavigation/SliderNavigation";
 import { LargeCard } from "components/common/Card/LargeCard/LargeCard";
-import { Movie, TVShow, UniqueId } from "types";
+import { MediaType, Movie, TVShow, UniqueId } from "types";
 import { isMovie, isTvShow } from "utils";
 import { APP_URLS } from "routes";
 
@@ -20,7 +20,7 @@ export interface CoverflowSliderItem {
   title: string;
   overview: string;
   imagePath: string;
-  kind: "movie" | "series",
+  kind: MediaType,
 }
 
 interface Props {

@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const Seasons: React.FC<Props> = ({ value }) => {
-  console.log("Seasons");
-  
   return (
     <Typography element="div" type="body_1" color="secondary">
       <Stack direction="row" gap={1} alignItems="center">

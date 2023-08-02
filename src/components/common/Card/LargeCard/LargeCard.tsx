@@ -10,6 +10,7 @@ import { getW1280ImageUrl } from "api";
 
 import topMoviesImg from "../../../../assets/img/top-movies.png";
 import topSeriesImg from "../../../../assets/img/top-series.png";
+import { MediaType } from "types";
 
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
   overview: string;
   imagePath: string;
   sourcePath: string;
-  kind: "movie" | "series";
+  kind: MediaType;
 }
 
 export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind, sourcePath }) => {

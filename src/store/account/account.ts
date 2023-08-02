@@ -14,7 +14,10 @@ export class AccountStore {
   };
   watchlist: {
     status: Status;
-  }
+  };
+  favorite: {
+    status: Status;
+  };
 
   constructor() {
     this.account = {
@@ -27,6 +30,9 @@ export class AccountStore {
       }
     };
     this.watchlist = {
+      status: Status.Initial,
+    };
+    this.favorite = {
       status: Status.Initial,
     };
     makeAutoObservable(this);
@@ -73,7 +79,7 @@ export class AccountStore {
     await this.getAccount(sessionId);
   }
 
-  addToWatchlist = async (mediaId: number, mediaType: MediaType) => {
+  addToWatchlist = async (mediaId: number, mediaType: MediaType) => {    
     const { id } = this.account.data;
     const sessionId = localStorageHelper.sessionId;
     if (!sessionId) {
@@ -87,7 +93,7 @@ export class AccountStore {
         account_id: Number(id),
         session_id: sessionId,
         body: {
-          media_id: mediaId,
+          media_id: mediaId.toString(),
           media_type: mediaType,
           watchlist: true,
         }
@@ -97,6 +103,38 @@ export class AccountStore {
         addNotification({ variant: "info", message: "Added to watchlist" });
       } else {
         addNotification({ variant: "error", message: "Can't add to watchlist" });
+      }
+    } catch (error) {
+      if (error instanceof CustomError) {
+        console.log(error);
+      }
+    }
+  }
+
+  addToFavorite = async (mediaId: number, mediaType: MediaType) => {    
+    const { id } = this.account.data;
+    const sessionId = localStorageHelper.sessionId;
+    if (!sessionId) {
+      throw new CustomError("There is no 'session_id'")
+    }
+    try {
+      runInAction(() => {
+        this.favorite.status = Status.Loading;
+      })
+      const response = await accountApi.addToFavorite({
+        account_id: Number(id),
+        session_id: sessionId,
+        body: {
+          media_id: mediaId.toString(),
+          media_type: mediaType,
+          favorite: true,
+        }
+      });
+      if (response.status_code === 1) {
+        this.favorite.status = Status.Success;
+        addNotification({ variant: "info", message: "Added to favorite" });
+      } else {
+        addNotification({ variant: "error", message: "Can't add to favorite" });
       }
     } catch (error) {
       if (error instanceof CustomError) {

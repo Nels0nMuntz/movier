@@ -16,6 +16,7 @@ import { Reviews } from "../../common/Reviews/Reviews";
 import { ImdbRating } from "components/common/Details/IMDBRating/styled";
 import { Adult } from "components/common/Details/Adult/Adult";
 import { ProductioCountries } from "components/common/Details/ProductioCountries/ProductioCountries";
+import { useStore } from "store";
 
 
 interface Props {
@@ -24,11 +25,13 @@ interface Props {
 }
 
 export const MovieDetails: React.FC<Props> = observer(function MovieDetails({ movie, loadSimilarMovies }) {
+  const { accountStore } = useStore();
   const {
     adult,
     backdrop_path,
     budget,
     credits,
+    id,
     genres,
     overview,
     poster_path,
@@ -54,6 +57,8 @@ export const MovieDetails: React.FC<Props> = observer(function MovieDetails({ mo
   const filmBudget = formatMoney(budget);
   const filmRevenue = formatMoney(revenue);
   const filmLanguages = spoken_languages.map(({ english_name }) => english_name);
+
+  const handleAddToFavorite = () => accountStore.addToFavorite(id, "movie");
 
   return (
     <Wrapper>
@@ -114,7 +119,7 @@ export const MovieDetails: React.FC<Props> = observer(function MovieDetails({ mo
                   <PrimaryButton fluid icon={<FAIcon icon={faFilm} />}>Trailer</PrimaryButton>
                 </Grid>
                 <Grid item sm={4}>
-                  <PrimaryButton fluid icon={<FAIcon icon={faPlus} />}>My List</PrimaryButton>
+                  <PrimaryButton fluid icon={<FAIcon icon={faPlus} onClick={handleAddToFavorite}/>}>My List</PrimaryButton>
                 </Grid>
                 <Grid item sm={4}>
                   <PrimaryButton fluid icon={<FAIcon icon={faShare} />}>Share</PrimaryButton>

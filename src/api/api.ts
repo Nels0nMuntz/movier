@@ -56,6 +56,10 @@ export const api = {
       init: {
         ...config.init,
         method: "POST",
+        headers: {
+          ...(config.init && config.init.headers) && config.init.headers,
+          "Content-Type": "application/json;charset=utf-8"
+        },
       },
     };
     return customFetch(postRequestConfig);

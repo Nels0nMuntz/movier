@@ -16,18 +16,21 @@ import { Seasons } from "./components/Seasons";
 import { Release } from "components/common/Details/Release/Release";
 import { InfoItem } from "components/common/Details/InfoItem/InfoItem";
 import { Reviews } from "components/common/Reviews/Reviews";
+import { useStore } from "store";
 
 
-interface Props {
-  tvShow: ITVShowDetails<TVShow>;
-  loadSimilarTVShows: () => Promise<void>;
-}
+export const TVShowDetails: React.FC = observer(function TVShowDetails() {
 
-export const TVShowDetails: React.FC<Props> = observer(function TVShowDetails({ tvShow, loadSimilarTVShows }) {
+  const { tvShowsPageStore, accountStore } = useStore();
+  const tvShow = tvShowsPageStore.tvShow.data as ITVShowDetails<TVShow>;
+  const loadSimilarTVShows = tvShowsPageStore.getSimilarTVShows;
+  const addToWatchlist = accountStore.addToWatchlist;
+
   const {
     adult,
     backdrop_path,
     credits,
+    id,
     genres,
     first_air_date,
     name,
@@ -49,6 +52,9 @@ export const TVShowDetails: React.FC<Props> = observer(function TVShowDetails({ 
   const releaseDate = first_air_date.replace(/-/g, "/");
   const filmGenres = genres.map(({ name }) => name);
   const filmLanguages = spoken_languages.map(({ english_name }) => english_name);
+  const handleAddToWatchlist = () => { 
+    addToWatchlist(id, "tv")
+  };
 
   return (
     <Wrapper>
@@ -107,7 +113,13 @@ export const TVShowDetails: React.FC<Props> = observer(function TVShowDetails({ 
                   <PrimaryButton fluid icon={<FAIcon icon={faFilm} />}>Trailer</PrimaryButton>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <PrimaryButton fluid icon={<FAIcon icon={faPlus} />}>My List</PrimaryButton>
+                  <PrimaryButton 
+                    fluid 
+                    icon={<FAIcon icon={faPlus}
+                    onClick={handleAddToWatchlist}
+                  />}>
+                    My List
+                  </PrimaryButton>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <PrimaryButton fluid icon={<FAIcon icon={faShare} />}>Share</PrimaryButton>

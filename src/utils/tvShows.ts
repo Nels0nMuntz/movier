@@ -4,7 +4,7 @@ import { GenresCollection, Movie, TVShow, TVShowBase } from "types";
 const normalizeTVShow = (tvShow: TVShowBase, geners: GenresCollection): TVShow => {
   return {
     ...tvShow,
-    kind: "series",
+    kind: "tv",
     genres: tvShow.genre_ids.map(genre_id => geners[genre_id] as string),
   }
 };
@@ -20,5 +20,5 @@ export const isLastTVShowPage = (moviesResponse: GetTVShowsResponse) => {
 };
 
 export const isTvShow = (item: Movie | TVShow) => {
-  return item.kind === "series";
+  return item.kind === "tv";
 };
