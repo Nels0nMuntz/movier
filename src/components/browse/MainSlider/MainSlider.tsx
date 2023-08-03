@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade, Navigation } from "swiper";
-import {faPlay, faPlus } from "@fortawesome/free-solid-svg-icons"
+import {faInfo, faPlay, faPlus } from "@fortawesome/free-solid-svg-icons"
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import { observer } from "mobx-react-lite";
@@ -10,18 +10,19 @@ import { Badge, Ganre, GanreOutlined, Slide, SlideBackdrop, SlideContent, SlideC
 import { APP_URLS } from "routes/urls";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { SliderNavigation } from "../../common/Slider";
-import { Movie } from "types";
+import { useStore } from "store";
 
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
+import { generatePath } from "react-router-dom";
 
 
-interface Props {
-  items: Movie[];
-}
+export const MainSlider: React.FC = observer(() => {
 
-export const MainSlider: React.FC<Props> = observer(({ items }) => {
+  const { moviesCollectionStore, accountStore } = useStore();
+  const popularMovies = moviesCollectionStore.lists.popular.data;
+  const addToWatchlist = (id: number) => accountStore.addToWatchlist(id, "movie");
 
   const slides = [] as HTMLElement[];
 
@@ -49,7 +50,7 @@ export const MainSlider: React.FC<Props> = observer(({ items }) => {
           nextButtonClassName="main-slider-nav-next"
           prevButtonClassName="main-slider-nav-prev"
         />
-        {items.map(({ id, backdrop_path, title, overview, release_date, adult, vote_average }) => (
+        {popularMovies.map(({ id, backdrop_path, title, overview, release_date, adult, vote_average }) => (
           <SwiperSlide key={id}>
             <Slide>
               <SlideBackdrop>
@@ -82,7 +83,13 @@ export const MainSlider: React.FC<Props> = observer(({ items }) => {
                     </Typography>
                     <Stack direction="row" gap={2} mt={3}>
                       <PrimaryLink href={APP_URLS.browse.path} icon={<FAIcon icon={faPlay} />}>Play Now</PrimaryLink>
-                      <PrimaryButton icon={<FAIcon icon={faPlus} />}>My List</PrimaryButton>
+                      <PrimaryButton icon={<FAIcon icon={faPlus} />} onClick={() => addToWatchlist(id)}>My List</PrimaryButton>
+                      <PrimaryLink 
+                        href={generatePath(APP_URLS.movieDetails.path, { id })} 
+                        icon={<FAIcon icon={faInfo} style={{ position:"relative", top: -2 }}/>}
+                      >
+                        More
+                      </PrimaryLink>
                     </Stack>
                   </SlideContent>
                 </SlideContentWrap>

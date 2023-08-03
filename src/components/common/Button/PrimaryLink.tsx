@@ -11,6 +11,7 @@ interface Props extends PropsWithChildren {
 
 const StyledLink = styled(Link)(({ theme }) => ({
   position: "relative",
+  minWidth: "136px",
   display: "flex",
   alignItems: "center",
   gap: theme.spacing(1),
@@ -19,6 +20,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
   background: theme.palette.secondary.main,
+  boxSizing: "border-box",
   "& *": {
     position: "relative",
     zIndex: 1,

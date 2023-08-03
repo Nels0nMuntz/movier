@@ -1,5 +1,5 @@
-import { ResourceInteractionBaseResponse } from "api/types";
-import { api } from "../api"
+import { ResourceInteractionBaseResponse } from "../common/types";
+import { api } from "../common/api"
 import { AddToFavoriteRequest, AddToWatchlistRequest, GetAccountDetailsParams, GetAccountDetailsResponse } from "./types";
 
 

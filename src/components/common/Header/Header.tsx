@@ -1,18 +1,22 @@
 import React from "react"
+import { observer } from "mobx-react-lite";
 import { Link } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
+import Stack from "@mui/material/Stack";
+import { Menu as MuiMenu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { APP_URLS } from "routes";
 import { Typography } from "components";
+import { useStore } from "store";
+import { getW45ImageUrl } from "api";
+import { HoverMenu } from "./components/HoverMenu/HoverMenu";
 import {
   LogoImg,
   Search,
@@ -20,7 +24,9 @@ import {
   StyledInputBase,
   Nav,
   AppHeader,
-} from "./styled"
+  StyledAvatar,
+  ListItem,
+} from "./styled";
 
 import logo from "../../../assets/img/logo.svg";
 
@@ -34,7 +40,9 @@ interface Props {
   mode?: HeaderMode;
 }
 
-export const Header: React.FC<Props> = ({ mode }) => {
+export const Header: React.FC<Props> = observer(({ mode }) => {
+  const { accountStore } = useStore();
+  const { username, avatar } = accountStore.account.data;
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -43,9 +51,10 @@ export const Header: React.FC<Props> = ({ mode }) => {
     setAnchorElUser(null);
   };
   const isModeTransparent = mode === "transparent";
+  const avatarPath = avatar ? getW45ImageUrl(avatar) : "";
   return (
-    <AppHeader 
-      position="relative" 
+    <AppHeader
+      position="relative"
       className={[
         isModeTransparent ? "transparent" : "",
       ].join(" ")}
@@ -73,6 +82,25 @@ export const Header: React.FC<Props> = ({ mode }) => {
                 </Link>
               </li>
               <li>
+                <HoverMenu
+                  title="Favorite"
+                  items={
+                    <Stack direction="column" component="ul">
+                      <ListItem>
+                        <Link to={APP_URLS.favorite.movies.path} key="Movies">
+                          <Typography element="span" type="heading_6">Movies</Typography>
+                        </Link>
+                      </ListItem>
+                      <ListItem>
+                        <Link to={APP_URLS.favorite.tv.path} key="TV">
+                          <Typography element="span" type="heading_6">TV</Typography>
+                        </Link>
+                      </ListItem>
+                    </Stack>
+                  }
+                />
+              </li>
+              <li>
                 <Link to="/">
                   <Typography element="span" type="heading_6">People</Typography>
                 </Link>
@@ -80,11 +108,6 @@ export const Header: React.FC<Props> = ({ mode }) => {
               <li>
                 <Link to="/">
                   <Typography element="span" type="heading_6">Geners</Typography>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <Typography element="span" type="heading_6">Favourite</Typography>
                 </Link>
               </li>
             </ul>
@@ -103,24 +126,12 @@ export const Header: React.FC<Props> = ({ mode }) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu}>
-                <Box
-                  sx={({ palette }) => ({
-                    width: "36px",
-                    height: "36px",
-                    background: palette.secondary.main,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "50%",
-                    color: palette.common.white
-                  })}
-                >
-                  <PersonIcon />
-                </Box>
-                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
+                <StyledAvatar alt={username} src={avatarPath}>
+                  <PersonIcon fontSize="medium" />
+                </StyledAvatar>
               </IconButton>
             </Tooltip>
-            <Menu
+            <MuiMenu
               sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -141,10 +152,10 @@ export const Header: React.FC<Props> = ({ mode }) => {
                   <Typography element="span" type="body_1" textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </MuiMenu>
           </Box>
         </Toolbar>
       </Container>
     </AppHeader>
   )
-};
+});

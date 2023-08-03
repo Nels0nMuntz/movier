@@ -53,7 +53,7 @@ export class AuthStore {
         throw new AuthCreateSessionError();
       }
 
-      const { status } = await this.rootStore.accountStore.getAccount(createAuthenticatedSessionResponse.session_id);
+      const { status } = await this.rootStore.accountStore.getAccountDetails(createAuthenticatedSessionResponse.session_id);
       if(status !== Status.Success) {
         throw new GetAccountDetailsError();
       }
@@ -106,7 +106,7 @@ export class AuthStore {
         throw new AuthCreateSessionError();
       }
 
-      const { status } = await this.rootStore.accountStore.getAccount(createAuthenticatedSessionResponse.session_id);
+      const { status } = await this.rootStore.accountStore.getAccountDetails(createAuthenticatedSessionResponse.session_id);
       if(status !== Status.Success) {
         throw new GetAccountDetailsError();
       }

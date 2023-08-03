@@ -6,3 +6,4 @@ export { AuthLogin } from "./auth/AuthLogin";
 export { AuthWelcome } from "./auth/AuthWelcome";
 export { NotFound } from "./NotFound";
 export { Shows } from "./Shows";
+export { Favorite } from "./Favorite";

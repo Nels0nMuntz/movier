@@ -2,9 +2,8 @@ import { makeAutoObservable, runInAction } from "mobx";
 
 import { accountApi } from "api/account/account";
 import { AccountDetails, Result, Status, MediaType } from "types";
-import { addNotification, localStorageHelper } from "utils";
+import { addNotification, localStorageHelper, normalizeAccountDetails } from "utils";
 import { CustomError } from "api";
-import { GetAccountDetailsResponse } from "api/account/types";
 
 
 export class AccountStore {
@@ -12,12 +11,8 @@ export class AccountStore {
     data: AccountDetails;
     status: Status;
   };
-  watchlist: {
-    status: Status;
-  };
-  favorite: {
-    status: Status;
-  };
+  addToWatchlistStatus: Status;
+  addToFavoriteStatus: Status;
 
   constructor() {
     this.account = {
@@ -29,12 +24,8 @@ export class AccountStore {
         name: "",
       }
     };
-    this.watchlist = {
-      status: Status.Initial,
-    };
-    this.favorite = {
-      status: Status.Initial,
-    };
+    this.addToWatchlistStatus = Status.Initial;
+    this.addToWatchlistStatus = Status.Initial;
     makeAutoObservable(this);
   }
 
@@ -42,19 +33,14 @@ export class AccountStore {
     return this.account.status === Status.Success;
   }
 
-  private setAccountDetails = (data: GetAccountDetailsResponse) => {
-    const { id, username, name, avatar } = data;
-    runInAction(() => {
-      this.account.data = {
-        id: id.toString(),
-        username,
-        name,
-        avatar: avatar.tmdb.avatar_path,
-      }
-    })
+  getAccountDetails = async (sessionId: string): Promise<Result<AccountDetails>> => {
+    if(this.account.status === Status.Success) {
+      return { status: Status.Success, data: this.account.data };
+    }
+    return await this.loadAccountDetails(sessionId);
   }
 
-  getAccount = async (sessionId: string): Promise<Result> => {
+  private loadAccountDetails = async (sessionId: string): Promise<Result<AccountDetails>> => {
     try {
       runInAction(() => {
         this.account.status = Status.Loading;
@@ -62,11 +48,12 @@ export class AccountStore {
       const response = await accountApi.getAccountDetails({
         sessionId,
       });
-      this.setAccountDetails(response);
+      const accountDetails = normalizeAccountDetails(response);
       runInAction(() => {
+        this.account.data = accountDetails;
         this.account.status = Status.Success;
       });
-      return { status: Status.Success };
+      return { status: Status.Success, data: accountDetails };
     } catch (error) {
       console.log(error);
       this.account.status = Status.Error;
@@ -74,12 +61,7 @@ export class AccountStore {
     }
   }
 
-  loadAccountDetails = async () => {
-    const sessionId = localStorageHelper.sessionId;
-    await this.getAccount(sessionId);
-  }
-
-  addToWatchlist = async (mediaId: number, mediaType: MediaType) => {    
+  addToWatchlist = async (mediaId: number, mediaType: MediaType) => {
     const { id } = this.account.data;
     const sessionId = localStorageHelper.sessionId;
     if (!sessionId) {
@@ -87,7 +69,7 @@ export class AccountStore {
     }
     try {
       runInAction(() => {
-        this.watchlist.status = Status.Loading;
+        this.addToWatchlistStatus = Status.Loading;
       })
       const response = await accountApi.addToWatchlist({
         account_id: Number(id),
@@ -98,20 +80,32 @@ export class AccountStore {
           watchlist: true,
         }
       });
-      if (response.status_code === 1) {
-        this.watchlist.status = Status.Success;
-        addNotification({ variant: "info", message: "Added to watchlist" });
+      if (response.success) {
+        this.addToWatchlistStatus = Status.Success;
+        switch (response.status_code) {
+          case 1:
+            addNotification({ variant: "success", message: "Added to watchlist" });
+            break;
+          case 12:
+            addNotification({ variant: "info", message: "Already added" });
+            break;
+          default:
+            break;
+        }
       } else {
+        this.addToWatchlistStatus = Status.Error;
         addNotification({ variant: "error", message: "Can't add to watchlist" });
       }
     } catch (error) {
       if (error instanceof CustomError) {
         console.log(error);
+        this.addToWatchlistStatus = Status.Error;
+        addNotification({ variant: "error", message: "Can't add to watchlist" });
       }
     }
   }
 
-  addToFavorite = async (mediaId: number, mediaType: MediaType) => {    
+  addToFavorite = async (mediaId: number, mediaType: MediaType) => {
     const { id } = this.account.data;
     const sessionId = localStorageHelper.sessionId;
     if (!sessionId) {
@@ -119,7 +113,7 @@ export class AccountStore {
     }
     try {
       runInAction(() => {
-        this.favorite.status = Status.Loading;
+        this.addToFavoriteStatus = Status.Loading;
       })
       const response = await accountApi.addToFavorite({
         account_id: Number(id),
@@ -130,15 +124,26 @@ export class AccountStore {
           favorite: true,
         }
       });
-      if (response.status_code === 1) {
-        this.favorite.status = Status.Success;
-        addNotification({ variant: "info", message: "Added to favorite" });
+      if (response.success) {
+        this.addToFavoriteStatus = Status.Success;
+        switch (response.status_code) {
+          case 1:
+            addNotification({ variant: "success", message: "Added to watchlist" });
+            break;
+          case 12:
+            addNotification({ variant: "info", message: "Already added" });
+            break;
+          default:
+            break;
+        }
       } else {
-        addNotification({ variant: "error", message: "Can't add to favorite" });
+        this.addToFavoriteStatus = Status.Error;
+        addNotification({ variant: "error", message: "Can't add to watchlist" });
       }
     } catch (error) {
       if (error instanceof CustomError) {
         console.log(error);
+        this.addToFavoriteStatus = Status.Error;
       }
     }
   }

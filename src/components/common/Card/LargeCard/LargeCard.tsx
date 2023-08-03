@@ -7,24 +7,24 @@ import { PrimaryLink, Typography, FAIcon, PrimaryButton, SkeletonProvider, Skele
 import { APP_URLS } from "routes";
 import { Badge, Content, Poster, Wrapper } from "./styled";
 import { getW1280ImageUrl } from "api";
+import { MediaType, Nullable } from "types";
 
 import topMoviesImg from "../../../../assets/img/top-movies.png";
-import topSeriesImg from "../../../../assets/img/top-series.png";
-import { MediaType } from "types";
+import topSeriesImg from "../../../../assets/img/top-series.png"; 
 
 
 interface Props {
   id: number;
   title: string;
   overview: string;
-  imagePath: string;
+  imagePath: Nullable<string>;
   sourcePath: string;
   kind: MediaType;
 }
 
 export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind, sourcePath }) => {
   const [ready, setReady] = React.useState(true);
-  const src = getW1280ImageUrl(imagePath);
+  const src = imagePath ? getW1280ImageUrl(imagePath) : "";
 
   React.useEffect(() => {
     const buffer = new Image();

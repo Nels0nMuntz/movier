@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows, Favorite } from "pages";
 import { APP_URLS } from "./urls";
 import { PrivateRoute, PublicRoute } from "components";
 
@@ -58,9 +58,9 @@ export const router = createBrowserRouter(
             <MovieDetails />
           </PrivateRoute>
         }
-        loader={(route) => {
-          APP_URLS.movieDetails.loader(Number(route.params.id))
-          return null
+        loader={async (route) => {
+          await APP_URLS.movieDetails.loader(Number(route.params.id));
+          return null;
         }}
       />
       <Route
@@ -70,10 +70,19 @@ export const router = createBrowserRouter(
             <TVShowDetails />
           </PrivateRoute>
         }
-        loader={(route) => {
-          APP_URLS.tvShowDetails.loader(Number(route.params.id))
-          return null
+        loader={async (route) => {
+          await APP_URLS.tvShowDetails.loader(Number(route.params.id));
+          return null;
         }}
+      />
+      <Route
+        path={APP_URLS.favorite.movies.path}
+        loader={APP_URLS.favorite.movies.loader}
+        element={
+          <PrivateRoute>
+            <Favorite />
+          </PrivateRoute>
+        }
       />
       <Route
         path="/"

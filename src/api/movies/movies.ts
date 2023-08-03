@@ -1,4 +1,5 @@
-import { api } from "../api"
+import { GetPrivateListRequest } from "api/common/types";
+import { api } from "../common/api"
 import { 
   GetGenersMovieListResponse, 
   GetMoviesResponse,
@@ -8,6 +9,7 @@ import {
   GetMovieByIdResponse,
   GetSimilarMoviesRequest,
   GetSimilarMovieResponse,
+  GetWatchlistResponse,
 } from "./types"
 
 export const moviesAPI = {
@@ -81,6 +83,32 @@ export const moviesAPI = {
       url: `/movie/${params.movie_id}/similar`,
       queryParams: {
         page: params.page.toString(),
+      }
+    });
+    return await response.json();
+  },
+
+  getWatchlist: async (params: GetPrivateListRequest): Promise<GetWatchlistResponse> => {
+    const response = await api.get({
+      url: `/account/${params.accountId}/watchlist/movies`,
+      queryParams: {
+        language: "en-US",
+        page: params.page.toString(),
+        session_id: params.sessionId,
+        sort_by: params.sort_by,
+      }
+    });
+    return await response.json();
+  },
+
+  getFavoriteMovies: async (params: GetPrivateListRequest): Promise<GetWatchlistResponse> => {
+    const response = await api.get({
+      url: `/account/${params.accountId}/favorite/movies`,
+      queryParams: {
+        language: "en-US",
+        page: params.page.toString(),
+        session_id: params.sessionId,
+        sort_by: params.sort_by,
       }
     });
     return await response.json();

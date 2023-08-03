@@ -8,12 +8,13 @@ import { localStorageHelper } from "utils";
 
 export const PrivateRoute: React.FC<PropsWithChildren> = observer(({ children }) => {
   const { accountStore } = useStore();
-  const { isAccountDetailsReceived: isDataLoaded, loadAccountDetails} = accountStore
-  const isAuthorized = Boolean(localStorageHelper.sessionId);
+  const { isAccountDetailsReceived: isDataLoaded, getAccountDetails} = accountStore;
+  const sessionId = localStorageHelper.sessionId;
+  const isAuthorized = Boolean(sessionId);
   React.useEffect(() => {
-    if(!isDataLoaded) {
-      loadAccountDetails();
+    if(isAuthorized && !isDataLoaded) {
+      getAccountDetails(sessionId);
     }
-  }, [isDataLoaded, loadAccountDetails])
+  }, [isDataLoaded, isAuthorized, sessionId, getAccountDetails])
   return isAuthorized ? <>{children}</> : <Navigate to={APP_URLS.authWelcome} state={{ from: window.location }} />;
 });

@@ -1,6 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
 
 export const AppHeader = styled(AppBar)(() => ({
   zIndex: 1,
@@ -79,7 +80,7 @@ export const Nav = styled("nav")(({ theme }) => ({
       transform: "translateY(-50%)"
     }
   },
-  "& a": {
+  "& a, & button": {
     color: theme.palette.text.primary,
     textTransform: "uppercase",
     "&:hover span": {
@@ -87,4 +88,58 @@ export const Nav = styled("nav")(({ theme }) => ({
       transition: "color 0.2s linear",
     }
   },
+}));
+
+export const StyledAvatar = styled(Avatar)(({ theme }) => ({
+  backgroundColor: theme.palette.secondary.main,
+  "& svg path": {
+    fill: theme.palette.common.white,
+  },
+}));
+
+export const ListItem = styled("div")(({ theme }) => ({
+  "& a": {
+    position: "relative",
+    display: "block",
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    "& span": {
+      position: "relative",
+      zIndex: 1,
+    },
+    "&:before, &:after": {
+      opacity: 0,
+      transition: "opacity 0.15s linear",
+    },
+    "&:hover": {      
+      "&:before": {
+        content: "\"\"",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: "2px",
+        backgroundColor: theme.palette.secondary.main,
+        opacity: 1,
+      },
+      "&:after": {
+        content: "\"\"",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        background: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.35)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
+        opacity: 1,
+      },
+    },
+  }
+  // [`${menuItemClasses.root}`]: {
+  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
+  // }
+  // "& .MuiMenuItem-root": {
+  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
+  // },
+  // "&.css-m971ph-MuiButtonBase-root-MuiMenuItem-root:hover": {
+  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
+  // },
 }))

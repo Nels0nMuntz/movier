@@ -6,10 +6,12 @@ import { Typography } from "../Typography/Typography";
 interface Props extends PropsWithChildren {
   fluid?: boolean;
   icon?: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) => ({
   position: "relative",
+  minWidth: "136px",
   display: "flex",
   alignItems: "center",
   gap: theme.spacing(1),
@@ -18,6 +20,7 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(1),
   background: theme.palette.secondary.main,
+  boxSizing: "border-box",
   "& *": {
     position: "relative",
     zIndex: 1,
@@ -33,6 +36,7 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
     transition: "transform 0.3s ease-out",
     transform: "scaleX(0)",
     transformOrigin: "0 50%",
+    pointerEvents: "none",
   },
   "&:hover": {
     background: theme.palette.common.black,
@@ -46,9 +50,9 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
   },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, fluid, children }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children, onClick }) => {
   return (
-    <StyledButton fluid={fluid}>
+    <StyledButton fluid={fluid} onClick={onClick}>
       {icon}
       {children && (
         <Typography element="span" type="body_1">

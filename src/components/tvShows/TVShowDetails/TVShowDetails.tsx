@@ -52,9 +52,7 @@ export const TVShowDetails: React.FC = observer(function TVShowDetails() {
   const releaseDate = first_air_date.replace(/-/g, "/");
   const filmGenres = genres.map(({ name }) => name);
   const filmLanguages = spoken_languages.map(({ english_name }) => english_name);
-  const handleAddToWatchlist = () => { 
-    addToWatchlist(id, "tv")
-  };
+  const handleAddToWatchlist = () => addToWatchlist(id, "tv");
 
   return (
     <Wrapper>
@@ -113,11 +111,7 @@ export const TVShowDetails: React.FC = observer(function TVShowDetails() {
                   <PrimaryButton fluid icon={<FAIcon icon={faFilm} />}>Trailer</PrimaryButton>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <PrimaryButton 
-                    fluid 
-                    icon={<FAIcon icon={faPlus}
-                    onClick={handleAddToWatchlist}
-                  />}>
+                  <PrimaryButton fluid icon={<FAIcon icon={faPlus}/>} onClick={handleAddToWatchlist}>
                     My List
                   </PrimaryButton>
                 </Grid>

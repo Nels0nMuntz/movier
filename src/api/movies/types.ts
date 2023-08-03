@@ -35,3 +35,5 @@ export interface GetSimilarMoviesRequest {
 }
 
 export type GetSimilarMovieResponse = PaginatableCollection<MovieResponse>
+
+export type GetWatchlistResponse = PaginatableCollection<MovieResponse>

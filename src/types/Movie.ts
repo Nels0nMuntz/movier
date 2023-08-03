@@ -1,19 +1,20 @@
 import { Credits } from "./Credits";
 import { Genre } from "./Genres";
 import { MediaType } from "./MediaType";
+import { Nullable } from "./Nullable";
 import { PaginatableCollection } from "./PaginatableCollection";
 import { Review } from "./Review";
 
 
 export interface MovieBase {
   adult: boolean;
-  backdrop_path: string;
+  backdrop_path: Nullable<string>;
   id: number;
   original_language: string;
   original_title: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: Nullable<string>;
   release_date: string;
   title: string;
   video: boolean;

@@ -8,7 +8,7 @@ export { Header } from "./common/Header/Header";
 export type { HeaderMode } from "./common/Header/Header";
 export { Footer } from "./common/Footer/Footer";
 export { FAIcon } from "./common/FAIcon/FAIcon";
-export { ScrollableCollection, SwitchableCollection } from "./common/Collection";
+export { ScrollableCollection, SwitchableCollection, SimpleCollection } from "./common/Collection";
 export { LoadingScreen } from "./common/LoadingScreen/LoadingScreen";
 export { FailScreen } from "./common/FailScreen/FailScreen";
 export { Skeleton, SkeletonProvider } from "./common/Skeleton";
