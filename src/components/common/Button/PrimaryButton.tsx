@@ -6,6 +6,7 @@ import { Typography } from "../Typography/Typography";
 interface Props extends PropsWithChildren {
   fluid?: boolean;
   icon?: React.ReactNode;
+  title?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -50,9 +51,13 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
   },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, fluid, children, onClick }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children, title, onClick }) => {
   return (
-    <StyledButton fluid={fluid} onClick={onClick}>
+    <StyledButton 
+      fluid={fluid} 
+      onClick={onClick}
+      title={title}
+    >
       {icon}
       {children && (
         <Typography element="span" type="body_1">

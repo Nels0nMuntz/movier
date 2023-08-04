@@ -21,7 +21,7 @@ export const normalizeMoviesResponse = (movies: MovieResponse[], geners: GenresC
 };
 
 export const isLastMoviePage = (moviesResponse: PaginatableCollection<MovieBase>) => {
-  return moviesResponse.page === moviesResponse.total_pages
+  return moviesResponse.total_pages === 0 || moviesResponse.page === moviesResponse.total_pages
 };
 
 export const formatRuntime = (runtime: number) => {

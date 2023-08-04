@@ -66,7 +66,7 @@ export const MovieDetails: React.FC = observer(function MovieDetails() {
               <Stack width="100%" height="100%" display="flex" direction="column" justifyContent="center" gap={2}>
                 <Typography element="h1" type="heading_1" className="title slide-1">{title}</Typography>
                 <div className="slide-2">
-                  {vote_average && <IMDBRating value={vote_average} />}
+                  {vote_average ? <IMDBRating value={vote_average} /> : null}
                 </div>
                 <Stack direction="row" gap={3} className="slide-3">
                   {adult && (
@@ -118,7 +118,14 @@ export const MovieDetails: React.FC = observer(function MovieDetails() {
                   <PrimaryButton fluid icon={<FAIcon icon={faFilm} />}>Trailer</PrimaryButton>
                 </Grid>
                 <Grid item sm={4}>
-                  <PrimaryButton fluid icon={<FAIcon icon={faPlus}/>} onClick={handleAddToWatchlist}>My List</PrimaryButton>
+                  <PrimaryButton 
+                    icon={<FAIcon icon={faPlus}/>} 
+                    onClick={handleAddToWatchlist}
+                    fluid
+                    title="Add to my list"
+                  >
+                    My List
+                  </PrimaryButton>
                 </Grid>
                 <Grid item sm={4}>
                   <PrimaryButton fluid icon={<FAIcon icon={faShare} />}>Share</PrimaryButton>

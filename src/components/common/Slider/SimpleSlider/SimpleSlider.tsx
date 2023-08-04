@@ -10,6 +10,7 @@ import { SmallCard } from "../../Card/SmallCard/SmallCard";
 import type { Movie, TVShow } from "types";
 import { isMovie, isTvShow } from "utils";
 import { APP_URLS } from "routes";
+import { useStore } from "store";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, loadItems }) => {
+  const { accountStore } = useStore();
   const [showNavigation, setShowNavigation] = React.useState(false);
   const onMouseEnter = () => setShowNavigation(true);
   const onMouseLeave = () => setShowNavigation(false);
@@ -42,6 +44,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
             title={title}
             genres={genres}
             sourcePath={generatePath(APP_URLS.movieDetails.path, { id })}
+            onAddToWatchlist={() => accountStore.addToWatchlist(id, "movie")}
           />
         </Slide>
       )
@@ -59,6 +62,7 @@ export const SimpleSlider: React.FC<Props> = observer(({ items, sliderName, load
             title={name}
             genres={genres}
             sourcePath={generatePath(APP_URLS.tvShowDetails.path, { id })}
+            onAddToWatchlist={() => accountStore.addToWatchlist(id, "tv")}
           />
         </Slide>
       )

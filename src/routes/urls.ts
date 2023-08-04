@@ -1,4 +1,6 @@
+import { LoaderFunctionArgs } from "react-router-dom";
 import { rootStore } from "store";
+import { MediaType } from "types";
 
 
 const {
@@ -33,22 +35,46 @@ export const APP_URLS = {
   },
   movieDetails: {
     path: "/movie/:id",
-    loader: (id: number) => moviesPageStore.getMovie(id),
+    loader: async (id: number) => {
+      await moviesPageStore.getMovie(id);
+      return null;
+    },
   },
   tvShowDetails: {
     path: "/tv/:id",
-    loader: (id: number) => tvShowsPageStore.getTVShow(id),
+    loader: async (id: number) => {
+      await tvShowsPageStore.getTVShow(id);
+      return null;
+    },
+  },
+  watchlist: {
+    path: {
+      movies: "/watchlist/movie",
+      tv: "/watchlist/tv",
+    },
+    loader: async (args: LoaderFunctionArgs) => {
+      const mediaType = args.params.type as MediaType;
+      if(mediaType === "movie") {
+        await moviesPageStore.getWatchlist();
+      } else {
+        await tvShowsPageStore.getWatchlist();
+      }
+      return null;
+    }
   },
   favorite: {
-    movies: {
-      path: "/favorite/movies",
-      loader: async () => {
-        await moviesPageStore.getFavoriteMovies();
-        return null;
-      },
+    path: {
+      movies: "/favorite/movie",
+      tv: "/favorite/tv",
     },
-    tv: {
-      path: "/favorite/tv",
+    loader: async (args: LoaderFunctionArgs) => {
+      const mediaType = args.params.type as MediaType;
+      if(mediaType === "movie") {
+        await moviesPageStore.getFavorites();
+      } else {
+        await tvShowsPageStore.getFavorites();
+      }
+      return null;
     }
-  }
+  },
 };

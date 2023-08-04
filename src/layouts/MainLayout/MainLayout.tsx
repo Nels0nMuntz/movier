@@ -11,7 +11,7 @@ interface Props extends PropsWithChildren {
   headerMode?: HeaderMode;
 }
 
-export const MainLayout: React.FC<Props> = observer(({ isLoading = false, isFaild = false, headerMode, children }) => {
+export const MainLayout: React.FC<Props> = observer(function MainLayout({ isLoading = false, isFaild = false, headerMode, children }) {
   return (
     <LoadingScreen visible={isLoading}>
       <FailScreen visible={isFaild}>

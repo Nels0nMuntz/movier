@@ -9,7 +9,7 @@ import {
   GetMovieByIdResponse,
   GetSimilarMoviesRequest,
   GetSimilarMovieResponse,
-  GetWatchlistResponse,
+  GetMoviesPrivateListResponse,
 } from "./types"
 
 export const moviesAPI = {
@@ -88,7 +88,7 @@ export const moviesAPI = {
     return await response.json();
   },
 
-  getWatchlist: async (params: GetPrivateListRequest): Promise<GetWatchlistResponse> => {
+  getWatchlist: async (params: GetPrivateListRequest): Promise<GetMoviesPrivateListResponse> => {
     const response = await api.get({
       url: `/account/${params.accountId}/watchlist/movies`,
       queryParams: {
@@ -101,7 +101,7 @@ export const moviesAPI = {
     return await response.json();
   },
 
-  getFavoriteMovies: async (params: GetPrivateListRequest): Promise<GetWatchlistResponse> => {
+  getFavoriteMovies: async (params: GetPrivateListRequest): Promise<GetMoviesPrivateListResponse> => {
     const response = await api.get({
       url: `/account/${params.accountId}/favorite/movies`,
       queryParams: {

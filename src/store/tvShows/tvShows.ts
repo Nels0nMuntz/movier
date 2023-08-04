@@ -1,9 +1,10 @@
-import { tvShowsAPI } from "api";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction, toJS } from "mobx";
 
+import { CustomError, tvShowsAPI } from "api";
 import { RootStore } from "store";
-import { Status, TVShow, TVShowDetails } from "types";
-import { addNotification, isLastTVShowPage, normalizeTVShowsResponse } from "utils";
+import { AccountDetails, CollectionParams, Status, TVShow, TVShowDetails } from "types";
+import { addNotification, isLastTVShowPage, localStorageHelper, normalizeTVShowsResponse } from "utils";
+import { PrivateListSortOptions } from "api/common/types";
 
 
 export class TvShowsPageStore {
@@ -13,13 +14,35 @@ export class TvShowsPageStore {
     status: Status;
     data: TVShowDetails<TVShow> | null;
   };
+  watchlist: {
+    status: Status,
+    data: CollectionParams<TVShow>,
+  };
+  favorites: {
+    status: Status;
+    data: CollectionParams<TVShow>;
+  };
 
   constructor(rootStore: RootStore) {
+    const initCollectionParams: CollectionParams<TVShow> = {
+      status: Status.Initial,
+      data: [],
+      page: 0,
+      isLastPage: false,
+    };
     this.isInitialized = false;
     this.rootStore = rootStore;
     this.tvShow = {
       data: null,
       status: Status.Initial,
+    };
+    this.watchlist = {
+      status: Status.Initial,
+      data: initCollectionParams,
+    };
+    this.favorites = {
+      status: Status.Initial,
+      data: initCollectionParams,
     };
     makeAutoObservable(this, {
       rootStore: false,
@@ -28,6 +51,14 @@ export class TvShowsPageStore {
 
   get isTVShowDetailsLoading() {
     return this.tvShow.status === Status.Initial || this.tvShow.status === Status.Loading;
+  }
+
+  get isWatchlistLoading() {
+    return this.watchlist.status === Status.Initial || this.watchlist.status === Status.Loading;
+  }
+
+  get isFavoritesLoading() {
+    return this.favorites.status === Status.Initial || this.favorites.status === Status.Loading;
   }
 
   private getGenres = async () => {
@@ -136,6 +167,90 @@ export class TvShowsPageStore {
         variant: "error",
         message: "Something went wrong, try later",
       });
+    }
+  }
+
+  getWatchlist = async () => {
+    if(this.watchlist.data.isLastPage) {
+      return;
+    }
+
+    try {
+      const sessionId = localStorageHelper.sessionId;
+      const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
+      if(status !== Status.Success) return;
+      const accountDetails = data as AccountDetails;
+      runInAction(() => {
+        this.watchlist.status = Status.Loading;
+      });
+      const response = await tvShowsAPI.getWatchlist({
+        accountId: Number(accountDetails.id),
+        page: this.watchlist.data.page + 1,
+        sessionId,
+        sort_by: PrivateListSortOptions.ASC,
+      });
+      const genres = await this.getGenres();
+      const normalizedMovies = normalizeTVShowsResponse(response.results, genres);
+      const isLastPage = isLastTVShowPage(response);
+      runInAction(() => {
+        this.watchlist.data.data.push(...normalizedMovies);
+        this.watchlist.data.page = response.page;
+        this.watchlist.data.isLastPage = isLastPage;
+        this.watchlist.data.status = Status.Success;
+        this.watchlist.status = Status.Success;
+      })
+    } catch (error) {
+      if(error instanceof CustomError) {
+        console.log(error);
+        addNotification({ message: "Can't get watchlist", variant: "error" });
+        runInAction(() => {        
+          this.watchlist.status = Status.Error;
+        });
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  getFavorites = async () => {
+    if(this.favorites.data.isLastPage) {
+      return;
+    }
+
+    try {
+      const sessionId = localStorageHelper.sessionId;
+      const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
+      if(status !== Status.Success) return;
+      const accountDetails = data as AccountDetails;
+      runInAction(() => {
+        this.favorites.status = Status.Loading;
+      });
+      const response = await tvShowsAPI.getFavoriteMovies({
+        accountId: Number(accountDetails.id),
+        page: this.favorites.data.page + 1,
+        sessionId,
+        sort_by: PrivateListSortOptions.ASC,
+      });
+      const genres = await this.getGenres();
+      const normalizedMovies = normalizeTVShowsResponse(response.results, genres);
+      const isLastPage = isLastTVShowPage(response);
+      runInAction(() => {
+        this.favorites.data.data.push(...normalizedMovies);
+        this.favorites.data.page = response.page;
+        this.favorites.data.isLastPage = isLastPage;
+        this.favorites.data.status = Status.Success;
+        this.favorites.status = Status.Success;
+      })
+    } catch (error) {
+      if(error instanceof CustomError) {
+        console.log(error);
+        addNotification({ message: "Can't get favorite movies", variant: "error" });
+        runInAction(() => {        
+          this.favorites.status = Status.Error;
+        });
+      } else {
+        throw error;
+      }
     }
   }
 }

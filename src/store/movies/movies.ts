@@ -1,10 +1,9 @@
-import { moviesAPI } from "api";
+import { CustomError, moviesAPI } from "api";
 import { PrivateListSortOptions } from "api/common/types";
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { RootStore } from "store";
-import { CollectionParams } from "store/collections/movies/types";
-import { AccountDetails, GenresCollection, Movie, MovieDetails, Status } from "types";
+import { AccountDetails, CollectionParams, GenresCollection, Movie, MovieDetails, Status } from "types";
 import { addNotification, isLastMoviePage, localStorageHelper, normalizeMoviesResponse } from "utils";
 
 
@@ -16,16 +15,16 @@ export class MoviesPageStore {
     data: MovieDetails<Movie> | null,
   };
   watchlist: {
-    data: Movie[],
     status: Status,
+    data: CollectionParams<Movie>,
   };
-  favoriteMovies: {
+  favorites: {
     status: Status;
-    data: CollectionParams;
+    data: CollectionParams<Movie>;
   };
 
   constructor(rootStore: RootStore) {
-    const initCollectionParams: CollectionParams = {
+    const initCollectionParams: CollectionParams<Movie> = {
       status: Status.Initial,
       data: [],
       page: 0,
@@ -37,10 +36,10 @@ export class MoviesPageStore {
       data: null,
     };
     this.watchlist = {
-      data: [],
-      status: Status.Initial
+      status: Status.Initial,
+      data: initCollectionParams,
     };
-    this.favoriteMovies = {
+    this.favorites = {
       status: Status.Initial,
       data: initCollectionParams,
     };
@@ -53,14 +52,18 @@ export class MoviesPageStore {
     return this.movie.status === Status.Initial || this.movie.status === Status.Loading;
   }
 
-  get isFavoriteMoviesLoading() {
-    return this.favoriteMovies.status === Status.Initial || this.favoriteMovies.status === Status.Loading;
+  get isWatchlistLoading() {
+    return this.watchlist.status === Status.Initial || this.watchlist.status === Status.Loading;
+  }
+
+  get isFavoritesLoading() {
+    return this.favorites.status === Status.Initial || this.favorites.status === Status.Loading;
   }
 
   private async getGenres() {
     const { status, data: genres } = await this.rootStore.genresStore.getMovieGenres();
     if(status === Status.Error) {
-      throw new Error("Something went wront, try later");
+      throw new CustomError("Something went wront, try later");
     }
     return genres as GenresCollection;
   }
@@ -146,18 +149,22 @@ export class MoviesPageStore {
     }
   }
 
-  getFavoriteMovies = async () => {
-    const sessionId = localStorageHelper.sessionId;
-    const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
-    if(status !== Status.Success) return;
-    const accountDetails = data as AccountDetails;
+  getWatchlist = async () => {
+    if(this.watchlist.data.isLastPage) {
+      return;
+    }
+
     try {
+      const sessionId = localStorageHelper.sessionId;
+      const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
+      if(status !== Status.Success) return;
+      const accountDetails = data as AccountDetails;
       runInAction(() => {
-        this.favoriteMovies.status = Status.Loading;
+        this.watchlist.status = Status.Loading;
       });
-      const response = await moviesAPI.getFavoriteMovies({
+      const response = await moviesAPI.getWatchlist({
         accountId: Number(accountDetails.id),
-        page: this.favoriteMovies.data.page + 1,
+        page: this.watchlist.data.page + 1,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
@@ -165,18 +172,60 @@ export class MoviesPageStore {
       const normalizedMovies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
-        this.favoriteMovies.data.data.push(...normalizedMovies);
-        this.favoriteMovies.data.page = response.page;
-        this.favoriteMovies.data.isLastPage = isLastPage;
-        this.favoriteMovies.data.status = Status.Success;
-        this.favoriteMovies.status = Status.Success;
+        this.watchlist.data.data.push(...normalizedMovies);
+        this.watchlist.data.page = response.page;
+        this.watchlist.data.isLastPage = isLastPage;
+        this.watchlist.data.status = Status.Success;
+        this.watchlist.status = Status.Success;
+      })
+    } catch (error) {
+      if(error instanceof CustomError) {
+        console.log(error);
+        addNotification({ message: "Can't get watchlist", variant: "error" });
+        runInAction(() => {        
+          this.watchlist.status = Status.Error;
+        });
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  getFavorites = async () => {
+    if(this.favorites.data.isLastPage) {
+      return;
+    }
+    
+    try {
+      const sessionId = localStorageHelper.sessionId;
+      const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
+      if(status !== Status.Success) return;
+      const accountDetails = data as AccountDetails;
+      runInAction(() => {
+        this.favorites.status = Status.Loading;
+      });
+      const response = await moviesAPI.getFavoriteMovies({
+        accountId: Number(accountDetails.id),
+        page: this.favorites.data.page + 1,
+        sessionId,
+        sort_by: PrivateListSortOptions.ASC,
+      });
+      const genres = await this.getGenres();
+      const normalizedMovies = normalizeMoviesResponse(response.results, genres);
+      const isLastPage = isLastMoviePage(response);
+      runInAction(() => {
+        this.favorites.data.data.push(...normalizedMovies);
+        this.favorites.data.page = response.page;
+        this.favorites.data.isLastPage = isLastPage;
+        this.favorites.data.status = Status.Success;
+        this.favorites.status = Status.Success;
       })
     } catch (error) {
       console.log(error);
       addNotification({ message: "Can't get favorite movies", variant: "error" });
       runInAction(() => {        
-        this.favoriteMovies.status = Status.Error;
-      })
+        this.favorites.status = Status.Error;
+      });
     }
   }
 }

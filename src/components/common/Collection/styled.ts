@@ -1,5 +1,6 @@
 import { styled } from "@mui/material/styles";
 import Tab from "@mui/material/Tab";
+import { theme } from "styles/theme";
 
 export const Section = styled("section")(({ theme }) => ({
   padding: `${theme.spacing(3)} 0`,
@@ -37,5 +38,25 @@ export const TabPanel = styled("div")({
     opacity: 0,
     zIndex: 0,
     transition: "all 0.35s",
+  },
+});
+
+export const Grid = styled("div")({
+  display: "grid",
+  gridTemplateColumns: "repeat(1, 100%)",
+  rowGap: theme.spacing(4),
+  columnGap: theme.spacing(4),
+  padding: `${theme.spacing(6)} 0`,
+  [theme.breakpoints.up("450")]: {
+    gridTemplateColumns: "repeat(2, 1fr)",
+  },
+  [theme.breakpoints.up("768")]: {
+    gridTemplateColumns: "repeat(3, 1fr)",
+  },
+  [theme.breakpoints.up("1100")]: {
+    gridTemplateColumns: "repeat(4, 1fr)",
+  },
+  [theme.breakpoints.up("1440")]: {
+    gridTemplateColumns: "repeat(5, 1fr)",
   },
 })

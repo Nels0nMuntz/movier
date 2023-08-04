@@ -1,13 +1,13 @@
 import { Credits } from "./Credits";
 import { Genre } from "./Genres";
 import { MediaType } from "./MediaType";
+import { Nullable } from "./Nullable";
 import { PaginatableCollection } from "./PaginatableCollection";
 import { Review } from "./Review";
 
 export interface TVShowBase {
-  backdrop_path: string;
+  backdrop_path: Nullable<string>;
   first_air_date: string;
-  genre_ids: number[];
   id: number;
   name: string;
   origin_country: string[];
@@ -15,7 +15,7 @@ export interface TVShowBase {
   original_name: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: Nullable<string>;
   vote_average: number;
   vote_count: number;
 }

@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { moviesAPI } from "api";
-import { GenresCollection, Result, Status } from "types";
+import { CollectionParams, GenresCollection, Movie, Result, Status } from "types";
 import { isLastMoviePage, normalizeMoviesResponse } from "utils";
-import { CollectionParams, MoviesLists } from "./types";
+import { MoviesLists } from "./types";
 import { RootStore } from "store";
 
 
@@ -12,7 +12,7 @@ export class MoviesCollectionStore {
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    const initCollectionParams: CollectionParams = {
+    const initCollectionParams: CollectionParams<Movie> = {
       status: Status.Initial,
       data: [],
       page: 1,

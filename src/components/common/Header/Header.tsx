@@ -52,6 +52,36 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
   };
   const isModeTransparent = mode === "transparent";
   const avatarPath = avatar ? getW45ImageUrl(avatar) : "";
+
+  const watchlistMenu = React.useMemo(() => (
+    <Stack direction="column" component="ul">
+      <ListItem>
+        <Link to={APP_URLS.watchlist.path.movies} key="Movies">
+          <Typography element="span" type="heading_6">Movies</Typography>
+        </Link>
+      </ListItem>
+      <ListItem>
+        <Link to={APP_URLS.watchlist.path.tv} key="TV">
+          <Typography element="span" type="heading_6">TV</Typography>
+        </Link>
+      </ListItem>
+    </Stack>
+  ), []);
+  const favoriteMenu = React.useMemo(() => (
+    <Stack direction="column" component="ul">
+      <ListItem>
+        <Link to={APP_URLS.favorite.path.movies} key="Movies">
+          <Typography element="span" type="heading_6">Movies</Typography>
+        </Link>
+      </ListItem>
+      <ListItem>
+        <Link to={APP_URLS.favorite.path.tv} key="TV">
+          <Typography element="span" type="heading_6">TV</Typography>
+        </Link>
+      </ListItem>
+    </Stack>
+  ), []);
+
   return (
     <AppHeader
       position="relative"
@@ -83,32 +113,15 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
               </li>
               <li>
                 <HoverMenu
-                  title="Favorite"
-                  items={
-                    <Stack direction="column" component="ul">
-                      <ListItem>
-                        <Link to={APP_URLS.favorite.movies.path} key="Movies">
-                          <Typography element="span" type="heading_6">Movies</Typography>
-                        </Link>
-                      </ListItem>
-                      <ListItem>
-                        <Link to={APP_URLS.favorite.tv.path} key="TV">
-                          <Typography element="span" type="heading_6">TV</Typography>
-                        </Link>
-                      </ListItem>
-                    </Stack>
-                  }
+                  title="Watchlist"
+                  items={watchlistMenu}
                 />
               </li>
               <li>
-                <Link to="/">
-                  <Typography element="span" type="heading_6">People</Typography>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <Typography element="span" type="heading_6">Geners</Typography>
-                </Link>
+                <HoverMenu
+                  title="Favorite"
+                  items={favoriteMenu}
+                />
               </li>
             </ul>
           </Nav>

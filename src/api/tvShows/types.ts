@@ -1,6 +1,10 @@
 import { PaginatableCollection } from "types";
 import { TVShowBase, TVShowDetails } from "types/TVShow";
 
+
+export interface TVShowResponse extends TVShowBase {
+  genre_ids: number[];
+}
 export interface GetTVShowsRequest {
   page: number;
 }
@@ -22,17 +26,19 @@ export interface GetTVShowsGenresResponse {
   genres: TVShowsGenreResponse[]
 }
 
-export type GetTVShowsResponse = PaginatableCollection<TVShowBase>;
+export type GetTVShowsResponse = PaginatableCollection<TVShowResponse>;
 
 export interface GetTVShowByIdRequest {
   series_id: number;
 }
 
-export type GetTVShowByIdResponse = TVShowDetails<TVShowBase>;
+export type GetTVShowByIdResponse = TVShowDetails<TVShowResponse>;
 
 export interface GetSimilarTVShowsRequest {
   series_id: number;
   page: number;
 }
 
-export type GetSimilarTVShowsResponse = PaginatableCollection<TVShowBase>;
+export type GetSimilarTVShowsResponse = PaginatableCollection<TVShowResponse>;
+
+export type GetTVShowsPrivateListResponse = PaginatableCollection<TVShowResponse>;

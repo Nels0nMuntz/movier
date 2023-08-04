@@ -45,8 +45,8 @@ export const TVShowDetails: React.FC = observer(function TVShowDetails() {
     vote_average,
   } = tvShow;
 
-  const backdropUrl = getW1280ImageUrl(backdrop_path);
-  const posterUrl = getW500ImageUrl(poster_path);
+  const backdropUrl = backdrop_path ? getW1280ImageUrl(backdrop_path): "";
+  const posterUrl = poster_path ? getW500ImageUrl(poster_path) : "";
   const director = credits.crew.find(({ job }) => job === "Director")?.name;
   const production = production_companies.map(({ name }) => name).join(", ");
   const releaseDate = first_air_date.replace(/-/g, "/");
@@ -59,10 +59,11 @@ export const TVShowDetails: React.FC = observer(function TVShowDetails() {
       <Banner>
         <Backdrop imageUrl={backdropUrl}>
           <Grid container zIndex={0} px={4}>
-            <Grid item sm={12} md={8} display="flex" direction="column" justifyContent="center" gap={2}>
+            <Grid item sm={12} md={8}>
+            <Stack width="100%" height="100%" display="flex" direction="column" justifyContent="center" gap={2}>
               <Typography element="h1" type="heading_1" className="title slide-1">{name}</Typography>
               <div className="slide-2">
-                <IMDBRating value={vote_average} />
+                {vote_average ? <IMDBRating value={vote_average} /> : null}
               </div>
               <Stack direction="row" gap={3} className="slide-3">
                 {adult && (
@@ -74,6 +75,7 @@ export const TVShowDetails: React.FC = observer(function TVShowDetails() {
                 <ProductioCountries productionCountries={production_countries} />
               </Stack>
               <Typography element="p" type="body_1" className="description slide-4">{overview}</Typography>
+              </Stack>
             </Grid>
           </Grid>
         </Backdrop>

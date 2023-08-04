@@ -1,6 +1,8 @@
+import { GetPrivateListRequest } from "api/common/types";
 import { api } from "../common/api"
 import { 
   GetOnTheAirTVShowsRequest,
+  GetTVShowsPrivateListResponse,
   GetSimilarTVShowsRequest,
   GetSimilarTVShowsResponse,
   GetTrendingTVShowsRequest,
@@ -92,5 +94,31 @@ export const tvShowsAPI = {
       }
     });
     return response.json()
-  }
+  },
+
+  getWatchlist: async (params: GetPrivateListRequest): Promise<GetTVShowsPrivateListResponse> => {
+    const response = await api.get({
+      url: `/account/${params.accountId}/watchlist/tv`,
+      queryParams: {
+        language: "en-US",
+        page: params.page.toString(),
+        session_id: params.sessionId,
+        sort_by: params.sort_by,
+      }
+    });
+    return await response.json();
+  },
+
+  getFavoriteMovies: async (params: GetPrivateListRequest): Promise<GetTVShowsPrivateListResponse> => {
+    const response = await api.get({
+      url: `/account/${params.accountId}/favorite/tv`,
+      queryParams: {
+        language: "en-US",
+        page: params.page.toString(),
+        session_id: params.sessionId,
+        sort_by: params.sort_by,
+      }
+    });
+    return await response.json();
+  },
 }

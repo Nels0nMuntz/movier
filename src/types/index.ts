@@ -11,3 +11,4 @@ export type { WithCallbacks } from "./WithCallbakcs";
 export type { AccountDetails } from "./account";
 export type { MediaType } from "./MediaType";
 export type { Nullable } from "./Nullable";
+export type { CollectionParams } from "./CollectionParams";

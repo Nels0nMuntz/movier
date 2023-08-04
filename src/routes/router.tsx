@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows, Favorite } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows, Favorite, Watchlist } from "pages";
 import { APP_URLS } from "./urls";
 import { PrivateRoute, PublicRoute } from "components";
 
@@ -53,37 +53,44 @@ export const router = createBrowserRouter(
       />
       <Route
         path={APP_URLS.movieDetails.path}
+        loader={(route) => APP_URLS.movieDetails.loader(Number(route.params.id))}
         element={
           <PrivateRoute>
             <MovieDetails />
           </PrivateRoute>
         }
-        loader={async (route) => {
-          await APP_URLS.movieDetails.loader(Number(route.params.id));
-          return null;
-        }}
       />
       <Route
         path={APP_URLS.tvShowDetails.path}
+        loader={(route) => APP_URLS.tvShowDetails.loader(Number(route.params.id))}
         element={
           <PrivateRoute>
             <TVShowDetails />
           </PrivateRoute>
         }
-        loader={async (route) => {
-          await APP_URLS.tvShowDetails.loader(Number(route.params.id));
-          return null;
-        }}
       />
-      <Route
-        path={APP_URLS.favorite.movies.path}
-        loader={APP_URLS.favorite.movies.loader}
-        element={
-          <PrivateRoute>
-            <Favorite />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/watchlist">
+        <Route
+          path=":type"
+          loader={APP_URLS.watchlist.loader}
+          element={
+            <PrivateRoute>
+              <Watchlist />
+            </PrivateRoute>
+          }
+        />
+      </Route>
+      <Route path="favorite">
+        <Route
+          path=":type"
+          loader={APP_URLS.favorite.loader}
+          element={
+            <PrivateRoute>
+              <Favorite />
+            </PrivateRoute>
+          }
+        />
+      </Route>
       <Route
         path="/"
         element={

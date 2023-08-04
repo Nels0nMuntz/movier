@@ -9,7 +9,7 @@ interface Props {
   items: React.ReactNode;
 }
 
-export const HoverMenu: React.FC<Props> = ({ title, items }) => {
+export const HoverMenu: React.FC<Props> = React.memo(function HoverMenu({ title, items }) {
   return (
     <div>
       <StyledTooltip
@@ -23,4 +23,4 @@ export const HoverMenu: React.FC<Props> = ({ title, items }) => {
       </StyledTooltip>
     </div>
   )
-};
+});

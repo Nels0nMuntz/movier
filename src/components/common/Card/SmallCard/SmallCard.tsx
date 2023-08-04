@@ -20,11 +20,13 @@ interface Props {
   adult: boolean;
   genres: string[];
   sourcePath: string;
+  showTools?: boolean;
+  onAddToWatchlist: () => void;
 }
 
 export const SmallCard: React.FC<Props> = observer((props) => {
 
-  const { title, adult, poster_path, release_date, genres, sourcePath } = props;
+  const { title, adult, poster_path, release_date, genres, sourcePath, showTools, onAddToWatchlist } = props;
 
   const [ready, setReady] = React.useState(true);
 
@@ -38,6 +40,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
   }
 
   const genresString = genres.length ? genres.slice(0, 3).join(" / ") : "";
+  const toolsVisible = (showTools === undefined || showTools === true) && ready;
 
   React.useEffect(() => {
     if (poster_path) {
@@ -46,7 +49,7 @@ export const SmallCard: React.FC<Props> = observer((props) => {
       buffer.onload = () => setReady(true);
       buffer.src = src;
     }
-  }, [])
+  }, []);
 
   return (
     <SkeletonProvider visible={!ready}>
@@ -56,14 +59,18 @@ export const SmallCard: React.FC<Props> = observer((props) => {
             <Skeleton variant="rectangular">
               {Img}
             </Skeleton>
-            {ready && (
+            {toolsVisible && (
               <Stack direction="column" className="actions" gap={1} component="ul">
                 <li>
-                  <Link to="/" aria-label="Add to my list" title="Add to my list">
+                  <button 
+                    aria-label="Add to my list" 
+                    title="Add to my list"
+                    onClick={onAddToWatchlist}
+                  >
                     <Action>
                       <FAIcon icon={faPlus} />
                     </Action>
-                  </Link>
+                  </button>
                 </li>
                 <li>
                   <Link to={sourcePath} aria-label="Read more" title="Read more">
