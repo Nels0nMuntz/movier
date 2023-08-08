@@ -1,8 +1,23 @@
 import React, { ForwardRefRenderFunction } from "react";
-import { Theme, createTheme } from "@mui/material/styles";
+import { PaletteColor, Theme, createTheme } from "@mui/material/styles";
 import { Link as RouterLink, LinkProps as RouterLinkProps } from "react-router-dom";
 
 declare module "@mui/material/styles" {
+
+  interface Palette {
+    custom: {
+      bg: {
+        tooltip?: Partial<PaletteColor>
+      }
+    }
+  }
+  interface PaletteOptions {
+    custom: {
+      bg: {
+        tooltip: Partial<PaletteColor>
+      }
+    }
+  }
   interface BreakpointOverrides {
     xs: true;
     sm: true;
@@ -15,6 +30,20 @@ declare module "@mui/material/styles" {
     ["1440"]: true;
   }
 }
+
+// declare module "@mui/material/styles" {
+// 	interface Palette {
+// 		navbarBg: Palette["primary"];
+// 		danger: Palette["primary"];
+// 	}
+// 	interface PaletteOptions {
+// 		light?: PaletteOptions["primary"];
+// 		dark?: PaletteOptions["primary"];
+// 		danger?: PaletteOptions["primary"];
+// 		medium?: PaletteOptions["primary"];
+// 		navbarBg?: PaletteOptions["primary"];
+// 	}
+// }
 
 
 const renderFunction: ForwardRefRenderFunction<HTMLAnchorElement, Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }> = (props, ref) => {
@@ -39,8 +68,15 @@ export const theme: Theme = createTheme({
       main: "#ffc107",
     },
     background: {
-      default: "#202020"
-    }
+      default: "#202020",
+    },
+    custom: {
+      bg: {
+        tooltip: {
+          main: "#0d0c0c",
+        },
+      },
+    },
   },
   components: {
     MuiButton: {

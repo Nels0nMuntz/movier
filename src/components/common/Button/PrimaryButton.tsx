@@ -1,5 +1,7 @@
 import { styled } from "@mui/material/styles";
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { Typography } from "../Typography/Typography";
 
 
@@ -7,14 +9,17 @@ interface Props extends PropsWithChildren {
   fluid?: boolean;
   icon?: React.ReactNode;
   title?: string;
+  alignCenter?: boolean;
+  isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) => ({
+const StyledButton = styled("button")<{ fluid?: boolean, alignCenter?: boolean }>(({ theme, fluid, alignCenter }) => ({
   position: "relative",
   minWidth: "136px",
   display: "flex",
   alignItems: "center",
+  justifyContent: `${alignCenter ? "center" : "initial"}`,
   gap: theme.spacing(1),
   paddingLeft: theme.spacing(3),
   paddingRight: theme.spacing(3),
@@ -51,18 +56,25 @@ const StyledButton = styled("button")<{ fluid?: boolean }>(({ theme, fluid }) =>
   },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, fluid, children, title, onClick }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children, title, alignCenter, isLoading, onClick }) => {
   return (
-    <StyledButton 
-      fluid={fluid} 
+    <StyledButton
+      fluid={fluid}
       onClick={onClick}
       title={title}
+      alignCenter={alignCenter}
     >
-      {icon}
-      {children && (
-        <Typography element="span" type="body_1">
-          {children}
-        </Typography>
+      {isLoading ? (
+        <CircularProgress size={24} />
+      ) : (
+        <React.Fragment>
+          {icon}
+          {children && (
+            <Typography element="span" type="body_1">
+              {children}
+            </Typography>
+          )}
+        </React.Fragment>
       )}
     </StyledButton>
   )

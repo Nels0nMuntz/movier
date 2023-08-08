@@ -1,12 +1,6 @@
-import { Status, TVShow } from "types";
+import { CollectionParams, TVShow } from "types";
 
 type CollectionKey = "airingToday" | "onTheAir" | "popular" | "topRated" | "trendingDaily" | "trendingWeekly";
 
-export interface CollectionParams {
-  status: Status;
-  data: TVShow[];
-  page: number;
-  isLastPage: boolean;
-}
 
-export type TVShowsLists = Record<CollectionKey, CollectionParams>;
+export type TVShowsLists = Record<CollectionKey, CollectionParams<TVShow[]>>;

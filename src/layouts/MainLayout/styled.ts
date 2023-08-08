@@ -11,4 +11,5 @@ export const Main = styled("main")({
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
+  marginTop: "64px",
 });

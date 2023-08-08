@@ -2,7 +2,7 @@ import { Status } from "./Status";
 
 export interface CollectionParams<T> {
   status: Status;
-  data: T[];
+  data: T;
   page: number;
   isLastPage: boolean;
 }

@@ -1,4 +1,3 @@
-import Container from "@mui/material/Container";
 import { generatePath } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
@@ -16,10 +15,10 @@ interface Props {
 export const SimpleCollection: React.FC<Props> = observer(({ items }) => {
   const { accountStore } = useStore();
 
-  if(!items.length) {
+  if (!items.length) {
     return null;
   }
-  
+
   let list = [] as React.ReactNode[];
   if (isMovie(items[0] as Movie | TVShow)) {
     const movieItems = items as Movie[]
@@ -61,10 +60,8 @@ export const SimpleCollection: React.FC<Props> = observer(({ items }) => {
   };
 
   return (
-    <Container maxWidth="xl">
-      <Grid>
-        {list}
-      </Grid>
-    </Container>
+    <Grid>
+      {list}
+    </Grid>
   )
 });

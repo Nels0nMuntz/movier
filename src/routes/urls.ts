@@ -7,6 +7,7 @@ const {
   browsePageStore,
   moviesPageStore,
   tvShowsPageStore,
+  searchStore,
 } = rootStore;
 
 export const APP_URLS = {
@@ -74,6 +75,16 @@ export const APP_URLS = {
       } else {
         await tvShowsPageStore.getFavorites();
       }
+      return null;
+    }
+  },
+  searchResult: {
+    path: "/search-result",
+    loader: async () => {
+      await Promise.all([
+        searchStore.searchMovies(),
+        searchStore.searchTvShows(),
+      ]);
       return null;
     }
   },

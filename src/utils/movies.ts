@@ -7,7 +7,7 @@ const usdFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 })
 
-const normalizeMovie = (movie: MovieResponse, geners: GenresCollection): Movie => {
+export const normalizeMovie = (movie: MovieResponse, geners: GenresCollection): Movie => {
   return {
     ...movie,
     kind: "movie",
@@ -41,4 +41,4 @@ export const formatRating = (rating: number) => {
 
 export const isMovie = (item: Movie | TVShow) => {
   return item.kind === "movie";
-}
+};

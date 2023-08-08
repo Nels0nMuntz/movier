@@ -12,7 +12,7 @@ export class MoviesCollectionStore {
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    const initCollectionParams: CollectionParams<Movie> = {
+    const initCollectionParams: CollectionParams<Movie[]> = {
       status: Status.Initial,
       data: [],
       page: 1,

@@ -8,3 +8,4 @@ export { NotFound } from "./NotFound";
 export { Shows } from "./Shows";
 export { Favorite } from "./Favorite";
 export { Watchlist } from "./Watchlist";
+export { SearchResult } from "./SearchResult";

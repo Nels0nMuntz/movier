@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
+import Container from "@mui/material/Container";
 
 import { useStore } from "store";
 import { MediaType } from "types";
@@ -10,21 +11,23 @@ import { MainLayout } from "layouts";
 export const Watchlist = observer(function Watchlist() {
   const { type } = useParams<{ type: MediaType }>();
   const { moviesPageStore, tvShowsPageStore } = useStore();
-  const { 
-    isWatchlistLoading: isWatchlistMoviesLoading, 
+  const {
+    isWatchlistLoading: isWatchlistMoviesLoading,
     watchlist: watchlistMovies,
   } = moviesPageStore;
-  const { 
-    isWatchlistLoading: isWatchlistTVShowsLoading, 
+  const {
+    isWatchlistLoading: isWatchlistTVShowsLoading,
     watchlist: watchlistTVShows,
-  } = tvShowsPageStore;  
-  
+  } = tvShowsPageStore;
+
   const isLoading = type === "movie" ? isWatchlistMoviesLoading : isWatchlistTVShowsLoading;
-  const items = type === "movie" ? watchlistMovies.data.data : watchlistTVShows.data.data;  
+  const items = type === "movie" ? watchlistMovies.data.data : watchlistTVShows.data.data;
 
   return (
     <MainLayout isLoading={isLoading}>
-      <SimpleCollection items={items}/>
+      <Container maxWidth="xl">
+        <SimpleCollection items={items} />
+      </Container>
     </MainLayout>
   )
 });

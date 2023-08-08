@@ -14,7 +14,7 @@ export const TYPOGRAPHY_TYPES = {
   body_2: "body_2",
 }
 
-interface Props {
+export interface Props extends PropsWithChildren, React.HTMLAttributes<HTMLOrSVGElement> {
   type: keyof typeof TYPOGRAPHY_TYPES,
   element: keyof JSX.IntrinsicElements;
   color?: "primary" | "secondary";
@@ -22,7 +22,7 @@ interface Props {
   styles?: React.CSSProperties | ((theme: Theme) => React.CSSProperties)
 }
 
-const TypographyComponent: React.FC<Props & PropsWithChildren & React.HTMLAttributes<HTMLOrSVGElement>> = (props) => {
+const TypographyComponent: React.FC<Props> = (props) => {
   const {
     type,
     element, 

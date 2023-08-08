@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, toJS } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import { CustomError, tvShowsAPI } from "api";
 import { RootStore } from "store";
@@ -16,15 +16,15 @@ export class TvShowsPageStore {
   };
   watchlist: {
     status: Status,
-    data: CollectionParams<TVShow>,
+    data: CollectionParams<TVShow[]>,
   };
   favorites: {
     status: Status;
-    data: CollectionParams<TVShow>;
+    data: CollectionParams<TVShow[]>;
   };
 
   constructor(rootStore: RootStore) {
-    const initCollectionParams: CollectionParams<TVShow> = {
+    const initCollectionParams: CollectionParams<TVShow[]> = {
       status: Status.Initial,
       data: [],
       page: 0,

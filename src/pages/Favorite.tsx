@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import Container from "@mui/material/Container";
 
 import { MainLayout } from "layouts";
 import { useStore } from "store";
@@ -10,21 +11,23 @@ import { MediaType } from "types";
 export const Favorite = observer(function Favorite() {
   const { type } = useParams<{ type: MediaType }>();
   const { moviesPageStore, tvShowsPageStore } = useStore();
-  const { 
-    isFavoritesLoading: isFavoritesMoviesLoading, 
+  const {
+    isFavoritesLoading: isFavoritesMoviesLoading,
     favorites: favoriteMovies,
   } = moviesPageStore;
-  const { 
-    isFavoritesLoading: isFavoritesTVShowsLoading, 
+  const {
+    isFavoritesLoading: isFavoritesTVShowsLoading,
     favorites: favoriteTVShows,
-  } = tvShowsPageStore;  
-  
+  } = tvShowsPageStore;
+
   const isLoading = type === "movie" ? isFavoritesMoviesLoading : isFavoritesTVShowsLoading;
-  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;  
+  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;
 
   return (
     <MainLayout isLoading={isLoading}>
-      <SimpleCollection items={items}/>
+      <Container maxWidth="xl">
+        <SimpleCollection items={items} />
+      </Container>
     </MainLayout>
   )
 });

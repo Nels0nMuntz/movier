@@ -16,15 +16,15 @@ export class MoviesPageStore {
   };
   watchlist: {
     status: Status,
-    data: CollectionParams<Movie>,
+    data: CollectionParams<Movie[]>,
   };
   favorites: {
     status: Status;
-    data: CollectionParams<Movie>;
+    data: CollectionParams<Movie[]>;
   };
 
   constructor(rootStore: RootStore) {
-    const initCollectionParams: CollectionParams<Movie> = {
+    const initCollectionParams: CollectionParams<Movie[]> = {
       status: Status.Initial,
       data: [],
       page: 0,

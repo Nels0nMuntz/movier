@@ -8,6 +8,7 @@ import { TVShowsCollectionStore } from "./collections/tvShows/tvShows";
 import { MoviesPageStore } from "./movies/movies";
 import { TvShowsPageStore } from "./tvShows/tvShows";
 import { AccountStore } from "./account/account";
+import { SearchStore } from "./search/search";
 
 configure({
   enforceActions: "always",
@@ -22,6 +23,7 @@ export class RootStore {
   browsePageStore: BrowsePageStore;
   moviesPageStore: MoviesPageStore;
   tvShowsPageStore: TvShowsPageStore;
+  searchStore: SearchStore;
 
   constructor() {
     this.accountStore = new AccountStore();
@@ -32,6 +34,7 @@ export class RootStore {
     this.browsePageStore = new BrowsePageStore(this);
     this.moviesPageStore = new MoviesPageStore(this);
     this.tvShowsPageStore = new TvShowsPageStore(this);
+    this.searchStore = new SearchStore(this);
   }
 };
 

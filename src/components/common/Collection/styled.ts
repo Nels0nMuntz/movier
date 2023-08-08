@@ -46,7 +46,7 @@ export const Grid = styled("div")({
   gridTemplateColumns: "repeat(1, 100%)",
   rowGap: theme.spacing(4),
   columnGap: theme.spacing(4),
-  padding: `${theme.spacing(6)} 0`,
+  padding: `${theme.spacing(4)} 0`,
   [theme.breakpoints.up("450")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
   },

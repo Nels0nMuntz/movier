@@ -9,7 +9,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
 import { Menu as MuiMenu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import SearchIcon from "@mui/icons-material/Search";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { APP_URLS } from "routes";
@@ -19,9 +18,6 @@ import { getW45ImageUrl } from "api";
 import { HoverMenu } from "./components/HoverMenu/HoverMenu";
 import {
   LogoImg,
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
   Nav,
   AppHeader,
   StyledAvatar,
@@ -29,6 +25,8 @@ import {
 } from "./styled";
 
 import logo from "../../../assets/img/logo.svg";
+import { HideOnScroll } from "./components/HideOnScroll/HideOnScroll";
+import { Search } from "./components/Search/Search";
 
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -83,92 +81,85 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
   ), []);
 
   return (
-    <AppHeader
-      position="relative"
-      className={[
-        isModeTransparent ? "transparent" : "",
-      ].join(" ")}
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <IconButton aria-label="Go to home page" size="medium">
-            <LogoImg src={logo} alt="logo" />
-          </IconButton>
-          <Nav>
-            <ul>
-              <li>
-                <Link to={APP_URLS.browse.path}>
-                  <Typography element="span" type="heading_6">Home</Typography>
-                </Link>
-              </li>
-              <li>
-                <Link to={APP_URLS.movies.path}>
-                  <Typography element="span" type="heading_6">Movies</Typography>
-                </Link>
-              </li>
-              <li>
-                <Link to={APP_URLS.tvShows.path}>
-                  <Typography element="span" type="heading_6">Shows</Typography>
-                </Link>
-              </li>
-              <li>
-                <HoverMenu
-                  title="Watchlist"
-                  items={watchlistMenu}
-                />
-              </li>
-              <li>
-                <HoverMenu
-                  title="Favorite"
-                  items={favoriteMenu}
-                />
-              </li>
-            </ul>
-          </Nav>
-          <Box sx={{ flexGrow: 0, mr: 2 }}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu}>
-                <StyledAvatar alt={username} src={avatarPath}>
-                  <PersonIcon fontSize="medium" />
-                </StyledAvatar>
-              </IconButton>
-            </Tooltip>
-            <MuiMenu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography element="span" type="body_1" textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </MuiMenu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppHeader>
+    <HideOnScroll>
+      <AppHeader
+        className={[
+          isModeTransparent ? "transparent" : "",
+        ].join(" ")}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <IconButton aria-label="Go to home page" size="medium">
+              <LogoImg src={logo} alt="logo" />
+            </IconButton>
+            <Nav>
+              <ul>
+                <li>
+                  <Link to={APP_URLS.browse.path}>
+                    <Typography element="span" type="heading_6">Home</Typography>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={APP_URLS.movies.path}>
+                    <Typography element="span" type="heading_6">Movies</Typography>
+                  </Link>
+                </li>
+                <li>
+                  <Link to={APP_URLS.tvShows.path}>
+                    <Typography element="span" type="heading_6">Shows</Typography>
+                  </Link>
+                </li>
+                <li>
+                  <HoverMenu
+                    title="Watchlist"
+                    items={watchlistMenu}
+                  />
+                </li>
+                <li>
+                  <HoverMenu
+                    title="Favorite"
+                    items={favoriteMenu}
+                  />
+                </li>
+              </ul>
+            </Nav>
+            <Box sx={{ flexGrow: 0, mr: 2 }}>
+              <Search/>
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu}>
+                  <StyledAvatar alt={username} src={avatarPath}>
+                    <PersonIcon fontSize="medium" />
+                  </StyledAvatar>
+                </IconButton>
+              </Tooltip>
+              <MuiMenu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography element="span" type="body_1" textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </MuiMenu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppHeader>
+    </HideOnScroll>
   )
 });

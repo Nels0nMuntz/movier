@@ -1,7 +1,7 @@
 import { TVShowResponse } from "api";
 import { GenresCollection, Movie, PaginatableCollection, TVShow, TVShowBase } from "types";
 
-const normalizeTVShow = (tvShow: TVShowResponse, geners: GenresCollection): TVShow => {
+export const normalizeTVShow = (tvShow: TVShowResponse, geners: GenresCollection): TVShow => {
   return {
     ...tvShow,
     kind: "tv",

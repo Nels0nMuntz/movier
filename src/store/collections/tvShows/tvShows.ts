@@ -1,8 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import { tvShowsAPI } from "api";
-import { GenresCollection, Result, Status } from "types";
-import { CollectionParams, TVShowsLists } from "./types";
+import { CollectionParams, GenresCollection, Result, Status, TVShow } from "types";
+import { TVShowsLists } from "./types";
 import { isLastTVShowPage, normalizeTVShowsResponse } from "utils";
 import { RootStore } from "store";
 
@@ -12,7 +12,7 @@ export class TVShowsCollectionStore {
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    const initSectionParams: CollectionParams = {
+    const initSectionParams: CollectionParams<TVShow[]> = {
       status: Status.Initial,
       data: [],
       page: 1,

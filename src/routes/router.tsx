@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from "react-router-dom";
 
-import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows, Favorite, Watchlist } from "pages";
+import { AuthLogin, AuthWelcome, NotFound, Browse, Movies, MovieDetails, TVShowDetails, Shows, Favorite, Watchlist, SearchResult } from "pages";
 import { APP_URLS } from "./urls";
 import { PrivateRoute, PublicRoute } from "components";
 
@@ -91,6 +91,15 @@ export const router = createBrowserRouter(
           }
         />
       </Route>
+      <Route
+        path={APP_URLS.searchResult.path}
+        loader={APP_URLS.searchResult.loader}
+        element={
+          <PrivateRoute>
+            <SearchResult/>
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/"
         element={
