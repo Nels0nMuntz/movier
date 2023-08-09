@@ -1,13 +1,12 @@
 import React from "react"
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
-import { Menu as MuiMenu } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
 
@@ -22,14 +21,13 @@ import {
   AppHeader,
   StyledAvatar,
   ListItem,
+  StyledMenu,
 } from "./styled";
 
 import logo from "../../../assets/img/logo.svg";
 import { HideOnScroll } from "./components/HideOnScroll/HideOnScroll";
 import { Search } from "./components/Search/Search";
-
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { localStorageHelper } from "utils";
 
 
 export type HeaderMode = "normal" | "transparent"
@@ -39,6 +37,7 @@ interface Props {
 }
 
 export const Header: React.FC<Props> = observer(({ mode }) => {
+  const navigate = useNavigate()
   const { accountStore } = useStore();
   const { username, avatar } = accountStore.account.data;
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -48,6 +47,11 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleLogout = () => {
+    localStorageHelper.clear();
+    handleCloseUserMenu();
+    navigate(APP_URLS.authWelcome);
+  }
   const isModeTransparent = mode === "transparent";
   const avatarPath = avatar ? getW45ImageUrl(avatar) : "";
 
@@ -124,7 +128,7 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
               </ul>
             </Nav>
             <Box sx={{ flexGrow: 0, mr: 2 }}>
-              <Search/>
+              <Search />
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
@@ -134,7 +138,7 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                   </StyledAvatar>
                 </IconButton>
               </Tooltip>
-              <MuiMenu
+              <StyledMenu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
@@ -149,13 +153,17 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
+                className=""
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography element="span" type="body_1" textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </MuiMenu>
+                <MenuItem key={1} onClick={handleCloseUserMenu}>
+                  <Link to="/profile">
+                    <Typography element="span" type="body_1" textAlign="center">Profile</Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem key={2} onClick={handleLogout}>
+                  <Typography element="span" type="body_1" textAlign="center">Sign out</Typography>
+                </MenuItem>
+              </StyledMenu>
             </Box>
           </Toolbar>
         </Container>

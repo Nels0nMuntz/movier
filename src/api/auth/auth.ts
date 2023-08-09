@@ -18,7 +18,10 @@ export const authAPI = {
 
   approveRequestToken: async (requestToken: string) => {
     const response = await api.get({
-      url: `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/auth-login`,
+      url: `https://www.themoviedb.org/authenticate/${requestToken}`,
+      queryParams: {
+        redirect_to: "http://localhost:3000/auth-login",
+      }
     });
     return response;
   },

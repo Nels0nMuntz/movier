@@ -34,19 +34,18 @@ export const AuthLogin = observer(() => {
   const authenticateExternally = authStore.createExternallyAuthenticatedSession;
   const createAuthenticatedWithCredentialsSession = authStore.createAuthenticatedWithCredentialsSession;
 
-  const authenticateExternallyHandler = async () => {
-    const response = await authenticateExternally({
+  const authenticateExternallyHandler = () => {
+    authenticateExternally({
       onSuccess: navigateToBrowsePage, 
-    });
-    console.log({response});    
+    });   
   }
 
-  const authenticateWithCredentials = async (values: LoginData) => {
-    const response = await createAuthenticatedWithCredentialsSession({
+  const authenticateWithCredentials = (values: LoginData) => {
+    createAuthenticatedWithCredentialsSession({
       username: values.username,
       password: values.password,
+      onSuccess: navigateToBrowsePage, 
     });
-    console.log({response}); 
   }
 
   return (

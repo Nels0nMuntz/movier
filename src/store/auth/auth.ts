@@ -20,13 +20,13 @@ export class AuthStore {
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    makeAutoObservable(this, {
-      rootStore: false,
-    })
     this.loading = false;
     this.isGuest = false;
     this.sessionId = ""
     this.rootStore = rootStore;
+    makeAutoObservable(this, {
+      rootStore: false,
+    })
   }
 
   createExternallyAuthenticatedSession = async ({ onSuccess, onError }: WithCallbacks) => {
@@ -92,6 +92,8 @@ export class AuthStore {
         throw new AuthCreateRequestTokenError();
       };
 
+      localStorageHelper.requestToken = createRequestTokenResponse.request_token;
+
       const validateUserCredentialsResponse = await authAPI.validateUserCredentials({
         username,
         password,
@@ -102,6 +104,7 @@ export class AuthStore {
       }
 
       const createAuthenticatedSessionResponse = await authAPI.createAuthenticatedSession({ request_token: validateUserCredentialsResponse.request_token });
+      
       if(!createAuthenticatedSessionResponse.success) {
         throw new AuthCreateSessionError();
       }

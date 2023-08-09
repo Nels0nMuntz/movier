@@ -31,20 +31,6 @@ declare module "@mui/material/styles" {
   }
 }
 
-// declare module "@mui/material/styles" {
-// 	interface Palette {
-// 		navbarBg: Palette["primary"];
-// 		danger: Palette["primary"];
-// 	}
-// 	interface PaletteOptions {
-// 		light?: PaletteOptions["primary"];
-// 		dark?: PaletteOptions["primary"];
-// 		danger?: PaletteOptions["primary"];
-// 		medium?: PaletteOptions["primary"];
-// 		navbarBg?: PaletteOptions["primary"];
-// 	}
-// }
-
 
 const renderFunction: ForwardRefRenderFunction<HTMLAnchorElement, Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }> = (props, ref) => {
   const { href, ...other } = props;
@@ -70,6 +56,10 @@ export const theme: Theme = createTheme({
     background: {
       default: "#202020",
     },
+    success: {
+      main: "#00d474",
+      dark: "#00a65b",
+    },
     custom: {
       bg: {
         tooltip: {
@@ -84,6 +74,9 @@ export const theme: Theme = createTheme({
         contained: {
           color: "#ffffff",
           backgroundColor: "#00d474",
+          "&:hover": {
+            backgroundColor: "#00a65b",
+          }
         },
         outlined: {
           color: "#00d474",

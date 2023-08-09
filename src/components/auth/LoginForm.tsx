@@ -1,34 +1,13 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Controller, useForm } from "react-hook-form";
 
 import { LoginData } from "types";
 import { TextButton } from "components";
+import { Form, Input } from "./styled";
+import { PasswordInput } from "./components/PasswordInput/PasswordInput";
 
-
-const Form = styled("form")({
-  width: "100%",
-});
-
-const Input = styled(TextField)(({ theme }) => ({
-  width: "100%",
-  "& .MuiFormLabel-root": {
-    color: theme.palette.primary.main,
-  },
-  "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main
-  },
-  "& .MuiInputBase-root": {
-    color: theme.palette.common.white,
-
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: theme.palette.primary.dark
-    }
-  }
-}));
 
 interface Props {
   onSubmit: (values: LoginData) => void;
@@ -76,13 +55,9 @@ export const LoginForm: React.FC<Props> = ({ onSubmit }) => {
             },
           }}
           render={({ field, fieldState }) => (
-            <Input
-              id="password"
-              label="Password"
-              variant="outlined"
-              helperText={fieldState.error?.message}
-              error={fieldState.invalid}
-              {...field}
+            <PasswordInput
+              field={field}
+              fieldState={fieldState}
             />
           )}
         />

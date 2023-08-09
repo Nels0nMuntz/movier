@@ -1,6 +1,7 @@
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
 
 export const AppHeader = styled(AppBar)(() => ({
   zIndex: 2,
@@ -89,13 +90,15 @@ export const ListItem = styled("div")(({ theme }) => ({
       },
     },
   }
-  // [`${menuItemClasses.root}`]: {
-  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
-  // }
-  // "& .MuiMenuItem-root": {
-  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
-  // },
-  // "&.css-m971ph-MuiButtonBase-root-MuiMenuItem-root:hover": {
-  //   backgroundColor: `linear-gradient(90deg, ${alpha(theme.palette.secondary.main, 0.75)}, ${alpha(theme.palette.secondary.main, 0.05)})`,
-  // },
-}))
+}));
+
+export const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    minWidth: "120px",
+    backgroundColor: theme.palette.background.default,
+  },
+  "& .MuiMenuItem-root:hover": {
+    backgroundColor: "#141414",
+    transition: "background-color 0.125s linear",
+  },
+}));
