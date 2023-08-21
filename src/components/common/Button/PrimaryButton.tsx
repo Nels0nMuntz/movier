@@ -11,6 +11,7 @@ interface Props extends PropsWithChildren {
   title?: string;
   alignCenter?: boolean;
   isLoading?: boolean;
+  className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -56,13 +57,14 @@ const StyledButton = styled("button")<{ fluid?: boolean, alignCenter?: boolean }
   },
 }));
 
-export const PrimaryButton: FC<Props> = ({ icon, fluid, children, title, alignCenter, isLoading, onClick }) => {
+export const PrimaryButton: FC<Props> = ({ icon, fluid, children, title, alignCenter, isLoading, className, onClick }) => {
   return (
     <StyledButton
       fluid={fluid}
       onClick={onClick}
       title={title}
       alignCenter={alignCenter}
+      className={className}
     >
       {isLoading ? (
         <CircularProgress size={24} />

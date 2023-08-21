@@ -49,8 +49,19 @@ export const LargeCard: React.FC<Props> = ({ title, overview, imagePath, kind, s
               <Typography element="p" type="body_1" className="overview">{overview}</Typography>
             </Skeleton>
             <Stack direction="row" gap={1}>
-              <PrimaryLink href={APP_URLS.browse.path} icon={<FAIcon icon={faPlay} />}>Play Now</PrimaryLink>
-              <PrimaryButton icon={<FAIcon icon={faPlus} />}>My List</PrimaryButton>
+              <PrimaryLink 
+                href={APP_URLS.browse.path} 
+                icon={<FAIcon icon={faPlay} />}
+                className="large-card-btn"
+              >
+                Play Now
+              </PrimaryLink>
+              <PrimaryButton
+                icon={<FAIcon icon={faPlus} />}
+                className="large-card-btn"
+              >
+                My List
+              </PrimaryButton>
             </Stack>
           </Stack>
         </Content>

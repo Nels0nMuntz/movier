@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 interface Props extends PropsWithChildren {
   href: string;
   icon?: React.ReactNode;
+  className?: string;
 }
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -45,9 +46,9 @@ const StyledLink = styled(Link)(({ theme }) => ({
   }
 }));
 
-export const PrimaryLink: FC<Props> = ({ href, icon, children }) => {
+export const PrimaryLink: FC<Props> = ({ href, icon, className, children }) => {
   return (
-    <StyledLink to={href}>
+    <StyledLink to={href} className={className}>
       {icon}
       {children && (
         <Typography element="span" type="body_1">

@@ -4,6 +4,17 @@ import { styled } from "@mui/material/styles";
 export const SliderWrapper = styled("div")(() => ({
   width: "100%",
   marginTop: "80px",
+
+  "& .swiper-slide": {
+    "& .large-card-btn": {
+      pointerEvents: "none",
+    },
+  },
+  "& .swiper-slide.swiper-slide-active": {
+    "& .large-card-btn": {
+      pointerEvents: "auto",
+    },
+  },
 }));
 
 export const NavigationWrapper = styled("div")(() => ({
