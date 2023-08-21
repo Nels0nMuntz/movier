@@ -50,7 +50,7 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
   const handleLogout = () => {
     localStorageHelper.clear();
     handleCloseUserMenu();
-    navigate(APP_URLS.authWelcome);
+    navigate(APP_URLS.authWelcome.path);
   }
   const isModeTransparent = mode === "transparent";
   const avatarPath = avatar ? getW45ImageUrl(avatar) : "";
@@ -155,6 +155,12 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                 onClose={handleCloseUserMenu}
                 className=""
               >
+                <Stack direction="row" gap={3} alignItems="center" px={2} py={2}>
+                  <StyledAvatar alt={username} src={avatarPath}>
+                    <PersonIcon fontSize="medium" />
+                  </StyledAvatar>
+                  <Typography element="span" type="body_1">{username}</Typography>
+                </Stack>
                 <MenuItem key={1} onClick={handleCloseUserMenu}>
                   <Link to="/profile">
                     <Typography element="span" type="body_1" textAlign="center">Profile</Typography>

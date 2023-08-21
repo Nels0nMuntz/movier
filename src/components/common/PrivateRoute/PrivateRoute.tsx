@@ -16,5 +16,5 @@ export const PrivateRoute: React.FC<PropsWithChildren> = observer(({ children })
       getAccountDetails(sessionId);
     }
   }, [isDataLoaded, isAuthorized, sessionId, getAccountDetails])
-  return isAuthorized ? <>{children}</> : <Navigate to={APP_URLS.authWelcome} state={{ from: window.location }} />;
+  return isAuthorized ? <>{children}</> : <Navigate to={APP_URLS.authWelcome.path} state={{ from: window.location }} />;
 });

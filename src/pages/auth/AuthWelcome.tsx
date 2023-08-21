@@ -58,7 +58,7 @@ export const AuthWelcome = () => {
           >
             Continue as a guest
           </TextButton>
-          <PrimaryButton variant="contained" fullWidth href={APP_URLS.authLogin}>
+          <PrimaryButton variant="contained" fullWidth href={APP_URLS.authLogin.path}>
             Log In
           </PrimaryButton>
           <PrimaryButton variant="outlined" fullWidth>

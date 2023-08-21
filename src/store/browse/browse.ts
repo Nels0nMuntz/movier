@@ -11,10 +11,15 @@ export class BrowsePageStore {
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
+    this.isInitialized = false;
     this.rootStore = rootStore;
     makeAutoObservable(this, {
       rootStore: false,
     })
+  }
+
+  get isLoading() {
+    return !this.isInitialized;
   }
 
   initialize = async () => {

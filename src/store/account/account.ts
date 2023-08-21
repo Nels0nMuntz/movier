@@ -81,7 +81,9 @@ export class AccountStore {
         }
       });
       if (response.success) {
-        this.addToWatchlistStatus = Status.Success;
+        runInAction(() => {
+          this.addToWatchlistStatus = Status.Success;
+        });
         switch (response.status_code) {
           case 1:
             addNotification({ variant: "success", message: "Added to watchlist" });
@@ -93,14 +95,15 @@ export class AccountStore {
             break;
         }
       } else {
-        this.addToWatchlistStatus = Status.Error;
-        addNotification({ variant: "error", message: "Can't add to watchlist" });
+        throw new CustomError("Can't add to watchlist");
       }
     } catch (error) {
       if (error instanceof CustomError) {
         console.log(error);
-        this.addToWatchlistStatus = Status.Error;
-        addNotification({ variant: "error", message: "Can't add to watchlist" });
+        runInAction(() => {
+          this.addToWatchlistStatus = Status.Error;
+        });
+        addNotification({ variant: "error", message: error.message });
       }
     }
   }
@@ -114,7 +117,7 @@ export class AccountStore {
     try {
       runInAction(() => {
         this.addToFavoriteStatus = Status.Loading;
-      })
+      });
       const response = await accountApi.addToFavorite({
         account_id: Number(id),
         session_id: sessionId,
@@ -125,7 +128,9 @@ export class AccountStore {
         }
       });
       if (response.success) {
-        this.addToFavoriteStatus = Status.Success;
+        runInAction(() => {
+          this.addToFavoriteStatus = Status.Success;
+        });
         switch (response.status_code) {
           case 1:
             addNotification({ variant: "success", message: "Added to watchlist" });
@@ -137,13 +142,15 @@ export class AccountStore {
             break;
         }
       } else {
-        this.addToFavoriteStatus = Status.Error;
-        addNotification({ variant: "error", message: "Can't add to watchlist" });
+        throw new CustomError("Can't add to favorite movies");
       }
     } catch (error) {
       if (error instanceof CustomError) {
         console.log(error);
-        this.addToFavoriteStatus = Status.Error;
+        runInAction(() => {
+          this.addToFavoriteStatus = Status.Error;
+        });
+        addNotification({ variant: "error", message: error.message });
       }
     }
   }

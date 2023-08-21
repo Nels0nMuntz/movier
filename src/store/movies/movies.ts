@@ -27,7 +27,7 @@ export class MoviesPageStore {
     const initCollectionParams: CollectionParams<Movie[]> = {
       status: Status.Initial,
       data: [],
-      page: 0,
+      page: 1,
       isLastPage: false,
     };
     this.rootStore = rootStore;
@@ -150,10 +150,6 @@ export class MoviesPageStore {
   }
 
   getWatchlist = async () => {
-    if(this.watchlist.data.isLastPage) {
-      return;
-    }
-
     try {
       const sessionId = localStorageHelper.sessionId;
       const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
@@ -164,7 +160,7 @@ export class MoviesPageStore {
       });
       const response = await moviesAPI.getWatchlist({
         accountId: Number(accountDetails.id),
-        page: this.watchlist.data.page + 1,
+        page: this.watchlist.data.page,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
@@ -172,10 +168,9 @@ export class MoviesPageStore {
       const normalizedMovies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
-        this.watchlist.data.data.push(...normalizedMovies);
+        this.watchlist.data.data = normalizedMovies;
         this.watchlist.data.page = response.page;
         this.watchlist.data.isLastPage = isLastPage;
-        this.watchlist.data.status = Status.Success;
         this.watchlist.status = Status.Success;
       })
     } catch (error) {
@@ -206,7 +201,7 @@ export class MoviesPageStore {
       });
       const response = await moviesAPI.getFavoriteMovies({
         accountId: Number(accountDetails.id),
-        page: this.favorites.data.page + 1,
+        page: this.favorites.data.page,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
@@ -214,18 +209,21 @@ export class MoviesPageStore {
       const normalizedMovies = normalizeMoviesResponse(response.results, genres);
       const isLastPage = isLastMoviePage(response);
       runInAction(() => {
-        this.favorites.data.data.push(...normalizedMovies);
+        this.favorites.data.data = normalizedMovies;
         this.favorites.data.page = response.page;
         this.favorites.data.isLastPage = isLastPage;
-        this.favorites.data.status = Status.Success;
         this.favorites.status = Status.Success;
       })
     } catch (error) {
-      console.log(error);
-      addNotification({ message: "Can't get favorite movies", variant: "error" });
-      runInAction(() => {        
-        this.favorites.status = Status.Error;
-      });
+      if(error instanceof CustomError) {
+        console.log(error);
+        addNotification({ message: "Can't get favorite movies", variant: "error" });
+        runInAction(() => {        
+          this.favorites.status = Status.Error;
+        });
+      } else {
+        throw error;
+      }
     }
   }
 }

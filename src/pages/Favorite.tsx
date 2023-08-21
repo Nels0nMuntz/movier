@@ -23,6 +23,9 @@ export const Favorite = observer(function Favorite() {
   const isLoading = type === "movie" ? isFavoritesMoviesLoading : isFavoritesTVShowsLoading;
   const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;
 
+  console.log({isLoading});
+  
+
   return (
     <MainLayout isLoading={isLoading}>
       <Container maxWidth="xl">

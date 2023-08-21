@@ -11,40 +11,44 @@ const {
 } = rootStore;
 
 export const APP_URLS = {
-  authWelcome: "/auth-welcome",
-  authLogin: "/auth-login",
+  authWelcome: {
+    path: "/auth-welcome",
+  },
+  authLogin: {
+    path: "/auth-login"
+  },
   browse: {
     path: "/browse",
-    loader: async () => {
-      await browsePageStore.initialize();
+    loader: () => {
+      browsePageStore.initialize();
       return null;
     }
   },
   movies: {
     path: "/movies",
-    loader: async () => {
-      await moviesPageStore.initialize();
+    loader: () => {
+      moviesPageStore.initialize();
       return null;
     }
   },
   tvShows: {
     path: "/shows",
-    loader: async () => {
-      await tvShowsPageStore.initialize();
+    loader: () => {
+      tvShowsPageStore.initialize();
       return null;
     }
   },
   movieDetails: {
     path: "/movie/:id",
-    loader: async (id: number) => {
-      await moviesPageStore.getMovie(id);
+    loader: (id: number) => {
+      moviesPageStore.getMovie(id);
       return null;
     },
   },
   tvShowDetails: {
     path: "/tv/:id",
-    loader: async (id: number) => {
-      await tvShowsPageStore.getTVShow(id);
+    loader: (id: number) => {
+      tvShowsPageStore.getTVShow(id);
       return null;
     },
   },
@@ -53,12 +57,12 @@ export const APP_URLS = {
       movies: "/watchlist/movie",
       tv: "/watchlist/tv",
     },
-    loader: async (args: LoaderFunctionArgs) => {
+    loader: (args: LoaderFunctionArgs) => {
       const mediaType = args.params.type as MediaType;
       if(mediaType === "movie") {
-        await moviesPageStore.getWatchlist();
+        moviesPageStore.getWatchlist();
       } else {
-        await tvShowsPageStore.getWatchlist();
+        tvShowsPageStore.getWatchlist();
       }
       return null;
     }
@@ -68,12 +72,12 @@ export const APP_URLS = {
       movies: "/favorite/movie",
       tv: "/favorite/tv",
     },
-    loader: async (args: LoaderFunctionArgs) => {
+    loader: (args: LoaderFunctionArgs) => {
       const mediaType = args.params.type as MediaType;
       if(mediaType === "movie") {
-        await moviesPageStore.getFavorites();
+        moviesPageStore.getFavorites();
       } else {
-        await tvShowsPageStore.getFavorites();
+        tvShowsPageStore.getFavorites();
       }
       return null;
     }

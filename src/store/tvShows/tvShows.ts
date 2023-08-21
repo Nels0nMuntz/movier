@@ -185,15 +185,15 @@ export class TvShowsPageStore {
       });
       const response = await tvShowsAPI.getWatchlist({
         accountId: Number(accountDetails.id),
-        page: this.watchlist.data.page + 1,
+        page: this.watchlist.data.page,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
       const genres = await this.getGenres();
-      const normalizedMovies = normalizeTVShowsResponse(response.results, genres);
+      const normalizedTVShows = normalizeTVShowsResponse(response.results, genres);
       const isLastPage = isLastTVShowPage(response);
       runInAction(() => {
-        this.watchlist.data.data.push(...normalizedMovies);
+        this.watchlist.data.data = normalizedTVShows;
         this.watchlist.data.page = response.page;
         this.watchlist.data.isLastPage = isLastPage;
         this.watchlist.data.status = Status.Success;
@@ -227,15 +227,15 @@ export class TvShowsPageStore {
       });
       const response = await tvShowsAPI.getFavoriteMovies({
         accountId: Number(accountDetails.id),
-        page: this.favorites.data.page + 1,
+        page: this.favorites.data.page,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
       const genres = await this.getGenres();
-      const normalizedMovies = normalizeTVShowsResponse(response.results, genres);
+      const normalizedTVShows = normalizeTVShowsResponse(response.results, genres);
       const isLastPage = isLastTVShowPage(response);
       runInAction(() => {
-        this.favorites.data.data.push(...normalizedMovies);
+        this.favorites.data.data = normalizedTVShows;
         this.favorites.data.page = response.page;
         this.favorites.data.isLastPage = isLastPage;
         this.favorites.data.status = Status.Success;

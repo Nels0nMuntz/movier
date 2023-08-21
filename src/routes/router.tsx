@@ -5,11 +5,11 @@ import { APP_URLS } from "./urls";
 import { PrivateRoute, PublicRoute } from "components";
 
 
-export const router = createBrowserRouter(
+export const browserRouter = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Outlet />}>
       <Route
-        path={APP_URLS.authWelcome}
+        path={APP_URLS.authWelcome.path}
         element={
           <PublicRoute>
             <AuthWelcome />
@@ -17,7 +17,7 @@ export const router = createBrowserRouter(
         }
       />
       <Route
-        path={APP_URLS.authLogin}
+        path={APP_URLS.authLogin.path}
         element={
           <PublicRoute>
             <AuthLogin />

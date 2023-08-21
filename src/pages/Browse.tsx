@@ -9,7 +9,7 @@ export const Browse = observer(() => {
 
   const { moviesCollectionStore, tvShowsCollectionStore, browsePageStore } = useStore();
 
-  const isInitialized = browsePageStore.isInitialized;
+  const isLoading = browsePageStore.isLoading;
   const trendingDailyMovies = moviesCollectionStore.lists.trendingDaily.data;
   const trendingWeeklyMovies = moviesCollectionStore.lists.trendingWeekly.data;
   const loadTrendingDailyMovies = moviesCollectionStore.loadTrendingDaily;
@@ -20,7 +20,7 @@ export const Browse = observer(() => {
   const loadTrendingWeeklyTvShows = tvShowsCollectionStore.loadTrendingWeekly;
 
   return (
-    <MainLayout isLoading={!isInitialized}>
+    <MainLayout isLoading={isLoading}>
       <MainSlider />
       <SwitchableCollection
         title="trending movies"
