@@ -93,9 +93,9 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters className="toolbar">
-            <IconButton className="logo" aria-label="Go to home page" size="medium">
+            <Link to={APP_URLS.browse.path} className="logo" aria-label="Go to home page">
               <LogoImg src={logo} alt="logo" />
-            </IconButton>
+            </Link>
             <Nav>
               <ul>
                 <li>
