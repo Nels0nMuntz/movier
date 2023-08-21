@@ -1,24 +1,30 @@
-import React from "react"
+import React from "react";
+import { TooltipProps } from "@mui/material/Tooltip";
 
 import { TextButton, Typography } from "components";
 import { StyledTooltip } from "./styled";
 
 
 interface Props {
-  title: string;
   items: React.ReactNode;
+  title?: string;
+  placement?: TooltipProps["placement"];
+  children?: React.ReactElement;
 }
 
-export const HoverMenu: React.FC<Props> = React.memo(function HoverMenu({ title, items }) {
+export const HoverMenu: React.FC<Props> = React.memo(function HoverMenu({ title, items, placement, children }) {
   return (
     <div>
       <StyledTooltip
         title={items}
+        placement={placement}
       >
         <div>
-          <TextButton>
-            <Typography element="span" type="heading_6">{title}</Typography>
-          </TextButton>
+          {children || (
+            <TextButton>
+              <Typography element="span" type="heading_6">{title}</Typography>
+            </TextButton>
+          )}
         </div>
       </StyledTooltip>
     </div>

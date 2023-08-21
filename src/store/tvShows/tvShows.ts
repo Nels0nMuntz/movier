@@ -27,7 +27,7 @@ export class TvShowsPageStore {
     const initCollectionParams: CollectionParams<TVShow[]> = {
       status: Status.Initial,
       data: [],
-      page: 0,
+      page: 1,
       isLastPage: false,
     };
     this.isInitialized = false;

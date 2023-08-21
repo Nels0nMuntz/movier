@@ -1,6 +1,20 @@
 import { styled } from "@mui/material/styles";
 import { Typography } from "components";
 
+
+export const Wrapper = styled("section")(({ theme }) => ({
+  "& .main-slider-nav-prev": {
+    [theme.breakpoints.down("768")]: {
+      left: "6px"
+    }
+  },
+  "& .main-slider-nav-next": {
+    [theme.breakpoints.down("768")]: {
+      right: "6px",
+    }
+  },
+}))
+
 export const Slide = styled("div")(() => ({
   height: "750px",
 }));
@@ -29,14 +43,17 @@ export const SlideBackdrop = styled("div")(() => ({
   }
 }));
 
-export const SlideContentWrap = styled("div")({
+export const SlideContentWrap = styled("div")(({ theme }) => ({
   position: "relative",
   height: "100%",
   display: "flex",
   alignItems: "center",
-  padding: "48px 96px",
+  padding: "48px",
   zIndex: 1,
-});
+  [theme.breakpoints.up("768")]: {
+    padding: "48px 96px",
+  }
+}));
 
 export const SlideContent = styled("div")(({ theme }) => ({
   display: "flex",
@@ -80,4 +97,16 @@ export const Badge = styled(Typography)(({ theme }) => ({
   backgroundColor: theme.palette.warning.main,
   borderRadius: "0.25rem",
   color: theme.palette.grey[800],
+}));
+
+export const Actions = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: theme.spacing(2),
+  marginTop: theme.spacing(2),
+  [theme.breakpoints.up("576")]: {
+    flexDirection: "row",
+    marginTop: theme.spacing(3),
+  }
 }))

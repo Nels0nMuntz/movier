@@ -3,11 +3,27 @@ import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 
-export const AppHeader = styled(AppBar)(() => ({
+export const AppHeader = styled(AppBar)(({ theme }) => ({
   zIndex: 2,
   "&.transparent": {
     backgroundColor: "#14141480",
     backdropFilter: "blur(10px)",
+  },
+  "& .toolbar": {
+    minHeight: "64px"
+  },
+  "& .logo": {
+    marginRight: "auto",
+    [theme.breakpoints.up("450")]: {
+      marginRight: "auto",
+    },
+  },
+  "& .search-box": {
+    flexGrow: 1,
+    marginRight: 2,
+    [theme.breakpoints.up("450")]: {
+      flexGrow: 0,
+    },
   }
 }))
 
@@ -17,6 +33,10 @@ export const LogoImg = styled("img")({
 
 export const Nav = styled("nav")(({ theme }) => ({
   flexGrow: 1,
+  display: "none",
+  [theme.breakpoints.up("1100")]: {
+    display: "block",
+  },
   "& ul": {
     width: "100%",
     display: "flex",
@@ -97,8 +117,25 @@ export const StyledMenu = styled(Menu)(({ theme }) => ({
     minWidth: "120px",
     backgroundColor: theme.palette.background.default,
   },
+  "& .MuiMenuItem-root.menu-item-tooltip": {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
   "& .MuiMenuItem-root:hover": {
     backgroundColor: "#141414",
     transition: "background-color 0.125s linear",
+  },
+  "& .MuiMenuItem-root.disabled:hover": {
+    backgroundColor: "transparent",
+    cursor: "auto",
+  },
+  "& .MuiMenuItem-root.mobile-only": {
+    [theme.breakpoints.up("1100")]: {
+      display: "none",
+    }
+  },
+  "& .MuiMenuItem-root .menu-button": {
+    paddingLeft: 0,
+    paddingReft: 0,
   },
 }));

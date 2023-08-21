@@ -25,6 +25,7 @@ declare module "@mui/material/styles" {
     lg: true;
     xl: true;
     ["450"]: true;
+    ["576"]: true;
     ["768"]: true;
     ["1100"]: true;
     ["1440"]: true;
@@ -105,6 +106,7 @@ export const theme: Theme = createTheme({
       lg: 1200,
       xl: 1536,
       "450": 450,
+      "576": 576,
       "768": 768,
       "1100": 1100,
       "1440": 1440

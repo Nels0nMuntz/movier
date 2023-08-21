@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { APP_URLS } from "routes";
-import { Typography } from "components";
+import { TextButton, Typography } from "components";
 import { useStore } from "store";
 import { getW45ImageUrl } from "api";
 import { HoverMenu } from "./components/HoverMenu/HoverMenu";
@@ -92,8 +92,8 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
         ].join(" ")}
       >
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <IconButton aria-label="Go to home page" size="medium">
+          <Toolbar disableGutters className="toolbar">
+            <IconButton className="logo" aria-label="Go to home page" size="medium">
               <LogoImg src={logo} alt="logo" />
             </IconButton>
             <Nav>
@@ -127,11 +127,11 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                 </li>
               </ul>
             </Nav>
-            <Box sx={{ flexGrow: 0, mr: 2 }}>
+            <Box className="search-box">
               <Search />
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title="Open menu">
                 <IconButton onClick={handleOpenUserMenu}>
                   <StyledAvatar alt={username} src={avatarPath}>
                     <PersonIcon fontSize="medium" />
@@ -155,18 +155,50 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                 onClose={handleCloseUserMenu}
                 className=""
               >
-                <Stack direction="row" gap={3} alignItems="center" px={2} py={2}>
-                  <StyledAvatar alt={username} src={avatarPath}>
-                    <PersonIcon fontSize="medium" />
-                  </StyledAvatar>
-                  <Typography element="span" type="body_1">{username}</Typography>
-                </Stack>
-                <MenuItem key={1} onClick={handleCloseUserMenu}>
-                  <Link to="/profile">
-                    <Typography element="span" type="body_1" textAlign="center">Profile</Typography>
+                <MenuItem key={1} disableRipple className="disabled">
+                  <Stack direction="row" gap={3} px={2.5} py={1} alignItems="center">
+                    <StyledAvatar alt={username} src={avatarPath}>
+                      <PersonIcon fontSize="medium" />
+                    </StyledAvatar>
+                    <Typography element="span" type="body_1">{username}</Typography>
+                  </Stack>
+                </MenuItem>
+                <MenuItem disableRipple className="mobile-only">
+                  <Link to={APP_URLS.browse.path}>
+                    <Typography element="span" type="body_1">Home</Typography>
                   </Link>
                 </MenuItem>
-                <MenuItem key={2} onClick={handleLogout}>
+                <MenuItem disableRipple className="mobile-only">
+                  <Link to={APP_URLS.movies.path}>
+                    <Typography element="span" type="body_1">Movies</Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem disableRipple className="mobile-only">
+                  <Link to={APP_URLS.tvShows.path}>
+                    <Typography element="span" type="body_1">Shows</Typography>
+                  </Link>
+                </MenuItem>
+                <MenuItem disableRipple className="mobile-only menu-item-tooltip">
+                  <HoverMenu
+                    items={watchlistMenu}
+                    placement="left-start"
+                  >
+                    <TextButton className="menu-button">
+                      <Typography element="span" type="body_1">Watchlist</Typography>
+                    </TextButton>
+                  </HoverMenu>
+                </MenuItem>
+                <MenuItem disableRipple className="mobile-only menu-item-tooltip">
+                  <HoverMenu
+                    items={favoriteMenu}
+                    placement="left-start"
+                  >
+                    <TextButton className="menu-button">
+                      <Typography element="span" type="body_1">Favorite</Typography>
+                    </TextButton>
+                  </HoverMenu>
+                </MenuItem>
+                <MenuItem key={2} onClick={handleLogout} disableRipple>
                   <Typography element="span" type="body_1" textAlign="center">Sign out</Typography>
                 </MenuItem>
               </StyledMenu>

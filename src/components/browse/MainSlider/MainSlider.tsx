@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import { observer } from "mobx-react-lite";
 
 import { PrimaryButton, PrimaryLink, Typography, FAIcon } from "components";
-import { Badge, Ganre, GanreOutlined, Slide, SlideBackdrop, SlideContent, SlideContentWrap } from "./styled";
+import { Actions, Badge, Ganre, GanreOutlined, Slide, SlideBackdrop, SlideContent, SlideContentWrap, Wrapper } from "./styled";
 import { APP_URLS } from "routes/urls";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { SliderNavigation } from "../../common/Slider";
@@ -27,7 +27,7 @@ export const MainSlider: React.FC = observer(() => {
   const slides = [] as HTMLElement[];
 
   return (
-    <section>
+    <Wrapper>
       <Swiper
         slidesPerView={1}
         effect="fade"
@@ -81,7 +81,7 @@ export const MainSlider: React.FC = observer(() => {
                     <Typography element="p" type="body_1">
                       {overview}
                     </Typography>
-                    <Stack direction="row" gap={2} mt={3}>
+                    <Actions>
                       <PrimaryLink href={APP_URLS.browse.path} icon={<FAIcon icon={faPlay} />}>Play Now</PrimaryLink>
                       <PrimaryButton icon={<FAIcon icon={faPlus} />} onClick={() => addToWatchlist(id)}>My List</PrimaryButton>
                       <PrimaryLink 
@@ -90,7 +90,7 @@ export const MainSlider: React.FC = observer(() => {
                       >
                         More
                       </PrimaryLink>
-                    </Stack>
+                    </Actions>
                   </SlideContent>
                 </SlideContentWrap>
               </SlideBackdrop>
@@ -98,6 +98,6 @@ export const MainSlider: React.FC = observer(() => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </section>
+    </Wrapper>
   )
 });
