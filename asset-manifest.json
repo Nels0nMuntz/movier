@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/movier-web/static/css/main.cee24184.css",
+    "main.js": "/movier-web/static/js/main.d995826f.js",
+    "static/media/welcome.jpeg": "/movier-web/static/media/welcome.9ace43c3742ec497bff4.jpeg",
+    "static/media/texure.jpg": "/movier-web/static/media/texure.45d45784451e9d0ef6d0.jpg",
+    "static/media/IMDB_Logo.svg": "/movier-web/static/media/IMDB_Logo.7365d0ab0ad37ca29bdee93b0978c931.svg",
+    "static/media/tmdb.svg": "/movier-web/static/media/tmdb.d625980e77c54cdde8a58b48d7917087.svg",
+    "static/media/logo.svg": "/movier-web/static/media/logo.801290ea5ea9b2a7ffc17b10ce8ef535.svg",
+    "static/media/no-image.svg": "/movier-web/static/media/no-image.0f4f70a8d37c2e4cdd433e8aedf2095b.svg",
+    "index.html": "/movier-web/index.html",
+    "main.cee24184.css.map": "/movier-web/static/css/main.cee24184.css.map",
+    "main.d995826f.js.map": "/movier-web/static/js/main.d995826f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cee24184.css",
+    "static/js/main.d995826f.js"
+  ]
+}
