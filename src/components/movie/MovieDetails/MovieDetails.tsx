@@ -17,6 +17,7 @@ import { IMDBRating } from "components/common/Details/IMDBRating/IMDBRating";
 import { Adult } from "components/common/Details/Adult/Adult";
 import { ProductioCountries } from "components/common/Details/ProductioCountries/ProductioCountries";
 import { useStore } from "store";
+import { InfoGrid } from "components/common/Details/InfoGrid/InfoGrid";
 
 
 export const MovieDetails: React.FC = observer(function MovieDetails() {
@@ -91,19 +92,19 @@ export const MovieDetails: React.FC = observer(function MovieDetails() {
             <Stack direction="column" gap={2}>
               <Typography element="h2" type="heading_4">Storyline</Typography>
               <Typography element="p" type="body_2">{overview}</Typography>
-              <Grid container spacing={2}>
-                <Grid item md={6}>
+              <InfoGrid>
+                <div>
                   {director && (
                     <InfoItem title={"Director"} value={{ data: director, link: "/" }} />
                   )}
-                  <InfoItem title="Production" value={{ data: production }} />
+                  {/* <InfoItem title="Production" value={{ data: production }} /> */}
                   <InfoItem title="Released" value={{ data: releaseDate }} />
                   <InfoItem
                     title="Genres"
                     value={filmGenres.map(name => ({ data: name, link: "/" }))}
                   />
-                </Grid>
-                <Grid item md={6}>
+                </div>
+                <div>
                   <InfoItem title="Runtime" value={{ data: filmRuntime }} />
                   <InfoItem title="Budget" value={{ data: filmBudget }} />
                   <InfoItem title="Revenue" value={{ data: filmRevenue }} />
@@ -111,8 +112,8 @@ export const MovieDetails: React.FC = observer(function MovieDetails() {
                     title={`${filmLanguages.length > 1 ? "Languages" : "Language"}`}
                     value={{ data: filmLanguages.join(", ") }}
                   />
-                </Grid>
-              </Grid>
+                </div>
+              </InfoGrid>
               <Grid container spacing={2}>
                 <Grid item sm={4}>
                   <PrimaryButton fluid icon={<FAIcon icon={faFilm} />}>Trailer</PrimaryButton>

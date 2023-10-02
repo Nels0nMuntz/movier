@@ -17,13 +17,13 @@ interface Props {
 export const InfoItem: React.FC<Props> = ({ title, value }) => {
   const isValueArray = Array.isArray(value);
   return (
-    <Grid container spacing={2} mb={1} alignItems="center">
-      <Grid item sm md={3}>
+    <Grid container spacing={2} mb={1}>
+      <Grid item xs={3}>
         <Typography element="span" type="body_1">{title}</Typography>
       </Grid>
-      <Grid item sm md={9}>
+      <Grid item xs={9}>
         {isValueArray ? (
-          <Stack direction="row" gap={0.5}>
+          <Stack direction="row" gap={0.5} alignItems="center" flexWrap="wrap">
             {value.map(({ data, link }) => {
               return link ? (
                 <Link to={link} key={data + link}>

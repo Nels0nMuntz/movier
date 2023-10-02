@@ -19,6 +19,8 @@ const slide = keyframes`
 
 export const Wrapper = styled("div")({
   "& .body-small": {
+    display: "inline-block",
+    width: "max-content",
     fontSize: "12px",
   }
 });
