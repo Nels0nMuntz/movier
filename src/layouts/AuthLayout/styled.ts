@@ -34,7 +34,7 @@ export const Paper = styled("div")(({ theme }) => ({
   marginBottom: theme.spacing(4),
   marginLeft: "auto",
   marginRight: "auto",
-  padding: theme.spacing(3),
+  padding: `${theme.spacing(4)}`,
   borderRadius: theme.spacing(1),
   backgroundColor: "#101010",
   boxShadow: "0 0 30px 6px rgba(0,0,0,0.75)",

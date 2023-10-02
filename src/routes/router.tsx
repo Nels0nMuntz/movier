@@ -18,6 +18,7 @@ export const browserRouter = createBrowserRouter(
       />
       <Route
         path={APP_URLS.authLogin.path}
+        loader={APP_URLS.authLogin.loader}
         element={
           <PublicRoute>
             <AuthLogin />

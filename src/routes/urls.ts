@@ -4,6 +4,7 @@ import { MediaType } from "types";
 
 
 const {
+  authStore,
   browsePageStore,
   moviesPageStore,
   tvShowsPageStore,
@@ -15,7 +16,23 @@ export const APP_URLS = {
     path: "/auth-welcome",
   },
   authLogin: {
-    path: "/auth-login"
+    path: "/auth-login",
+    loader: (args: LoaderFunctionArgs) => {
+      authStore.createRequestToken();
+      const approved = new URL(args.request.url).searchParams.get("approved");      
+      const denied = new URL(args.request.url).searchParams.get("denied");      
+      if(approved === "true") {
+        authStore.createExternallyAuthenticatedSession({
+          onSuccess: () => location.pathname = APP_URLS.browse.path,
+        })
+      }
+      if(denied === "true") {
+        authStore.deleteSession();
+        authStore.createRequestToken();
+      }
+      return null;
+    }
+
   },
   browse: {
     path: "/browse",

@@ -21,10 +21,7 @@ export const Favorite = observer(function Favorite() {
   } = tvShowsPageStore;
 
   const isLoading = type === "movie" ? isFavoritesMoviesLoading : isFavoritesTVShowsLoading;
-  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;
-
-  console.log({isLoading});
-  
+  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;  
 
   return (
     <MainLayout isLoading={isLoading}>

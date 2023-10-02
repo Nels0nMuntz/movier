@@ -1,9 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { 
-  authAPI, 
-  AuthApproveRequestTokenError, 
-  AuthCreateRequestTokenError, 
-  AuthCreateSessionError, 
+import {
+  authAPI,
+  AuthCreateRequestTokenError,
+  AuthCreateSessionError,
   AuthValidateUserCredentialsError,
   CustomError,
   GetAccountDetailsError,
@@ -12,55 +11,83 @@ import { LoginData, Status, WithCallbacks } from "types";
 import { addNotification, localStorageHelper } from "utils";
 import { RootStore } from "store";
 
-
 export class AuthStore {
-  loading: boolean;
+  sessionCreating: boolean;
+  requestTokenStatus: Status;
+  requestToken: string;
   isGuest: boolean;
   sessionId: string;
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
-    this.loading = false;
-    this.isGuest = false;
-    this.sessionId = ""
+    this.sessionCreating = false;
+    this.requestTokenStatus = Status.Initial;
+    this.requestToken = localStorageHelper.requestToken;
+    this.isGuest = localStorageHelper.isGuest;
+    this.sessionId = localStorageHelper.sessionId;
     this.rootStore = rootStore;
     makeAutoObservable(this, {
       rootStore: false,
-    })
+    });
   }
 
-  createExternallyAuthenticatedSession = async ({ onSuccess, onError }: WithCallbacks) => {
+  createRequestToken = async () => {
+    if (this.requestToken) {
+      return;
+    }
     try {
       runInAction(() => {
-        this.loading = true;
+        this.requestTokenStatus = Status.Loading;
       });
-
       const createRequestTokenResponse = await authAPI.createRequestToken();
 
       if (!createRequestTokenResponse.success) {
         throw new AuthCreateRequestTokenError();
-      };
-
-      localStorageHelper.requestToken = createRequestTokenResponse.request_token;
-
-      const response = await authAPI.approveRequestToken(createRequestTokenResponse.request_token);
-      if(response.status !== 204) {
-        throw new AuthApproveRequestTokenError();
       }
 
-      const createAuthenticatedSessionResponse = await authAPI.createAuthenticatedSession({ request_token: createRequestTokenResponse.request_token });
-      if(!createAuthenticatedSessionResponse.success) {
+      runInAction(() => {
+        this.requestToken = createRequestTokenResponse.request_token;
+        localStorageHelper.requestToken = createRequestTokenResponse.request_token;
+        this.requestTokenStatus = Status.Success;
+      });
+    } catch (error) {
+      if (error instanceof CustomError) {
+        console.log(error.message);
+        addNotification({ variant: "error", message: error.message });
+        runInAction(() => {
+          this.requestTokenStatus = Status.Error;
+        });
+      }
+    }
+  };
+
+  createExternallyAuthenticatedSession = async ({ onSuccess, onError }: WithCallbacks) => {
+    try {
+      if (!this.requestToken) {
+        throw new AuthCreateRequestTokenError();
+      }
+
+      runInAction(() => {
+        this.sessionCreating = true;
+      });
+
+      const createAuthenticatedSessionResponse = await authAPI.createAuthenticatedSession({
+        request_token: this.requestToken,
+      });
+      if (!createAuthenticatedSessionResponse.success) {
         throw new AuthCreateSessionError();
       }
 
-      const { status } = await this.rootStore.accountStore.getAccountDetails(createAuthenticatedSessionResponse.session_id);
-      if(status !== Status.Success) {
+      const { status } = await this.rootStore.accountStore.getAccountDetails(
+        createAuthenticatedSessionResponse.session_id,
+      );
+      if (status !== Status.Success) {
         throw new GetAccountDetailsError();
       }
 
       runInAction(() => {
         this.sessionId = createAuthenticatedSessionResponse.session_id;
-        this.loading = false;
+        this.sessionCreating = false;
       });
       localStorageHelper.sessionId = createAuthenticatedSessionResponse.session_id;
       localStorageHelper.isGuest = "false";
@@ -70,53 +97,54 @@ export class AuthStore {
         console.log(error.message);
         addNotification({ variant: "error", message: error.message });
         runInAction(() => {
-          this.loading = false;
+          this.sessionCreating = false;
         });
         onError && onError();
       } else {
         throw error;
       }
     }
-  }
+  };
 
   createAuthenticatedWithCredentialsSession = async (params: LoginData & WithCallbacks) => {
     const { username, password, onSuccess, onError } = params;
     try {
-      runInAction(() => {
-        this.loading = true;
-      });
-
-      const createRequestTokenResponse = await authAPI.createRequestToken();
-
-      if (!createRequestTokenResponse.success) {
+      if (!this.requestToken) {
         throw new AuthCreateRequestTokenError();
-      };
+      }
 
-      localStorageHelper.requestToken = createRequestTokenResponse.request_token;
+      runInAction(() => {
+        this.sessionCreating = true;
+      });
 
       const validateUserCredentialsResponse = await authAPI.validateUserCredentials({
         username,
         password,
-        request_token: createRequestTokenResponse.request_token,
+        request_token: this.requestToken,
       });
-      if(!validateUserCredentialsResponse.success) {
+
+      if (!validateUserCredentialsResponse.success) {
         throw new AuthValidateUserCredentialsError();
       }
 
-      const createAuthenticatedSessionResponse = await authAPI.createAuthenticatedSession({ request_token: validateUserCredentialsResponse.request_token });
-      
-      if(!createAuthenticatedSessionResponse.success) {
+      const createAuthenticatedSessionResponse = await authAPI.createAuthenticatedSession({
+        request_token: validateUserCredentialsResponse.request_token,
+      });
+
+      if (!createAuthenticatedSessionResponse.success) {
         throw new AuthCreateSessionError();
       }
 
-      const { status } = await this.rootStore.accountStore.getAccountDetails(createAuthenticatedSessionResponse.session_id);
-      if(status !== Status.Success) {
+      const { status } = await this.rootStore.accountStore.getAccountDetails(
+        createAuthenticatedSessionResponse.session_id,
+      );
+      if (status !== Status.Success) {
         throw new GetAccountDetailsError();
       }
 
       runInAction(() => {
         this.sessionId = createAuthenticatedSessionResponse.session_id;
-        this.loading = false;
+        this.sessionCreating = false;
       });
       localStorageHelper.sessionId = createAuthenticatedSessionResponse.session_id;
       localStorageHelper.isGuest = "false";
@@ -126,26 +154,26 @@ export class AuthStore {
         console.log(error.message);
         addNotification({ variant: "error", message: error.message });
         runInAction(() => {
-          this.loading = false;
+          this.sessionCreating = false;
         });
         onError && onError();
       } else {
         throw error;
       }
     }
-  }
-  
+  };
+
   createGuestSession = async ({ onSuccess, onError }: WithCallbacks) => {
     try {
       runInAction(() => {
-        this.loading = true;
+        this.sessionCreating = true;
       });
 
       const { success, guest_session_id } = await authAPI.createGuestSession();
-      if(!success) {
+      if (!success) {
         throw new AuthCreateSessionError();
       }
-      
+
       runInAction(() => {
         this.sessionId = guest_session_id;
         this.isGuest = true;
@@ -158,10 +186,19 @@ export class AuthStore {
         console.log(error.message);
         addNotification({ variant: "error", message: error.message });
         runInAction(() => {
-          this.loading = false;
+          this.sessionCreating = false;
         });
         onError && onError();
       }
     }
-  }
+  };
+
+  deleteSession = () => {
+    runInAction(() => {
+      this.requestTokenStatus = Status.Initial;
+      this.requestToken = "";
+      this.isGuest = false;
+      this.sessionId = "";
+    });
+  };
 }

@@ -25,12 +25,6 @@ export class AuthCreateRequestTokenError extends AuthError {
   }
 }
 
-export class AuthApproveRequestTokenError extends AuthError {
-  constructor() {
-    super("Request token approving error")
-  }
-}
-
 export class AuthCreateSessionError extends AuthError {
   constructor() {
     super("Session creating error")

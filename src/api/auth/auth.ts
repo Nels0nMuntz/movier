@@ -16,16 +16,6 @@ export const authAPI = {
     return await response.json();
   },
 
-  approveRequestToken: async (requestToken: string) => {
-    const response = await api.get({
-      url: `https://www.themoviedb.org/authenticate/${requestToken}`,
-      queryParams: {
-        redirect_to: "http://localhost:3000/auth-login",
-      }
-    });
-    return response;
-  },
-
   createAuthenticatedSession: async (body: CreateAuthenticatedSessionRequest): Promise<CreateAuthenticatedSessionResponse> => {
     const response = await api.post({
       url: "/authentication/session/new",

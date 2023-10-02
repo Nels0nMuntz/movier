@@ -15,8 +15,12 @@ class LocalStorageHelper {
   set sessionId(value: string) {
     localStorage.setItem(SESSION_ID_KEY, value);
   }
-  get isGuest() {
-    return localStorage.getItem(IS_GUEST_KEY) || "";
+  get isGuest(): boolean {
+    if(!localStorage.getItem(IS_GUEST_KEY)) {
+      return false;
+    } else {
+      return localStorage.getItem(IS_GUEST_KEY) === "true";
+    }
   }
   set isGuest(value: string) {
     localStorage.setItem(IS_GUEST_KEY, value);

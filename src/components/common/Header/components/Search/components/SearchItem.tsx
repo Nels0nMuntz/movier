@@ -22,7 +22,6 @@ const SearchItem: React.FC<Props> = ({ id, genres, title, posterPath, mediaType 
     : generatePath(APP_URLS.tvShowDetails.path, { id });
   const src = posterPath ? getW92ImageUrl(posterPath) : "";
   const ready = useImageLoadingTracker(src);
-  console.log({ src, ready });
 
   const genresString = genres.map(item => item).join(" / ");
   return (

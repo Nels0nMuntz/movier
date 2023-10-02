@@ -38,7 +38,8 @@ interface Props {
 
 export const Header: React.FC<Props> = observer(({ mode }) => {
   const navigate = useNavigate()
-  const { accountStore } = useStore();
+  const { accountStore, authStore } = useStore();
+  const { isGuest, deleteSession } = authStore;
   const { username, avatar } = accountStore.account.data;
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -48,6 +49,7 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
     setAnchorElUser(null);
   };
   const handleLogout = () => {
+    deleteSession();
     localStorageHelper.clear();
     handleCloseUserMenu();
     navigate(APP_URLS.authWelcome.path);
@@ -113,18 +115,22 @@ export const Header: React.FC<Props> = observer(({ mode }) => {
                     <Typography element="span" type="heading_6">Shows</Typography>
                   </Link>
                 </li>
-                <li>
-                  <HoverMenu
-                    title="Watchlist"
-                    items={watchlistMenu}
-                  />
-                </li>
-                <li>
-                  <HoverMenu
-                    title="Favorite"
-                    items={favoriteMenu}
-                  />
-                </li>
+                {!isGuest && (
+                  <>
+                    <li>
+                      <HoverMenu
+                        title="Watchlist"
+                        items={watchlistMenu}
+                      />
+                    </li>
+                    <li>
+                      <HoverMenu
+                        title="Favorite"
+                        items={favoriteMenu}
+                      />
+                    </li>
+                  </>
+                )}
               </ul>
             </Nav>
             <Box className="search-box">

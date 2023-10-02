@@ -61,9 +61,6 @@ export const AuthWelcome = () => {
           <PrimaryButton variant="contained" fullWidth href={APP_URLS.authLogin.path}>
             Log In
           </PrimaryButton>
-          <PrimaryButton variant="outlined" fullWidth>
-            Sign Up
-          </PrimaryButton>
         </Stack>
       </Stack>
     </AuthLayout>
