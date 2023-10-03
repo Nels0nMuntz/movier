@@ -41,7 +41,7 @@ export const Search = observer(function Search() {
     handleOpen();
     searchStore.multiSearch(value);
   };
-  const handleSearch = useDebounce(makeRequest, 1000);
+  const handleSearch = useDebounce(makeRequest, 600);
   const handleFocus: React.FocusEventHandler<HTMLInputElement> = (e) => {
     if (!isEmptyString(e.target.value)) {
       handleOpen();

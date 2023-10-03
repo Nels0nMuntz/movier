@@ -27,7 +27,7 @@ export class MoviesPageStore {
     const initCollectionParams: CollectionParams<Movie[]> = {
       status: Status.Initial,
       data: [],
-      page: 1,
+      page: 0,
       isLastPage: false,
     };
     this.rootStore = rootStore;
@@ -155,12 +155,13 @@ export class MoviesPageStore {
       const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
       if(status !== Status.Success) return;
       const accountDetails = data as AccountDetails;
+      const pageNumber = this.watchlist.data.page + (this.watchlist.data.isLastPage ? 0 : 1);
       runInAction(() => {
         this.watchlist.status = Status.Loading;
       });
       const response = await moviesAPI.getWatchlist({
         accountId: Number(accountDetails.id),
-        page: this.watchlist.data.page,
+        page: pageNumber,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });
@@ -187,21 +188,18 @@ export class MoviesPageStore {
   }
 
   getFavorites = async () => {
-    if(this.favorites.data.isLastPage) {
-      return;
-    }
-    
     try {
       const sessionId = localStorageHelper.sessionId;
       const { status, data } = await this.rootStore.accountStore.getAccountDetails(sessionId);
       if(status !== Status.Success) return;
       const accountDetails = data as AccountDetails;
+      const pageNumber = this.favorites.data.page + (this.favorites.data.isLastPage ? 0 : 1);
       runInAction(() => {
         this.favorites.status = Status.Loading;
       });
       const response = await moviesAPI.getFavoriteMovies({
         accountId: Number(accountDetails.id),
-        page: this.favorites.data.page,
+        page: pageNumber,
         sessionId,
         sort_by: PrivateListSortOptions.ASC,
       });

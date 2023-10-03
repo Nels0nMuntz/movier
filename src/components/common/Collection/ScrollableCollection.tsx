@@ -15,6 +15,9 @@ interface Props {
 }
 
 export const ScrollableCollection: React.FC<Props> = observer(({ title, items, loadItems }) => { 
+  if (!items.length) {
+    return null;
+  }
   return (
     <Section>
       <Container maxWidth="xl">
