@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 
 import { MainLayout } from "layouts";
 import { useStore } from "store";
-import { SimpleCollection } from "components";
+import { SimpleCollection, Typography } from "components";
 import { useParams } from "react-router-dom";
 import { MediaType } from "types";
 
@@ -21,12 +21,17 @@ export const Favorite = observer(function Favorite() {
   } = tvShowsPageStore;
 
   const isLoading = type === "movie" ? isFavoritesMoviesLoading : isFavoritesTVShowsLoading;
-  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;  
+  const items = type === "movie" ? favoriteMovies.data.data : favoriteTVShows.data.data;
+  const isListEmpty = !items.length;
 
   return (
     <MainLayout isLoading={isLoading}>
       <Container maxWidth="xl">
-        <SimpleCollection items={items} />
+        {isListEmpty ? (
+          <Typography element="h3" type="heading_4">The list is currently empty.</Typography>
+        ) : (
+          <SimpleCollection items={items} />
+        )}
       </Container>
     </MainLayout>
   )
